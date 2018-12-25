@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+</head>
+<body>
+    <form>
+        <input type="checkbox" id="analytics" />
+        <label>Enable Analytics</label>
+        <br />
+        <input type="checkbox" id="percent-mp" />
+        <label>Load final percent on overall grade page</label>
+        <br />
+        <input type="checkbox" id="save-grades" />
+        <label>Save last seen grades (requires previous option to work)</label>
+    </form>
+    <footer>
+        <br />
+        For any suggestions or feedback/inquiries regarding downloading or deleting collected analytics data, please email <a href="mailto:kim42176@sas.edu.sg">kim42176@sas.edu.sg</a>.<br />
+        <br />
+        Analytics ID: <span id="analytics-id"></span><span  style="white-space: nowrap; padding-left: 5px;"></span><button id="copy-analytics-id">Copy</button><br />
+        <br />
+        More info: <br />
+        <a href="https://gschool.ydgkim.com/saspowerschool/?pk_campaign=SASPES&pk_kwd=options-page" id="website-link">https://gschool.ydgkim.com/saspowerschool/</a><br />
+        <br />
+        Source Code: <br />
+        <a href="https://gitlab.com/garykim/saspes" id="source-code-link">https://gitlab.com/garykim/saspes</a><br />
+        <br />
+        Credits: <br />
+        Special thanks to Alan Chang for the idea.
+    </footer>
+    <script src="/chromium/browser-polyfill.js"></script>
+    <script src="/ui/options.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+    "manifest_version": 2,
+    "name": "SAS Powerschool Enhancement Suite",
+    "short_name": "SAS PES",
+    "version": "0.1.5.0",
+    "author": "Gary Kim",
+    "description": "Provides various enhancements for SAS Powerschool",
+    "permissions": [
+        "storage",
+        "clipboardWrite",
+        "clipboardRead"
+    ],
+    "applications": {
+        "gecko": {
+            "id": "saspowerschoolff@ydgkim.com",
+            "update_url": "https://updates.ydgkim.com/firefox/saspowerschoolff/updates.json"
+        }
+    },
+    "icons": {
+        "128": "icons/128.png"
+    },
+    "options_ui": {
+        "page": "ui/options.html",
+        "browser_style": true
+    },
+    "web_accessible_resources": [
+        "/ui/historygrades.*"
+    ],
+    "background": {
+        "scripts": ["lib/jquery-3.3.1.js","js/background.js"]
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://powerschool.sas.edu.sg/*"],
+            "js": ["lib/jquery-3.3.1.js","js/saspowerschoolff.js"],
+            "css": ["css/spse.css"],
+            "run_at": "document_start"
+        }
+    ]
+}

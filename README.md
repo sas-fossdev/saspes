@@ -11,6 +11,10 @@ SAS PES is an extension using the WebExtension standard for use by Singapore Ame
 
 Please be aware that the extension is mainly designed for use in Firefox.
 
+## Download
+
+Downloads for both Firefox and Chromium can be found on the project website: [https://gschool.ydgkim.com/saspowerschool/](https://gschool.ydgkim.com/saspowerschool/?pk_campaign=SASPES&pk_kwd=gitlab-readme)
+
 ## 3rd Party Libraries
 
 * jQuery

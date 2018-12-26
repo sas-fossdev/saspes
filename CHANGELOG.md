@@ -32,26 +32,27 @@
 0.1.4.4: Added campaign name to better understand usage of gschool.ydgkim.com website.
 0.1.4.5: Fixed a bug that made it so that the final percent regex did not work.
 0.1.5.0: Preperations made to release extension source code. Analytics added to links in options page. 
+0.1.5.1: Made analytics ping for analytics being turned off. Last seen grades title now gets set even when no information is avaliable.
 
-# 0.0.8.2
+# Closed Beta 0.0.8.2
 
 ### Improvements
 
 * **Analytics:** Added extension version to analytics data.
 
-# 0.0.8.1
+# Closed Beta 0.0.8.1
 
 ### Bug Fixes
 
 * **Hypo Grade Calculator:** Fixed strange hover shadows on the hypo grade calculator window.
 
-# 0.0.8
+# Closed Beta 0.0.8
 
 ### Features
 
 * **Hypo Grade Calculator:** Added the ability to calculate GPA with hypothetical grades.
 
-# 0.0.7
+# Closed Beta 0.0.7
 
 ### Bug Fixes
 
@@ -60,25 +61,25 @@
 ### Improvements
 
 * **3rd Party Libraries:** jQuery replaced with minified version
+* **Reliability**: Various slight changes for reliability
 
 ### Miscellanious
 
 * **Credits:** Credits added to options page
-* **Reliability**: Various slight changes for reliability
 
-# 0.0.6.2
+# Closed Beta 0.0.6.2
 
 ### Bug Fixes
 
 * **Analytics:** Fixed a bug that could result in unintended resets of the analytics id.
 
-# 0.0.6.1
+# Closed Beta 0.0.6.1
 
 ### Improvements
 
 * **Chromium:** Improved Chromium compatability.
 
-# 0.0.6
+# Closed Beta 0.0.6
 
 ### Changes
 
@@ -86,22 +87,22 @@
 ### Features
  * **Analytics:** An analytics system was added.
 
-# 0.0.5
+# Closed Beta 0.0.5
 
 ### Added tooltip for final percent cutoffs
 
-# 0.0.4
+# Closed Alpha 0.0.4
 
 ### Fixed rounding error and cleaned up code
 
-# 0.0.3
+# Closed Alpha 0.0.3
 
 ### Cleaned up and added Final Percent to class pages
 
-# 0.0.2
+# Closed Alpha 0.0.2
 
 ### Name change from SAS-Powerschool-FF to SAS Powerschool FF
 
-# 0.0.1
+# Closed Alpha 0.0.1
 
 ### First Version

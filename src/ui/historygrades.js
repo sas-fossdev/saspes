@@ -9,6 +9,8 @@ function main() {
             temp1.appendChild(document.createTextNode("Information not yet avaliable"));
             temp.appendChild(temp1);
             document.querySelector('html').replaceChild(temp, document.querySelector('body'));
+            document.title = `SAS PES - Last Seen Grades (No Info)`;
+            return;
         }
         
         let student_name = document.createTextNode(returned.previous_person);

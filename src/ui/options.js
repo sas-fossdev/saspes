@@ -13,10 +13,10 @@ function main() {
     }, function(returned) {});
     document.getElementById("analytics").addEventListener("click", function() {
         let value = document.getElementById("analytics").checked;
-        browser.storage.local.set({analytics: value});
         if(!value)  {
-            browser.runtime.sendMessage({action: "analytics_send", args: {url: "saspes://disableanalytics.options", action: "Options Page: Disable Analytics"}});
+            browser.runtime.sendMessage({action: "analytics_send", args: {url: "saspes://disableanalytics.options", action: "Options Page: Disable Analytics", override: true}});
         }
+        browser.storage.local.set({analytics: value});
     });
     document.getElementById("percent-mp").addEventListener("click", function() {
         let value = document.getElementById("percent-mp").checked;

@@ -34,6 +34,7 @@
 0.1.5.0: Preperations made to release extension source code. Analytics added to links in options page. 
 0.1.5.1: Made analytics ping for analytics being turned off. Last seen grades title now gets set even when no information is avaliable.
 0.1.5.2: GPA Calculator now considers different weightings of "Studies" courses and Interim Semester. Regex expressions have been rewritten to be less prone to breakage.
+0.1.5.3: Options page label also checks their associated checkbox as well. Fixed analytics ping for analytics being turned off not working. Fixed an issue where some courses would have extra spaces added to the end of their name. Fixed an issue where the GPA calculator was not properly giving extra weighting to "Studies" courses.
 
 # Closed Beta 0.0.8.2
 

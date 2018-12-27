@@ -30,7 +30,7 @@ function message_recieve(message) {
 function analytics_send(arg)	{
     browser.storage.local.get({analytics: true, percent_main_page : true, save_grades_temp: true}).then(function(returned) {
         analytics.enabled = returned.analytics
-        if(analytics.enabled)   {
+        if(analytics.enabled || arg.override === true)   {
             let cvar_json = JSON.stringify({"1":["version", version], "2": ["FP", returned.percent_main_page.toString()], "3":["Save Grades Temp", returned.save_grades_temp.toString()]});
             let send_info = {
                 'idsite': '4',
@@ -65,9 +65,13 @@ function reset_analytics()    {
 }
 
 // Helpers
-// Copied from Nimphious's answer on Stack Overflow
+// Modified from Nimphious's answer on Stack Overflow to Pavel's question
+// https://stackoverflow.com/users/1391040/nimphious
+// https://stackoverflow.com/questions/10726909/random-alpha-numeric-string-in-javascript
 function randomString(length, chars) {
-    var result = '';
-    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    let result = '';
+    for(let i = 0; i < length; i++) {
+        result += chars[Math.floor(Math.random() * chars.length)];
+    }
     return result;
 }

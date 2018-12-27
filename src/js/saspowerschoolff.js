@@ -64,7 +64,7 @@ function main_page()    {
         }
         if($course.length === 1) {
             let temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            course_names.push(temp.substring(0,temp.length - 1));
+            course_names.push(temp.trim());
             grades.push($course.text());
             course_links.push($course.attr('href'));
             percents.push(-1);

@@ -33,6 +33,7 @@
 0.1.4.5: Fixed a bug that made it so that the final percent regex did not work.
 0.1.5.0: Preperations made to release extension source code. Analytics added to links in options page. 
 0.1.5.1: Made analytics ping for analytics being turned off. Last seen grades title now gets set even when no information is avaliable.
+0.1.5.2: GPA Calculator now considers different weightings of "Studies" courses and Interim Semester. Regex expressions have been rewritten to be less prone to breakage.
 
 # Closed Beta 0.0.8.2
 

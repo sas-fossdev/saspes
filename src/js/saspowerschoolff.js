@@ -164,10 +164,10 @@ function class_page()	{
     let regex = /(?=document\.write).*/g
     let current_string = $("table.linkDescList").html();
     regex.exec(current_string);
-    current_string = regex.exec(current_string);
+    current_string = regex.exec(current_string)[0];
     regex = /[0-9]*\.[0-9]*/g
-    regex.exec(current_string);
-    let number = regex.exec(current_string);
+    let temp = current_string.match(regex);
+    let number = temp[temp.length - 1];
     //let number = $("table.linkDescList").html().match("(?=;\.;).*(?=])")[0].substring(3);
     if(isNaN(number))   {
         return;
@@ -199,10 +199,10 @@ function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
         let regex = /(?=document\.write).*/g
         let current_string = data;
         regex.exec(current_string);
-        current_string = regex.exec(current_string);
+        current_string = regex.exec(current_string)[0];
         regex = /[0-9]*\.[0-9]*/g
-        regex.exec(current_string);
-        let final_percent = regex.exec(current_string);
+        let temp = current_string.match(regex);
+        let final_percent = temp[temp.length - 1];
         if(isNaN(final_percent))    {
             percents[pos_in_arr] = -1;
             return;
@@ -219,21 +219,32 @@ function calculate_gpa(course_names, grades)    {
     let sum = 0;
     for(var i = 0; i < grades.length; i++)  {
         if(grade_gpa(grades[i]) != -1)  {
-            courses_with_grades++;
-            sum += grade_gpa(grades[i]) + course_boost(course_names[i], grades[i]);
+            let multiplier = total_add(course_names[i]);
+            courses_with_grades += multiplier;
+            sum += multiplier * (grade_gpa(grades[i]) + course_boost(course_names[i], grades[i]));
         }
     }
     if(courses_with_grades === 0) {
         return '0.00';
     }
     return (Math.round((sum/courses_with_grades) * 100)/100).toFixed(2);
+    function total_add(course_name) {
+        let double_effect_courses = [`English 10/American History`,`English 9/World History`]
+        if(double_effect_courses.indexOf(course_name) != -1)     {
+            return 2;
+        }
+        if(/^(I Service: |IS: )/.test(course_name))   {
+            return 0.5;
+        }
+        return 1;
+    }
 }
 
 function course_boost(course_name, grade)  {
     if(grade_gpa(grade) < 1.8)  {
         return 0;
     }
-    if(course_name.match("AP |AT ") != null)    {
+    if(/^(AP | AT )/.test(course_name) )    {
         if(course_name.substring(course_name.length - 1) === '.')   {
             return 0.25;
         }

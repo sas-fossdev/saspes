@@ -41,7 +41,7 @@ Downloads for both Firefox and Chromium can be found on the project website: [ht
 * Mozilla WebExtension Browser API Polyfill
     * Used only in Chromium version
 
-Please look in the LICENSES folder for their respective licenses.
+Refer to the 'Third-Party Licenses.txt' file for their respective licenses.
 
 ## License
 

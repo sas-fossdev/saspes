@@ -15,7 +15,7 @@ function message_recieve(message) {
     switch(message.action)	{
         case "analytics_send":
             analytics_send(message.args);
-            // Requires an args attribute. Args should be an object that must have a 'url' attribute and can have a string called 'action' and a object called 'extra'.
+            // Requires an args attribute. Args should be an object that must have a 'url' attribute and can have a string called 'action' and a object called 'extra'. The arg object can also have a boolean named 'override'.
             break;
         case "open_settings":
             browser.runtime.openOptionsPage();

@@ -1,3 +1,20 @@
+# Open Beta 0.1.5.4
+
+## 2019-01-03
+
+### Bug Fixes
+
+* **GPA Calculator:** Fixed an issue that resulted in AT courses not getting a boost.
+
+### Changes
+
+* **Last Seen Grades:** Last seen grades has been temoprarily disabled for further developement and bugfixes.
+
+### Improvements
+
+* **Behind The Scenes:** Background, options, and content scripts have been transitioned to using strict mode.
+* **Performance:** Work is progressing to reduce usage of jQuery.
+
 # Open Beta 0.1.5.3
 
 ## 2018-12-27

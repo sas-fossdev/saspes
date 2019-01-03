@@ -1,3 +1,5 @@
+'use strict';
+
 var analyticsid = "";
 
 window.addEventListener("load", main, false);
@@ -8,7 +10,7 @@ function main() {
         document.getElementById("analytics").checked = returned.analytics;
         document.getElementById("percent-mp").checked = returned.percent_main_page;
         document.getElementById("analytics-id").innerText = returned.id;
-        document.getElementById("save-grades").checked = returned.save_grades_temp;
+        // document.getElementById("save-grades").checked = returned.save_grades_temp;
         analyticsid = returned.id;
     }, function(returned) {});
     document.getElementById("analytics").addEventListener("click", function() {
@@ -22,10 +24,10 @@ function main() {
         let value = document.getElementById("percent-mp").checked;
         browser.storage.local.set({percent_main_page: value});
     });
-    document.getElementById("save-grades").addEventListener("click", function() {
+    /*document.getElementById("save-grades").addEventListener("click", function() {
         let value = document.getElementById("save-grades").checked;
         browser.storage.local.set({save_grades_temp: value, previous_grades_temp: [], previous_person: ""});
-    });
+    });*/
     document.getElementById("source-code-link").addEventListener("click", (event) => {
         let href = event.currentTarget.getAttribute('href');
         browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
@@ -34,18 +36,17 @@ function main() {
         let href = event.currentTarget.getAttribute('href');
         browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
     })
-    document.getElementById("copy-analytics-id").addEventListener("click", function() {
-        // let event = document.getElementById("copy-analytics-id");
-        let event = this;
-        if(event.getAttribute("attr-pressed"))    {
+    document.getElementById("copy-analytics-id").addEventListener("click", (event) => {
+        let target = event.currentTarget;
+        if(target.getAttribute("attr-pressed"))    {
             return;
         }
         navigator.clipboard.writeText(analyticsid);
-        event.innerText = "Copied!";
-        event.setAttribute("attr-pressed","true");
-        setTimeout(function()   {
-            event.innerText = "Copy";
-            event.removeAttribute("attr-pressed");
+        target.innerText = "Copied!";
+        target.setAttribute("attr-pressed","true");
+        setTimeout(() => {
+            target.innerText = "Copy";
+            target.removeAttribute("attr-pressed");
         },1500);
     });
 }

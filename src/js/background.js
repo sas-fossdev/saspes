@@ -1,3 +1,5 @@
+'use strict';
+
 // Analytics
 var analytics = new Object();
 var version = browser.runtime.getManifest().version;
@@ -60,18 +62,14 @@ function analytics_send(arg)	{
     
 }
 function reset_analytics()    {
-    analytics.id = randomString(16,'1234567890abcdef');
+    analytics.id = random_str(16,'1234567890abcdef');
     browser.storage.local.set({id: analytics.id});
 }
 
-// Helpers
-// Modified from Nimphious's answer on Stack Overflow to Pavel's question
-// https://stackoverflow.com/users/1391040/nimphious
-// https://stackoverflow.com/questions/10726909/random-alpha-numeric-string-in-javascript
-function randomString(length, chars) {
-    let result = '';
-    for(let i = 0; i < length; i++) {
-        result += chars[Math.floor(Math.random() * chars.length)];
+function random_str(len, chars) {
+    let tr = "";
+    for(let i = 0; i < len; i++) {
+        tr += chars[Math.floor(Math.random() * chars.length)];
     }
-    return result;
+    return tr;
 }

@@ -1,3 +1,5 @@
+'use strict';
+
 let percent_main_page = true;
 browser.storage.local.get({percent_main_page: true}).then(
     function( returned ) {
@@ -19,7 +21,7 @@ function main( jQuery ) {
     });
 
 
-    page_url = window.location.href;
+    let page_url = window.location.href;
     if(page_url == "https://powerschool.sas.edu.sg/guardian/homeHS.html")	{
         main_page();
         analytics_message("Main Page");
@@ -39,8 +41,7 @@ function analytics_message(action_input) {
 function main_page()    {
 
     // Preperation for second semster:
-
-    let student_name = $('#userName').find('span').eq(0).text();
+    let student_name = document.querySelector('#userName').querySelector('span').innerText;
     let second_semester = false;
     let grades = [];
     let course_names = [];
@@ -94,7 +95,7 @@ function main_page()    {
     }
     let currently_open = false;
     let hypo_grades = grades.slice();
-    hypo_grade_panel += `</table><br /><h3>With the above grades, semester GPA would be: <text id="number">${calculate_gpa(course_names,hypo_grades)}</text>.</h3></div>`;
+    hypo_grade_panel += `</table><br /><h3>With the above grades, semester GPA would be: <text id="hypo-gpa-number">${calculate_gpa(course_names,hypo_grades)}</text>.</h3></div>`;
     $(hypo_grade_div).appendTo('body');
     let hypo_grade_div_dom = $('div.hypo-grade-div');
     let hypo_grade_panel_dom = $(hypo_grade_panel).appendTo(hypo_grade_div_dom);
@@ -103,7 +104,7 @@ function main_page()    {
     hypo_grade_div_dom.css('left',hypo_grade_panel_dom_width);
     $('.hypo-grade-select').on('change', function( event )  {
         hypo_grades[$(event.currentTarget).attr('id')] = this.value;
-        $('text#number').html(calculate_gpa(course_names,hypo_grades));
+        $('#hypo-gpa-number').html(calculate_gpa(course_names,hypo_grades));
     });
 
     hypo_grade_open_dom.on('click', function(event) {
@@ -115,7 +116,7 @@ function main_page()    {
             hypo_grades = grades.slice();
             $('.hypo-grade-select').on('change', function( event )  {
                 hypo_grades[$(event.currentTarget).attr('id')] = this.value;
-                $('text#number').html(calculate_gpa(course_names,hypo_grades));
+                $('#hypo-gpa-number').html(calculate_gpa(course_names,hypo_grades));
             });
             $('div#hypo-arrow').removeClass('arrow-right').addClass('arrow-left');
             currently_open = false;
@@ -127,6 +128,7 @@ function main_page()    {
     });
 
     // Temporary code for saving last seen grades.
+    /*
     window.addEventListener('beforeunload', (e) =>   {
         browser.storage.local.get({previous_grades_temp: [], previous_person: ""}).then((returned) => {
             let temp = returned.previous_grades_temp;
@@ -159,6 +161,7 @@ function main_page()    {
             browser.storage.local.set({previous_grades_temp: temp})
         })
     });
+    */
 }
 function class_page()	{
     let regex = /(?=document\.write).*/g
@@ -175,6 +178,7 @@ function class_page()	{
     $("table.linkDescList:first").append(`<tr><td><strong>Final Percent: </strong></td><td>` + parseFloat(number).toFixed(2) + ` <div class="tooltip saspe">&#9432;<span class="tooltiptext saspe">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`);
 }
 function login_page()   {
+    /*
     browser.storage.local.get({save_grades_temp: true}).then((r) => {
         if(r.save_grades_temp)  {
             let link = "";
@@ -188,6 +192,9 @@ function login_page()   {
             });
         }
     })
+    */
+
+    document.getElementById('sign-in-content').append(document.createTextNode("Last Seen Grades has been temporarily removed to be improved upon."))
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {
@@ -244,7 +251,7 @@ function course_boost(course_name, grade)  {
     if(grade_gpa(grade) < 1.8)  {
         return 0;
     }
-    if(/^(AP | AT )/.test(course_name) )    {
+    if(/^(AP |AT )/.test(course_name) )    {
         if(course_name.substring(course_name.length - 1) === '.')   {
             return 0.25;
         }

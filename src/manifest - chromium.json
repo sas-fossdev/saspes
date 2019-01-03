@@ -2,8 +2,8 @@
     "manifest_version": 2,
     "name": "SAS Powerschool Enhancement Suite",
     "short_name": "SAS PES",
-    "version": "0.1.5.3",
-    "version_name": "Public Beta 0.1.5.3",
+    "version": "0.1.5.4",
+    "version_name": "Public Beta 0.1.5.4",
     "author": "Gary Kim",
     "description": "Provides various enhancements for SAS Powerschool",
     "permissions": [

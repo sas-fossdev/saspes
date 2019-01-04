@@ -1,3 +1,11 @@
+# Open Beta 0.1.5.5
+
+## 2019-01-04
+
+### Changes
+
+* **Information:** The message about the temporary disabling of the Last Seen Grades feature has been moved to the options page.
+
 # Open Beta 0.1.5.4
 
 ## 2019-01-03

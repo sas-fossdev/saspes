@@ -194,7 +194,7 @@ function login_page()   {
     })
     */
 
-    document.getElementById('sign-in-content').append(document.createTextNode("Last Seen Grades has been temporarily removed to be improved upon."))
+    //document.getElementById('sign-in-content').append(document.createTextNode("Last Seen Grades has been temporarily removed to be improved upon."))
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {

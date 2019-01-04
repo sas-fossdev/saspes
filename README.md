@@ -45,6 +45,6 @@ Refer to the 'Third-Party Licenses.txt' file for their respective licenses.
 
 ## License
 
-Copyright (c) 2018 Gary Kim (ydgkim.com) All Rights Reserved
+Copyright (c) 2018 Gary Kim (gary@ydgkim.com) All Rights Reserved
 
 Various open-source licenses are under consideration.

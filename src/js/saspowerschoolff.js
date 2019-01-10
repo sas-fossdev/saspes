@@ -164,15 +164,13 @@ function main_page()    {
     */
 }
 function class_page()	{
-    let regex = /(?=document\.write).*/g
     let current_string = $("table.linkDescList").html();
-    regex.exec(current_string);
-    current_string = regex.exec(current_string)[0];
-    regex = /[0-9]*\.[0-9]*/g
-    let temp = current_string.match(regex);
-    let number = temp[temp.length - 1];
+    current_string = current_string.match(/(?=document\.write).*/g)[1];
+    current_string = /\[.*\]/g.exec(current_string)[0].slice(1,-1);
+    let temp = current_string.split(";");
+    let number = Math.max(isNaN(temp[temp.length-2])?-Infinity:parseFloat(temp[temp.length-2]),isNaN(temp[temp.length-1])?-Infinity:parseFloat(temp[temp.length-1]));
     //let number = $("table.linkDescList").html().match("(?=;\.;).*(?=])")[0].substring(3);
-    if(isNaN(number))   {
+    if(number === -Infinity)   {
         return;
     }
     $("table.linkDescList:first").append(`<tr><td><strong>Final Percent: </strong></td><td>` + parseFloat(number).toFixed(2) + ` <div class="tooltip saspe">&#9432;<span class="tooltiptext saspe">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`);
@@ -203,19 +201,17 @@ function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     $.ajax({
         url: url_link
     }).done(function(data) {
-        let regex = /(?=document\.write).*/g
         let current_string = data;
-        regex.exec(current_string);
-        current_string = regex.exec(current_string)[0];
-        regex = /[0-9]*\.[0-9]*/g
-        let temp = current_string.match(regex);
-        let final_percent = temp[temp.length - 1];
-        if(isNaN(final_percent))    {
+        current_string = current_string.match(/(?=document\.write).*/g)[1];
+        current_string = /\[.*\]/g.exec(current_string)[0].slice(1,-1);
+        let temp = current_string.split(";");
+        let final_percent = Math.max(isNaN(temp[temp.length-2])?-Infinity:parseFloat(temp[temp.length-2]),isNaN(temp[temp.length-1])?-Infinity:parseFloat(temp[temp.length-1]));
+        if(final_percent === -Infinity)    {
             percents[pos_in_arr] = -1;
             return;
         }
-        $fill_location.append(` (${parseFloat(final_percent).toFixed(2)})`);
-        percents[pos_in_arr] = parseFloat(final_percent).toFixed(2);
+        $fill_location.append(` (${final_percent.toFixed(2)})`);
+        percents[pos_in_arr] = final_percent.toFixed(2);
     }).fail(function()  {
         percents[pos_in_arr] = -1;
         console.log(`Ajax failed! Error on accessing: ${url_link}.`);

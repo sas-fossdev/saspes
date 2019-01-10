@@ -1,3 +1,11 @@
+# Open Beta 0.1.5.6
+
+## 2019-01-11
+
+### Bug Fixes
+
+* **Final Percent:** Code to identify the final percent has been vastly improved.
+
 # Open Beta 0.1.5.5
 
 ## 2019-01-04

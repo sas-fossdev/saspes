@@ -1,3 +1,17 @@
+# Open Beta 0.1.5.7
+
+## 2019-01-15
+
+### Bug Fixes
+
+* **Final Percent:** Final percent is no longer shown on the main page if the course has no grade.
+
+### Improvements
+
+* **Performance:** More functions have been moved away from using jQuery.
+* **Changelog:** A version changelog box is being worked on but is not used yet.
+* **Options Page:** Homepage url has been added to the manifest.
+
 # Open Beta 0.1.5.6
 
 ## 2019-01-11

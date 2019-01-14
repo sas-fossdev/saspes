@@ -96,3 +96,13 @@ div.hypo-grade-div-fixed {
     position: relative;
     display: inline-block;
 }
+#update-info {
+    background-color: #FFF;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    position: relative;
+    padding-bottom: 1px;
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    color: #444444;
+}

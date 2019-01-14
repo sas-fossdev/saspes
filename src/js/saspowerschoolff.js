@@ -58,7 +58,9 @@ function main_page()    {
             $course = $grade_rows.eq(i).children('td').eq(3).find("a[href^='scores.html?']");
             let first_grade = $grade_rows.eq(i).children('td').eq(2).find(`a[href^='scores.html?']`);
             if(first_grade.length === 1)    {
-                fill_percent(first_grade, `https://powerschool.sas.edu.sg/guardian/${first_grade.attr('href')}`, [0], 0)
+                if(grade_gpa(first_grade.text()) !== -1 )   {
+                    fill_percent(first_grade, `https://powerschool.sas.edu.sg/guardian/${first_grade.attr('href')}`, [0], 0);
+                }
             }
         } else {
             $course = $grade_rows.eq(i).children('td').eq(2).find("a[href^='scores.html?']");
@@ -69,7 +71,9 @@ function main_page()    {
             grades.push($course.text());
             course_links.push($course.attr('href'));
             percents.push(-1);
-            fill_percent($course, "https://powerschool.sas.edu.sg/guardian/" + $course.attr('href'), percents, percents.length - 1);
+            if(grade_gpa($course.text()) !== -1 )  {
+                fill_percent($course, "https://powerschool.sas.edu.sg/guardian/" + $course.attr('href'), percents, percents.length - 1);
+            }
         }
         
     }
@@ -173,7 +177,7 @@ function class_page()	{
     if(number === -Infinity)   {
         return;
     }
-    $("table.linkDescList:first").append(`<tr><td><strong>Final Percent: </strong></td><td>` + parseFloat(number).toFixed(2) + ` <div class="tooltip saspe">&#9432;<span class="tooltiptext saspe">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`);
+    document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + parseFloat(number).toFixed(2) + ` <div class="tooltip saspe">&#9432;<span class="tooltiptext saspe">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 }
 function login_page()   {
     /*
@@ -193,6 +197,11 @@ function login_page()   {
     */
 
     //document.getElementById('sign-in-content').append(document.createTextNode("Last Seen Grades has been temporarily removed to be improved upon."))
+    
+    /*
+    let insert_location = document.querySelector('#content');
+    insert_location.parentNode.insertBefore(document.createElement('a'), insert_location);
+    */
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {
@@ -288,4 +297,12 @@ function grade_gpa(grade)    {
             return -1;
             break;
     }
+}
+function html2node(html_string) {
+    return html2nodelist(html_string)[0];
+}
+function html2nodelist(html_string)  {
+    let temp = document.createElement('template');
+    temp.innerHTML = html_string;
+    return temp.content.childNodes;
 }

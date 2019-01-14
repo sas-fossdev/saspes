@@ -2,8 +2,9 @@
     "manifest_version": 2,
     "name": "SAS Powerschool Enhancement Suite",
     "short_name": "SAS PES",
-    "version": "0.1.5.6",
+    "version": "0.1.5.7",
     "author": "Gary Kim",
+    "homepage_url":"https://gschool.ydgkim.com/saspowerschool/",
     "description": "Provides various enhancements for SAS Powerschool",
     "permissions": [
         "storage",

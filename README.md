@@ -45,6 +45,8 @@ Refer to the 'Third-Party Licenses.txt' file for their respective licenses.
 
 ## License
 
-Copyright &copy; 2018 Gary Kim (gary@ydgkim.com) All Rights Reserved
+Copyright &copy; 2018-2019 Gary Kim (gary@ydgkim.com)
 
-Various open-source licenses are under consideration.
+Source code licensed under GPL-3.0.
+
+The logo and name are not licensed for use, modification, or distribution.

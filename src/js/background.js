@@ -1,7 +1,7 @@
 /*
     SAS Powerschool Enhancement Suite - A browser extension to improve the experience of using SAS Powerschool.
 
-    Copyright (C) 2018-2019 Gary Kim (gary@ydgkim.com)
+    Copyright (C) 2018-2019 Gary Kim <gary@garykim.dev>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -1,7 +1,7 @@
 /*
     SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
 
-    Copyright (C) 2018-2019 Gary Kim (gary@ydgkim.com)
+    Copyright (C) 2018-2019 Gary Kim <gary@garykim.dev>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,18 @@
 */
 
 'use strict';
+
+const fprange = {
+    '0-15': 'F',
+    '15-25': 'D',
+    '25-35': 'D+',
+    '35-45': 'C',
+    '45-55': 'C+',
+    '55-65': 'B',
+    '65-75': 'B+',
+    '75-85': 'A',
+    '85-90': 'A+'
+}
 
 let percent_main_page = true;
 browser.storage.local.get({percent_main_page: true}).then(
@@ -41,7 +53,7 @@ function main( jQuery ) {
     });
 
 
-    let page_url = window.location.href;
+    let page_url = window.location.href.split('#')[0];
     if(page_url == "https://powerschool.sas.edu.sg/guardian/homeHS.html")	{
         main_page();
         analytics_message("Main Page");
@@ -188,6 +200,8 @@ function main_page()    {
     */
 }
 function class_page()	{
+
+    // Show final percent
     let current_string = $("table.linkDescList").html();
     current_string = current_string.match(/(?=document\.write).*/g)[1];
     current_string = /\[.*\]/g.exec(current_string)[0].slice(1,-1);
@@ -198,6 +212,42 @@ function class_page()	{
         return;
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + parseFloat(number).toFixed(2) + ` <div class="tooltip saspe">&#9432;<span class="tooltiptext saspe">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
+
+
+    // Hypo Assignment
+    let $hypo_assignment = $('<div></div>').addClass('saspes-section');
+    let hypo_assignment_info = {
+        weight: 0,
+        grade: 'B'
+    };
+
+    $hypo_assignment.html('<h3>Hypothetical Assignment</h3> <label for="saspes-assignment-effect" >Effect of new assignment (currently): </label>');
+    
+
+    $('<input type="number" min="0" max="100" value="0" id="saspes-assignment-effect" />').on('input', (e) => {
+        hypo_assignment_info.weight = parseInt(e.currentTarget.value);
+        showHypoGrade();
+    }).appendTo($hypo_assignment);
+    $hypo_assignment.append($('<text>% </text>'))
+    $hypo_assignment.append($('<label for="hypo-grade-select">Grade of new assignment: </label>'));
+    $('<select id="hypo-grade-select"><option value="A+">A+</option><option value="A">A</option><option value="B+">B+</option><option value="B" selected="">B</option><option value="C+">C+</option><option value="C">C</option><option value="D+">D+</option><option value="D">D</option><option value="F">F</option></select>').on('change', (e) => {
+        hypo_assignment_info.grade = e.currentTarget.value;
+        showHypoGrade();
+    }).appendTo($hypo_assignment);
+    $hypo_assignment.append(`<br /><h4>Your grade with the selected assignment would be <text id="new-hypo-grade"></text> with a final percent of <text id="new-hypo-fp"></text>.</h4>`);
+
+    $hypo_assignment.insertAfter('div.box-round');
+
+    showHypoGrade();
+    function showHypoGrade() {
+        let new_fp = hypo_assignment_info.weight * 0.01 * grade_fp(hypo_assignment_info.grade) + ((100 - (hypo_assignment_info.weight)) * 0.01 * parseFloat(number));
+        console.log(new_fp);
+        console.log(getKeyRange(fprange, new_fp))
+        document.querySelector('div.saspes-section text#new-hypo-grade').innerText = getKeyRange(fprange, new_fp);
+        document.querySelector('div.saspes-section text#new-hypo-fp').innerText = new_fp.toFixed(2);
+    }
+
+    
 }
 function login_page()   {
     /*
@@ -222,6 +272,16 @@ function login_page()   {
     let insert_location = document.querySelector('#content');
     insert_location.parentNode.insertBefore(document.createElement('a'), insert_location);
     */
+    $('<div id="saspes-info"></div>').insertAfter('div#content');
+    $('#saspes-info').html(`<h3> <img src="${browser.runtime.getURL('icons/128.png')}" class="saspes-logo">SAS Powerschool Enhancement Suite</h3> <div class="saspes-content"><p style="font-size: 1.5em;">Version: ${browser.runtime.getManifest().version}</p><p><a class="saspes-link" href="https://gschool.ydgkim.com/saspowerschool/" target="_blank" >Project Website<a> | <a href="https://github.com/gary-kim/saspes/blob/master/CHANGELOG.md" class="saspes-link" target="_blank" >Changelog</a> | <a class="saspes-link" href="https://github.com/gary-kim/saspes" target="_blank" >Source Code</a> | <a id="login-extension-settings" href="#" >Extension Options</a></div></p>`);
+    $('#login-extension-settings').on('click', () => {
+        browser.runtime.sendMessage({action: "open_settings"});
+    });
+    $('.saspes-link').on('click', (e) => {
+        let href = e.currentTarget.href;
+        browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
+    });
+        
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {
@@ -312,6 +372,40 @@ function grade_gpa(grade)    {
             break;
         case "F":
             return 0.0;
+            break;
+        default:
+            return -1;
+            break;
+    }
+}
+function grade_fp(grade) {
+    switch(grade){
+        case "A+":
+            return 90;
+            break;
+        case "A":
+            return 80;
+            break;
+        case "B+":
+            return 70;
+            break;
+        case "B":
+            return 60;
+            break;
+        case "C+":
+            return 50;
+            break;
+        case "C":
+            return 40;
+            break;
+        case "D+":
+            return 30;
+            break;
+        case "D":
+            return 20;
+            break;
+        case "F":
+            return 10;
             break;
         default:
             return -1;

@@ -69,6 +69,9 @@ div.hypo-grade-div  {
     left: 100vw;
     /* transition: left,right 1s; */
 }
+div.hypo-grade-div select {
+    border-radius: 5px 5px 5px 5px;
+}
 div.hypo-grade-div-fixed {
     position: fixed;
     right: 0;
@@ -96,13 +99,45 @@ div.hypo-grade-div-fixed {
     position: relative;
     display: inline-block;
 }
-#update-info {
+#saspes-info {
     background-color: #FFF;
     box-shadow: 0 10px 20px rgba(0,0,0,0.4);
     position: relative;
     padding-bottom: 1px;
-    margin: 0;
+    margin-top: 50px;
     padding: 0;
     font-size: inherit;
     color: #444444;
+}
+.saspes-content {
+    padding: 20px;
+}
+.saspes-section {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    margin: 10px 20px;
+    padding: 0;
+}
+.saspes-section h3 {
+    font-size: 110%;
+    margin: 0 10px 10px 10px;
+    padding: 0;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+.saspes-section select {
+    margin: 0 auto 0 auto;
+    border-radius: 5px 5px 5px 5px;
+}
+.saspes-section label {
+    vertical-align: initial;
+    padding-left: 20px;
+}
+.saspes-section input {
+    border-radius: 5px 5px 5px 5px;
+    padding: 5px;
+}
+.saspes-logo {
+    height: 2em;
+    padding-right: 0.7em;
 }

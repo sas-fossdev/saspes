@@ -1,3 +1,17 @@
+# Open Beta 0.1.6
+
+## 2019-04-24
+
+### Features
+
+* **Hypo Assignment Calculator:** Check how your class grade will be effected by a new assignment!
+* **Login Page:** The login page now contains information about SAS Powerschool Enhancement Suite
+
+### Miscellaneous
+
+* **Options Page:** Repo link has been changed to GitHub.
+* **Copyright Header:** A copyright header has been added to many files.
+
 # Open Beta 0.1.5.7
 
 ## 2019-01-15

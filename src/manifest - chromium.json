@@ -2,8 +2,8 @@
     "manifest_version": 2,
     "name": "SAS Powerschool Enhancement Suite",
     "short_name": "SAS PES",
-    "version": "0.1.5.7",
-    "version_name": "Public Beta 0.1.5.7",
+    "version": "0.1.6",
+    "version_name": "Public Beta 0.1.6",
     "author": "Gary Kim",
     "homepage_url": "https://gschool.ydgkim.com/saspowerschool/",
     "description": "Provides various enhancements for SAS Powerschool",
@@ -20,7 +20,8 @@
     },
     "web_accessible_resources": [
         "/ui/historygrades.*",
-        "/chromium/ui/historygrades.html"
+        "/chromium/ui/historygrades.html",
+        "/icons/*"
     ],
     "background": {
         "scripts": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.3.1.js","js/background.js"]
@@ -28,7 +29,7 @@
     "content_scripts": [
         {
             "matches": ["https://powerschool.sas.edu.sg/*"],
-            "js": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.3.1.js","js/saspowerschoolff.js"],
+            "js": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.3.1.js","lib/range.js","js/saspowerschoolff.js"],
             "css": ["css/spse.css"],
             "run_at": "document_start"
         }

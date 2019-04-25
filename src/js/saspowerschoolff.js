@@ -225,7 +225,7 @@ function class_page()	{
     
 
     $('<input type="number" min="0" max="100" value="0" id="saspes-assignment-effect" />').on('input', (e) => {
-        hypo_assignment_info.weight = parseInt(e.currentTarget.value);
+        hypo_assignment_info.weight = getInRange(parseInt(e.currentTarget.value), 0, 100);
         showHypoGrade();
     }).appendTo($hypo_assignment);
     $hypo_assignment.append($('<text>% </text>'))

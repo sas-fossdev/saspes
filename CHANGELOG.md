@@ -1,3 +1,11 @@
+# Open Beta 0.1.6.1
+
+## 2019-04-25
+
+### Bug fix
+
+* **Hypo Assignment Calculator:** Fixed a bug where the hypothetical assignment could have an effect that was higher then 100% or lower then 0%.
+
 # Open Beta 0.1.6
 
 ## 2019-04-24

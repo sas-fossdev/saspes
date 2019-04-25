@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "SAS Powerschool Enhancement Suite",
     "short_name": "SAS PES",
-    "version": "0.1.6",
+    "version": "0.1.6.1",
     "author": "Gary Kim",
     "homepage_url":"https://gschool.ydgkim.com/saspowerschool/",
     "description": "Provides various enhancements for SAS Powerschool",
@@ -34,7 +34,7 @@
     "content_scripts": [
         {
             "matches": ["https://powerschool.sas.edu.sg/*"],
-            "js": ["lib/jquery-3.3.1.js","lib/range.js","js/saspowerschoolff.js"],
+            "js": ["lib/jquery-3.3.1.js","lib/libs.js","js/saspowerschoolff.js"],
             "css": ["css/spse.css"],
             "run_at": "document_start"
         }

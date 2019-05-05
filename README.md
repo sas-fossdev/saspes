@@ -33,19 +33,26 @@ People have gotten the extension to work on the following browsers
 
 ## Download
 
-Downloads for both Firefox and Chromium can be found on the project website: [https://gschool.ydgkim.com/saspowerschool/](https://gschool.ydgkim.com/saspowerschool/?pk_campaign=SASPES&pk_kwd=gitlab-readme)
+Downloads for both Firefox and Chromium can be found on the project website: [https://gschool.ydgkim.com/saspowerschool/](https://gschool.ydgkim.com/saspowerschool/?pk_campaign=SASPES&pk_kwd=github-readme)
+
+
+## Contributing
+
+[CONTRIBUTING.md](/CONTRIBUTING.md)
 
 ## 3rd Party Libraries
 
 * jQuery
 * Mozilla WebExtension Browser API Polyfill
     * Used only in Chromium version
+* rahatarmanahmed's get-key-range
+* get-in-range
 
-Refer to the 'Third-Party Licenses.txt' file for their respective licenses.
+Refer to the [Third-Party Licenses.txt](/Third-Party%20Licenses.txt) file for their respective licenses.
 
 ## License
 
-Copyright &copy; 2018-2019 Gary Kim (gary@ydgkim.com)
+Copyright &copy; 2018-2019 Gary Kim &lt;<gary@garykim.dev>&gt;
 
 Source code licensed under GPL-3.0.
 

@@ -11,9 +11,10 @@ SAS PES is an extension using the WebExtension standard for use by Singapore Ame
 
 ### Class Page
 * View final percent and cutoffs for grades
+* Recalculate final percent and grade with an extra assignment
 
 ### Extra Features
-* (Temporarily removed for development) ~~View grades and final percents for courses even when Powerschool is closed.~~
+* (Temporarily removed for development #4 ) ~~View grades and final percents for courses even when Powerschool is closed.~~
 
 ## Browser Support
 

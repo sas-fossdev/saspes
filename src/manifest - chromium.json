@@ -24,12 +24,12 @@
         "/icons/*"
     ],
     "background": {
-        "scripts": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.3.1.js","js/background.js"]
+        "scripts": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.4.1.min.js","js/background.js"]
     },
     "content_scripts": [
         {
             "matches": ["https://powerschool.sas.edu.sg/*"],
-            "js": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.3.1.js","lib/libs.js","js/saspowerschoolff.js"],
+            "js": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.4.1.min.js","lib/libs.js","js/saspowerschoolff.js"],
             "css": ["css/spse.css"],
             "run_at": "document_start"
         }

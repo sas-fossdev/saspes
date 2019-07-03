@@ -50,7 +50,7 @@ Downloads for both Firefox and Chromium can be found on the project website: [ht
 
 ## 3rd Party Libraries
 
-Refer to the [src/web_accessible_resources/libraries.txt](/src/web_accessible_resources/libraries.txt).
+Refer to the [libraries.txt](/libraries.txt).
 
 ## License
 

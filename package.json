@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx eslint --ext .js src && npx web-ext lint -s src",
     "test:build": "npx web-ext lint",
-    "libraries": "yarn licenses --silent generate-disclaimer > src/web_accessible_resources/libraries.txt",
+    "libraries": "yarn licenses --silent generate-disclaimer > libraries.txt",
     "package": "npx web-ext build",
     "webpack:build:chromium": "npx webpack --progress --config webpack.chromium.js",
     "webpack:build:firefox": "npx webpack --progress --config webpack.firefox.js",

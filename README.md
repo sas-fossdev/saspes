@@ -49,13 +49,7 @@ Downloads for both Firefox and Chromium can be found on the project website: [ht
 
 ## 3rd Party Libraries
 
-* jQuery
-* Mozilla WebExtension Browser API Polyfill
-    * Used only in Chromium version
-* rahatarmanahmed's get-key-range
-* get-in-range
-
-Refer to the [Third-Party Licenses.txt](/Third-Party%20Licenses.txt) file for their respective licenses.
+Refer to the [src/web_accessible_resources/libraries.txt](/src/web_accessible_resources/libraries.txt).
 
 ## License
 

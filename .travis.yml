@@ -1,0 +1,18 @@
+language: node_js
+node_js: '10'
+dist: xenial
+install:
+    - npm ci
+matrix:
+  include:
+  - name: 'Firefox Build'
+    script:
+    - npm test
+    - 'npm run webpack:build:firefox'
+    - 'npm run test:build'
+  - name: 'Chromium Build'
+    script:
+    - npm test
+    - 'npm run webpack:build:chromium'
+    - 'npm run test:build'
+

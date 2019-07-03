@@ -1,0 +1,49 @@
+{
+  "name": "saspes",
+  "version": "1.6.1",
+  "description": "SAS Powerschool Enhancement Suite",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx web-ext lint -s src",
+    "test:build": "npx web-ext lint",
+    "libraries": "yarn licenses --silent generate-disclaimer > src/web_accessible_resources/libraries.txt",
+    "package": "npx web-ext build",
+    "webpack:build:chromium": "npx webpack --progress --config webpack.chromium.js",
+    "webpack:build:firefox": "npx webpack --progress --config webpack.firefox.js",
+    "clean": "rm -r dist artifacts || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gary-kim/saspes.git"
+  },
+  "author": "Gary Kim",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/gary-kim/saspes/issues"
+  },
+  "homepage": "https://github.com/gary-kim/saspes#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.0.3",
+    "mocha": "^6.1.4",
+    "rewire": "^4.0.1",
+    "web-ext": "^3.1.0",
+    "webextension-polyfill": "^0.4.0",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-merge": "^4.2.1"
+  },
+  "dependencies": {
+    "get-in-range": "^0.2.4",
+    "get-key-range": "^1.0.1",
+    "jquery": "^3.4.1"
+  },
+  "webExt": {
+    "sourceDir": "dist",
+    "artifactsDir": "artifacts",
+    "lint": {
+      "selfHosted": true
+    }
+  }
+}

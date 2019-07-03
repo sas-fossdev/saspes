@@ -30,7 +30,7 @@ function main() {
 
     browser.storage.local.get({previous_grades_temp: [], previous_person: ""}).then((returned) => {
         if(returned.previous_grades_temp.length === 0)  {
-            let temp = document.createElement("body")
+            let temp = document.createElement("body");
             let temp1 = document.createElement("h3");
             temp1.appendChild(document.createTextNode("Information not yet avaliable"));
             temp.appendChild(temp1);
@@ -57,5 +57,5 @@ function main() {
             current_row.appendChild(col3);
             table.appendChild(current_row);
         }
-    })
+    });
 }

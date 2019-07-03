@@ -38,7 +38,7 @@ function main() {
         document.getElementById("analytics-id").innerText = returned.id;
         // document.getElementById("save-grades").checked = returned.save_grades_temp;
         analyticsid = returned.id;
-    }, function(returned) {});
+    });
     document.getElementById("analytics").addEventListener("click", function() {
         let value = document.getElementById("analytics").checked;
         if(!value)  {
@@ -57,11 +57,11 @@ function main() {
     document.getElementById("source-code-link").addEventListener("click", (event) => {
         let href = event.currentTarget.getAttribute('href');
         browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
-    })
+    });
     document.getElementById("website-link").addEventListener("click", (event) => {
         let href = event.currentTarget.getAttribute('href');
         browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
-    })
+    });
     document.getElementById("copy-analytics-id").addEventListener("click", (event) => {
         let target = event.currentTarget;
         if(target.getAttribute("attr-pressed"))    {

@@ -40,7 +40,7 @@ const fprange = {
     '65-75': 'B+',
     '75-85': 'A',
     '85-90': 'A+'
-}
+};
 
 let percent_main_page = true;
 browser.storage.local.get({percent_main_page: true}).then(
@@ -49,7 +49,7 @@ browser.storage.local.get({percent_main_page: true}).then(
     }, function() {}
 );
 $(document).ready(main);
-function main( jQuery ) {
+function main() {
     
     // Button on options page
     let $topright = $('ul#tools');
@@ -121,7 +121,7 @@ function main_page()    {
     }
     let num_courses = grades.length;
 
-    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align=\"center\">Current Semester GPA (${second_semester?'S2':'S1'}): ${calculate_gpa(course_names,grades)}</td></tr>`);
+    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester?'S2':'S1'}): ${calculate_gpa(course_names,grades)}</td></tr>`);
 
     // Hypo Grade Calculator
     let hypo_grade_div = `<div class='hypo-grade-div-fixed'><div class="hypo-grade-div"><div class="hypo-grade-open"><div class="arrow arrow-left" id="hypo-arrow"></div></div></div></div>`;
@@ -238,7 +238,7 @@ function class_page()	{
         hypo_assignment_info.weight = getInRange(parseInt(e.currentTarget.value), 0, 100);
         showHypoGrade();
     }).appendTo($hypo_assignment);
-    $hypo_assignment.append($('<text>% </text>'))
+    $hypo_assignment.append($('<text>% </text>'));
     $hypo_assignment.append($('<label for="hypo-grade-select">Grade of new assignment: </label>'));
     $('<select id="hypo-grade-select"><option value="A+">A+</option><option value="A">A</option><option value="B+">B+</option><option value="B" selected="">B</option><option value="C+">C+</option><option value="C">C</option><option value="D+">D+</option><option value="D">D</option><option value="F">F</option></select>').on('change', (e) => {
         hypo_assignment_info.grade = e.currentTarget.value;
@@ -251,8 +251,6 @@ function class_page()	{
     showHypoGrade();
     function showHypoGrade() {
         let new_fp = hypo_assignment_info.weight * 0.01 * grade_fp(hypo_assignment_info.grade) + ((100 - (hypo_assignment_info.weight)) * 0.01 * parseFloat(number));
-        console.log(new_fp);
-        console.log(getKeyRange(fprange, new_fp))
         document.querySelector('div.saspes-section text#new-hypo-grade').innerText = getKeyRange(fprange, new_fp);
         document.querySelector('div.saspes-section text#new-hypo-fp').innerText = new_fp.toFixed(2);
     }
@@ -331,7 +329,7 @@ function calculate_gpa(course_names, grades)    {
     }
     return (Math.round((sum/courses_with_grades) * 100)/100).toFixed(2);
     function total_add(course_name) {
-        let double_effect_courses = [`English 10/American History`,`English 9/World History`]
+        let double_effect_courses = [`English 10/American History`,`English 9/World History`];
         if(double_effect_courses.indexOf(course_name) != -1)     {
             return 2;
         }
@@ -358,68 +356,48 @@ function grade_gpa(grade)    {
     switch(grade){
         case "A+":
             return 4.5;
-            break;
         case "A":
             return 4.0;
-            break;
         case "B+":
             return 3.5;
-            break;
         case "B":
             return 3.0;
-            break;
         case "C+":
             return 2.5;
-            break;
         case "C":
             return 2.0;
-            break;
         case "D+":
             return 1.5;
-            break;
         case "D":
             return 1.0;
-            break;
         case "F":
             return 0.0;
-            break;
         default:
             return -1;
-            break;
     }
 }
 function grade_fp(grade) {
     switch(grade){
         case "A+":
             return 90;
-            break;
         case "A":
             return 80;
-            break;
         case "B+":
             return 70;
-            break;
         case "B":
             return 60;
-            break;
         case "C+":
             return 50;
-            break;
         case "C":
             return 40;
-            break;
         case "D+":
             return 30;
-            break;
         case "D":
             return 20;
-            break;
         case "F":
             return 10;
-            break;
         default:
             return -1;
-            break;
     }
 }
 function html2node(html_string) {

@@ -36,7 +36,7 @@ browser.storage.local.get({analytics: true,id : ""}).then(function(returned) {
     if(analytics.id.length === 0)   {
         reset_analytics();
     }
-}, function(returned) {});
+});
 
 // Listen for requests from tabs
 browser.runtime.onMessage.addListener(message_recieve);
@@ -58,7 +58,7 @@ function message_recieve(message) {
 }
 function analytics_send(arg)	{
     browser.storage.local.get({analytics: true, percent_main_page : true, save_grades_temp: true}).then(function(returned) {
-        analytics.enabled = returned.analytics
+        analytics.enabled = returned.analytics;
         if(analytics.enabled || arg.override === true)   {
             let cvar_json = JSON.stringify({"1":["version", version], "2": ["FP", returned.percent_main_page.toString()], "3":["Save Grades Temp", returned.save_grades_temp.toString()]});
             let send_info = {
@@ -85,7 +85,7 @@ function analytics_send(arg)	{
                 data: send_info
             });
         }
-    }, function(returned) {});
+    });
     
 }
 function reset_analytics()    {

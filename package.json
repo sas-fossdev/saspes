@@ -4,7 +4,7 @@
   "description": "SAS Powerschool Enhancement Suite",
   "main": "index.js",
   "scripts": {
-    "test": "npx web-ext lint -s src",
+    "test": "npx eslint --ext .js src && npx web-ext lint -s src",
     "test:build": "npx web-ext lint",
     "libraries": "yarn licenses --silent generate-disclaimer > src/web_accessible_resources/libraries.txt",
     "package": "npx web-ext build",
@@ -26,6 +26,8 @@
     "@babel/core": "^7.4.5",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.3",
+    "eslint": "^6.0.1",
+    "eslint-plugin-mocha": "^5.3.0",
     "mocha": "^6.1.4",
     "rewire": "^4.0.1",
     "web-ext": "^3.1.0",

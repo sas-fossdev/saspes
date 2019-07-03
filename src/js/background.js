@@ -27,6 +27,13 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
+// Installation Process
+browser.runtime.onInstalled.addListener((details) => {
+    if (details.reason === 'install' && details.temporary === false) {
+        browser.runtime.openOptionsPage();
+    }
+});
+
 // Analytics
 var analytics = new Object();
 var version = browser.runtime.getManifest().version;

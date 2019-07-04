@@ -22,7 +22,7 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin([
-            { from: "src", to: '', ignore: ['*.js', 'manifest.json', 'manifest - chromium.json']}
+            { from: "src", to: '', ignore: ['*.js', 'manifest.json', 'manifest - chromium.json', '.eslintrc.json']}
         ])
     ],
     resolve: {

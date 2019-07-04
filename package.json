@@ -17,7 +17,7 @@
     "url": "git+https://github.com/gary-kim/saspes.git"
   },
   "author": "Gary Kim",
-  "license": "GPL-3.0",
+  "license": "AGPL-3.0-only",
   "bugs": {
     "url": "https://github.com/gary-kim/saspes/issues"
   },

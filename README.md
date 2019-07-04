@@ -56,6 +56,6 @@ Refer to the [libraries.txt](/libraries.txt).
 
 Copyright &copy; 2018-2019 Gary Kim &lt;<gary@garykim.dev>&gt;
 
-Source code licensed under GPL-3.0.
+Source code licensed under AGPL-3.0-only
 
 The logo and name are not licensed for use, modification, or distribution.

@@ -21,7 +21,7 @@ npm run webpack:build:chromium
 
 ### Sign-off your commit
 
-When you commit your change, please sign off on your work to certify that you have read and agreed to the [Developer Certificate of Origin](#Developer%20Certificate%20of%20Origin). By signing off on your commit, you certify that the changes are yours or you have the right to use it in an open source contribution.
+When you commit your change, please sign off on your work to certify that you have read and agreed to the [Developer Certificate of Origin](#developer-certificate-of-origin). By signing off on your commit, you certify that the changes are yours or you have the right to use it in an open source contribution.
 
 You can easily sign off on your work by adding the `-s` flag when you commit your change.
 ```

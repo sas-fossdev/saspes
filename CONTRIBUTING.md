@@ -19,7 +19,63 @@ npm install
 npm run webpack:build:chromium
 ```
 
+### Sign-off your commit
 
-Once you fix an issue or add/improve a feature, make a pull request to this repository. It will be reviewed and , hopefully, get merged into the project and released as part of the next release. Your name will also be added to the changelog to credit your change.
+When you commit your change, please sign off on your work to certify that you have read and agreed to the [Developer Certificate of Origin](#Developer%20Certificate%20of%20Origin). By signing off on your commit, you certify that the changes are yours or you have the right to use it in an open source contribution.
 
-By making a contribution to SAS Powerschool Enhancement Suite, you provide a [GPL-3.0-only](/LICENSE) license.
+You can easily sign off on your work by adding the `-s` flag when you commit your change.
+```
+git commit -s
+```
+Otherwise, you can add the following line to your commit message to certify the DCO.
+```
+Signed-off-by: Random J Developer <random@developer.example.org>
+```
+
+### Pull Request
+
+Once you fix an issue or add/improve a feature, make a pull request to this repository. Your pull request will be tested automatically, manually reviewed and, hopefully, get merged into the project and released as part of the next release. Your name will also be added to the changelog to credit your change.
+
+By making a contribution to SAS Powerschool Enhancement Suite, you provide a [AGPL-3.0-only](/LICENSE) license.
+
+### Developer Certificate of Origin
+```
+Developer Certificate of Origin
+Version 1.1
+
+Copyright (C) 2004, 2006 The Linux Foundation and its contributors.
+1 Letterman Drive
+Suite D4700
+San Francisco, CA, 94129
+
+Everyone is permitted to copy and distribute verbatim copies of this
+license document, but changing it is not allowed.
+
+
+Developer's Certificate of Origin 1.1
+
+By making a contribution to this project, I certify that:
+
+(a) The contribution was created in whole or in part by me and I
+    have the right to submit it under the open source license
+    indicated in the file; or
+
+(b) The contribution is based upon previous work that, to the best
+    of my knowledge, is covered under an appropriate open source
+    license and I have the right under that license to submit that
+    work with modifications, whether created in whole or in part
+    by me, under the same open source license (unless I am
+    permitted to submit under a different license), as indicated
+    in the file; or
+
+(c) The contribution was provided directly to me by some other
+    person who certified (a), (b) or (c) and I have not modified
+    it.
+
+(d) I understand and agree that this project and the contribution
+    are public and that a record of the contribution (including all
+    personal information I submit with it, including my sign-off) is
+    maintained indefinitely and may be redistributed consistent with
+    this project or the open source license(s) involved.
+
+```

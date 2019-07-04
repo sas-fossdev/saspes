@@ -20,16 +20,16 @@
     },
     "web_accessible_resources": [
         "/ui/historygrades.*",
-        "/chromium/ui/historygrades.html",
-        "/icons/*"
+        "/icons/*",
+        "/web_accessible_resources/"
     ],
     "background": {
-        "scripts": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.4.1.min.js","js/background.js"]
+        "scripts": ["js/background.js"]
     },
     "content_scripts": [
         {
             "matches": ["https://powerschool.sas.edu.sg/*"],
-            "js": ["chromium/background-fix.js","chromium/browser-polyfill.js","lib/jquery-3.4.1.min.js","lib/libs.js","js/saspowerschoolff.js"],
+            "js": ["js/saspowerschoolff.js"],
             "css": ["css/spse.css"],
             "run_at": "document_start"
         }

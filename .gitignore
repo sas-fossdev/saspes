@@ -1,3 +1,6 @@
 chromium_build.zip
 firefox_build.zip
 chromiumtest/
+node_modules/
+artifacts/
+dist/

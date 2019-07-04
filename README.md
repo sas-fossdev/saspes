@@ -1,5 +1,6 @@
 # SAS Powerschool Enhancement Suite
 
+[![Build Status](https://api.travis-ci.com/gary-kim/saspes.svg?branch=master)](https://travis-ci.com/gary-kim/saspes)
 [![Firefox Addon](https://img.shields.io/badge/Firefox%20Addon-Download-brightgreen.svg)](https://gschool.ydgkim.com/saspowerschool/)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ehnkngeidilnoabcjjimkomcggndbhnk.svg)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/ehnkngeidilnoabcjjimkomcggndbhnk.svg?label=chrome%20web%20store%20users)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)
@@ -49,18 +50,12 @@ Downloads for both Firefox and Chromium can be found on the project website: [ht
 
 ## 3rd Party Libraries
 
-* jQuery
-* Mozilla WebExtension Browser API Polyfill
-    * Used only in Chromium version
-* rahatarmanahmed's get-key-range
-* get-in-range
-
-Refer to the [Third-Party Licenses.txt](/Third-Party%20Licenses.txt) file for their respective licenses.
+Refer to the [libraries.txt](/libraries.txt).
 
 ## License
 
 Copyright &copy; 2018-2019 Gary Kim &lt;<gary@garykim.dev>&gt;
 
-Source code licensed under GPL-3.0.
+Source code licensed under AGPL-3.0-only
 
 The logo and name are not licensed for use, modification, or distribution.

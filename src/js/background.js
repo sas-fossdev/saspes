@@ -1,23 +1,38 @@
-/*
-    SAS Powerschool Enhancement Suite - A browser extension to improve the experience of using SAS Powerschool.
-
-    Copyright (C) 2018-2019 Gary Kim <gary@garykim.dev>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, version 3.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    
-*/
+/**
+ * 
+ * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+ * 
+ * @author Gary Kim <gary@garykim.dev>
+ * 
+ * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
+ *
+ * Copyright (C) 2018-2019 Gary Kim <gary@garykim.dev>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as 
+ * published by the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ */
 
 'use strict';
+
+import $ from 'jquery';
+const browser = require('webextension-polyfill');
+
+// Installation Process
+browser.runtime.onInstalled.addListener((details) => {
+    if (details.reason === 'install' && details.temporary === false) {
+        browser.runtime.openOptionsPage();
+    }
+});
 
 // Analytics
 var analytics = new Object();
@@ -28,7 +43,7 @@ browser.storage.local.get({analytics: true,id : ""}).then(function(returned) {
     if(analytics.id.length === 0)   {
         reset_analytics();
     }
-}, function(returned) {});
+});
 
 // Listen for requests from tabs
 browser.runtime.onMessage.addListener(message_recieve);
@@ -50,7 +65,7 @@ function message_recieve(message) {
 }
 function analytics_send(arg)	{
     browser.storage.local.get({analytics: true, percent_main_page : true, save_grades_temp: true}).then(function(returned) {
-        analytics.enabled = returned.analytics
+        analytics.enabled = returned.analytics;
         if(analytics.enabled || arg.override === true)   {
             let cvar_json = JSON.stringify({"1":["version", version], "2": ["FP", returned.percent_main_page.toString()], "3":["Save Grades Temp", returned.save_grades_temp.toString()]});
             let send_info = {
@@ -77,7 +92,7 @@ function analytics_send(arg)	{
                 data: send_info
             });
         }
-    }, function(returned) {});
+    });
     
 }
 function reset_analytics()    {

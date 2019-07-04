@@ -1,23 +1,30 @@
-/*
-    SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
-
-    Copyright (C) 2018-2019 Gary Kim <gary@garykim.dev>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, version 3.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    
-*/
+/**
+ * 
+ * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+ * 
+ * @author Gary Kim <gary@garykim.dev>
+ * 
+ * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
+ *
+ * Copyright (C) 2018-2019 Gary Kim <gary@garykim.dev>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as 
+ * published by the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ */
 
 'use strict';
+
+const browser = require('webextension-polyfill');
 
 var analyticsid = "";
 
@@ -31,7 +38,7 @@ function main() {
         document.getElementById("analytics-id").innerText = returned.id;
         // document.getElementById("save-grades").checked = returned.save_grades_temp;
         analyticsid = returned.id;
-    }, function(returned) {});
+    });
     document.getElementById("analytics").addEventListener("click", function() {
         let value = document.getElementById("analytics").checked;
         if(!value)  {
@@ -50,11 +57,11 @@ function main() {
     document.getElementById("source-code-link").addEventListener("click", (event) => {
         let href = event.currentTarget.getAttribute('href');
         browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
-    })
+    });
     document.getElementById("website-link").addEventListener("click", (event) => {
         let href = event.currentTarget.getAttribute('href');
         browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
-    })
+    });
     document.getElementById("copy-analytics-id").addEventListener("click", (event) => {
         let target = event.currentTarget;
         if(target.getAttribute("attr-pressed"))    {

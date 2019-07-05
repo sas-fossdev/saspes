@@ -1,12 +1,10 @@
 /**
  * 
- * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+ * @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
  * 
  * @author Gary Kim <gary@garykim.dev>
  * 
  * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
- *
- * Copyright (C) 2018-2019 Gary Kim <gary@garykim.dev>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as 

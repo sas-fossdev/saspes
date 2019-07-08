@@ -1,5 +1,17 @@
 # Master
 
+### Miscellaneous
+
+* **License:** SAS Powerschool Enhancement Suite has been relicensed to AGPL-3.0-only
+* **Technical Debt:** npm is now used to manage dependencies
+* **Technical Debt:** Webpack is now used to build the final release
+* **Technical Debt:** `web-ext` is now used to package the final release
+* **Technical Debt:** Linters have been added
+* **Technical Debt:** Travis-CI is now used to check that the code can be built
+* **Install:** The options page is now opened on first install
+* **jQuery:** jQuery has been updated to `3.4.1`
+* **Contributing:** Contributing now requires the DCO.  
+
 # Open Beta 0.1.6.1
 
 ## 2019-04-25

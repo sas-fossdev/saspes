@@ -16,7 +16,7 @@
         "128": "icons/128.png"
     },
     "options_ui": {
-        "page": "chromium/ui/options.html"
+        "page": "ui/options.html"
     },
     "web_accessible_resources": [
         "/ui/historygrades.*",

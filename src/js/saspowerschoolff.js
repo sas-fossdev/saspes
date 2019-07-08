@@ -28,6 +28,10 @@ const browser = require('webextension-polyfill');
 const getInRange = require('get-in-range');
 const getKeyRange = require('get-key-range');
 
+// Vue Components
+import ExtensionInfo from './components/ExtensionInfo.vue';
+import Vue from 'vue';
+
 const fprange = {
     '0-15': 'F',
     '15-25': 'D',
@@ -279,13 +283,9 @@ function login_page()   {
     insert_location.parentNode.insertBefore(document.createElement('a'), insert_location);
     */
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    $('#saspes-info').html(`<h3> <img src="${browser.runtime.getURL('icons/128.png')}" class="saspes-logo">SAS Powerschool Enhancement Suite</h3> <div class="saspes-content"><p style="font-size: 1.5em;">Version: ${browser.runtime.getManifest().version}</p><p><a class="saspes-link" href="https://gschool.ydgkim.com/saspowerschool/" target="_blank" >Project Website<a> | <a href="https://github.com/gary-kim/saspes/blob/master/CHANGELOG.md" class="saspes-link" target="_blank" >Changelog</a> | <a class="saspes-link" href="https://github.com/gary-kim/saspes" target="_blank" >Source Code</a> | <a id="login-extension-settings" href="#" >Extension Options</a></div></p>`);
-    $('#login-extension-settings').on('click', () => {
-        browser.runtime.sendMessage({action: "open_settings"});
-    });
-    $('.saspes-link').on('click', (e) => {
-        let href = e.currentTarget.href;
-        browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
+    new Vue({
+        el: '#saspes-info',
+        render: h => h(ExtensionInfo)
     });
         
 }

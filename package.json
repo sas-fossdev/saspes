@@ -10,6 +10,8 @@
     "package": "npx web-ext build",
     "webpack:build:chromium": "npx webpack --progress --config webpack.chromium.js",
     "webpack:build:firefox": "npx webpack --progress --config webpack.firefox.js",
+    "webpack:dev:firefox": "npx webpack --progress --watch --config webpack.firefox.dev.js",
+    "webpack:dev:chromium": "npx webpack --progress --watch --config webpack.chromium.dev.js",
     "clean": "rm -r dist artifacts || true"
   },
   "repository": {

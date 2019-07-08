@@ -4,7 +4,7 @@
   "description": "SAS Powerschool Enhancement Suite",
   "main": "index.js",
   "scripts": {
-    "test": "npx eslint --ext .js src && npx web-ext lint -s src",
+    "test": "npx eslint --ext .js,.vue src && npx web-ext lint -s src",
     "test:build": "npx web-ext lint",
     "libraries": "yarn licenses --silent generate-disclaimer > libraries.txt",
     "package": "npx web-ext build",
@@ -32,6 +32,7 @@
     "eslint-plugin-vue": "^5.2.3",
     "mocha": "^6.1.4",
     "rewire": "^4.0.1",
+    "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "web-ext": "^3.1.0",

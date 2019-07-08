@@ -36,7 +36,7 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin([
-            { from: "src", to: '', ignore: ['*.js', 'manifest.json', 'manifest - chromium.json', '.eslintrc.json']}
+            { from: "src", to: '', ignore: ['*.js', 'js/**', 'manifest.json', 'manifest - chromium.json', '.eslintrc.json']}
         ]),
         new VueLoaderPlugin()
     ],

@@ -25,24 +25,11 @@
 
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
-const getInRange = require('get-in-range');
-const getKeyRange = require('get-key-range');
 
 // Vue Components
-import ExtensionInfo from './components/ExtensionInfo.vue';
 import Vue from 'vue';
-
-const fprange = {
-    '0-15': 'F',
-    '15-25': 'D',
-    '25-35': 'D+',
-    '35-45': 'C',
-    '45-55': 'C+',
-    '55-65': 'B',
-    '65-75': 'B+',
-    '75-85': 'A',
-    '85-90': 'A+'
-};
+import ExtensionInfo from './components/ExtensionInfo.vue';
+import HypoAssignment from './components/HypoAssignment.vue';
 
 let percent_main_page = true;
 browser.storage.local.get({percent_main_page: true}).then(
@@ -218,45 +205,19 @@ function class_page()	{
     current_string = /\[.*\]/g.exec(current_string)[0].slice(1,-1);
     let temp = current_string.split(";");
     let number = Math.max(isNaN(temp[temp.length-2])?-Infinity:parseFloat(temp[temp.length-2]),isNaN(temp[temp.length-1])?-Infinity:parseFloat(temp[temp.length-1]));
-    //let number = $("table.linkDescList").html().match("(?=;\.;).*(?=])")[0].substring(3);
     if(number === -Infinity)   {
         return;
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + parseFloat(number).toFixed(2) + ` <div class="tooltip saspe">&#9432;<span class="tooltiptext saspe">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
-
-    // Hypo Assignment
-    let $hypo_assignment = $('<div></div>').addClass('saspes-section');
-    let hypo_assignment_info = {
-        weight: 0,
-        grade: 'B'
-    };
-
-    $hypo_assignment.html('<h3>Hypothetical Assignment</h3> <label for="saspes-assignment-effect" >Effect of new assignment (currently): </label>');
-    
-
-    $('<input type="number" min="0" max="100" value="0" id="saspes-assignment-effect" />').on('input', (e) => {
-        hypo_assignment_info.weight = getInRange(parseInt(e.currentTarget.value), 0, 100);
-        showHypoGrade();
-    }).appendTo($hypo_assignment);
-    $hypo_assignment.append($('<text>% </text>'));
-    $hypo_assignment.append($('<label for="hypo-grade-select">Grade of new assignment: </label>'));
-    $('<select id="hypo-grade-select"><option value="A+">A+</option><option value="A">A</option><option value="B+">B+</option><option value="B" selected="">B</option><option value="C+">C+</option><option value="C">C</option><option value="D+">D+</option><option value="D">D</option><option value="F">F</option></select>').on('change', (e) => {
-        hypo_assignment_info.grade = e.currentTarget.value;
-        showHypoGrade();
-    }).appendTo($hypo_assignment);
-    $hypo_assignment.append(`<br /><h4>Your grade with the selected assignment would be <text id="new-hypo-grade"></text> with a final percent of <text id="new-hypo-fp"></text>.</h4>`);
-
-    $hypo_assignment.insertAfter('div.box-round');
-
-    showHypoGrade();
-    function showHypoGrade() {
-        let new_fp = hypo_assignment_info.weight * 0.01 * grade_fp(hypo_assignment_info.grade) + ((100 - (hypo_assignment_info.weight)) * 0.01 * parseFloat(number));
-        document.querySelector('div.saspes-section text#new-hypo-grade').innerText = getKeyRange(fprange, new_fp);
-        document.querySelector('div.saspes-section text#new-hypo-fp').innerText = new_fp.toFixed(2);
-    }
-
-    
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
+    new (Vue.extend(HypoAssignment))({
+        data: {
+            initial: {
+                fp: parseFloat(number)
+            }
+        }
+    }).$mount('#saspes-hypo-assignment');
 }
 function login_page()   {
     /*
@@ -282,10 +243,7 @@ function login_page()   {
     insert_location.parentNode.insertBefore(document.createElement('a'), insert_location);
     */
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    new Vue({
-        el: '#saspes-info',
-        render: h => h(ExtensionInfo)
-    });
+    new (Vue.extend(ExtensionInfo))().$mount('#saspes-info');
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {
@@ -367,30 +325,6 @@ function grade_gpa(grade)    {
             return 1.0;
         case "F":
             return 0.0;
-        default:
-            return -1;
-    }
-}
-function grade_fp(grade) {
-    switch(grade){
-        case "A+":
-            return 90;
-        case "A":
-            return 80;
-        case "B+":
-            return 70;
-        case "B":
-            return 60;
-        case "C+":
-            return 50;
-        case "C":
-            return 40;
-        case "D+":
-            return 30;
-        case "D":
-            return 20;
-        case "F":
-            return 10;
         default:
             return -1;
     }

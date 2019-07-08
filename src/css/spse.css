@@ -99,29 +99,3 @@ div.hypo-grade-div-fixed {
     position: relative;
     display: inline-block;
 }
-
-.saspes-section {
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-    margin: 10px 20px;
-    padding: 0;
-}
-.saspes-section h3 {
-    font-size: 110%;
-    margin: 0 10px 10px 10px;
-    padding: 0;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-}
-.saspes-section select {
-    margin: 0 auto 0 auto;
-    border-radius: 5px 5px 5px 5px;
-}
-.saspes-section label {
-    vertical-align: initial;
-    padding-left: 20px;
-}
-.saspes-section input {
-    border-radius: 5px 5px 5px 5px;
-    padding: 5px;
-}

@@ -84,3 +84,22 @@ export default {
     }
 };
 </script>
+<style scoped>
+    #saspes-info {
+        background-color: #FFF;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        position: relative;
+        padding-bottom: 1px;
+        margin-top: 50px;
+        padding: 0;
+        font-size: inherit;
+        color: #444444;
+    }
+    .saspes-content {
+        padding: 20px;
+    }
+    .saspes-logo {
+        height: 2em;
+        padding-right: 0.7em;
+    }
+</style>

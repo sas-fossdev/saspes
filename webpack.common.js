@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        publicPath: '/js/'
     },
     module: {
         rules: [
@@ -25,7 +25,8 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                exclude: /node_modules/
             }
         ]
     },
@@ -36,6 +37,6 @@ module.exports = {
         new VueLoaderPlugin()
     ],
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js', '.vue']
     }
 };

@@ -50,7 +50,7 @@ browser.storage.local.get({percent_main_page: true}).then(
         percent_main_page = returned.percent_main_page;
     }, function() {}
 );
-$(document).ready(main);
+main();
 function main() {
     
     // Button on options page
@@ -63,7 +63,6 @@ function main() {
     $('#extension-open').on('click', function() {
         browser.runtime.sendMessage({action: "open_settings"});
     });
-
 
     let page_url = window.location.href.split('#')[0];
     if(page_url == "https://powerschool.sas.edu.sg/guardian/homeHS.html")	{
@@ -287,7 +286,6 @@ function login_page()   {
         el: '#saspes-info',
         render: h => h(ExtensionInfo)
     });
-        
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {
@@ -309,7 +307,6 @@ function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
         percents[pos_in_arr] = final_percent.toFixed(2);
     }).fail(function()  {
         percents[pos_in_arr] = -1;
-        console.log(`Ajax failed! Error on accessing: ${url_link}.`);
     });
 }
 function calculate_gpa(course_names, grades)    {

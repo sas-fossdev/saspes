@@ -29,16 +29,6 @@ npm run webpack:dev:chromium
 npm run webpack:build:chromium
 ```
 
-### Changelog
-
-Once your change has been made, put an entry for your change in the [changelog](/CHANGELOG.md) under **Master**. Your entry will be part of the official release changelog.
-
-Example:
-```
-### Bug fix
-* **Imaginary Bug:** Fixed an imaginary bug (Random J Developer)
-```
-
 ### Sign-off your commit
 
 When you commit your change, please sign off on your work to certify that you have read and agreed to the [Developer Certificate of Origin](#developer-certificate-of-origin). By signing off on your commit, you certify that the changes are yours or you have the right to use it in an open source contribution.

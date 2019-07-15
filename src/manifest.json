@@ -37,7 +37,7 @@
             "matches": ["https://powerschool.sas.edu.sg/*"],
             "js": ["js/saspowerschoolff.js"],
             "css": ["css/spse.css"],
-            "run_at": "document_start"
+            "run_at": "document_end"
         }
     ]
 }

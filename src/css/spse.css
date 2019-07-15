@@ -99,19 +99,7 @@ div.hypo-grade-div-fixed {
     position: relative;
     display: inline-block;
 }
-#saspes-info {
-    background-color: #FFF;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-    position: relative;
-    padding-bottom: 1px;
-    margin-top: 50px;
-    padding: 0;
-    font-size: inherit;
-    color: #444444;
-}
-.saspes-content {
-    padding: 20px;
-}
+
 .saspes-section {
     border: 1px solid #CCCCCC;
     border-radius: 4px;
@@ -136,8 +124,4 @@ div.hypo-grade-div-fixed {
 .saspes-section input {
     border-radius: 5px 5px 5px 5px;
     padding: 5px;
-}
-.saspes-logo {
-    height: 2em;
-    padding-right: 0.7em;
 }

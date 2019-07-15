@@ -28,6 +28,10 @@ const browser = require('webextension-polyfill');
 const getInRange = require('get-in-range');
 const getKeyRange = require('get-key-range');
 
+// Vue Components
+import ExtensionInfo from './components/ExtensionInfo.vue';
+import Vue from 'vue';
+
 const fprange = {
     '0-15': 'F',
     '15-25': 'D',
@@ -46,7 +50,7 @@ browser.storage.local.get({percent_main_page: true}).then(
         percent_main_page = returned.percent_main_page;
     }, function() {}
 );
-$(document).ready(main);
+main();
 function main() {
     
     // Button on options page
@@ -59,7 +63,6 @@ function main() {
     $('#extension-open').on('click', function() {
         browser.runtime.sendMessage({action: "open_settings"});
     });
-
 
     let page_url = window.location.href.split('#')[0];
     if(page_url == "https://powerschool.sas.edu.sg/guardian/homeHS.html")	{
@@ -279,15 +282,10 @@ function login_page()   {
     insert_location.parentNode.insertBefore(document.createElement('a'), insert_location);
     */
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    $('#saspes-info').html(`<h3> <img src="${browser.runtime.getURL('icons/128.png')}" class="saspes-logo">SAS Powerschool Enhancement Suite</h3> <div class="saspes-content"><p style="font-size: 1.5em;">Version: ${browser.runtime.getManifest().version}</p><p><a class="saspes-link" href="https://gschool.ydgkim.com/saspowerschool/" target="_blank" >Project Website<a> | <a href="https://github.com/gary-kim/saspes/blob/master/CHANGELOG.md" class="saspes-link" target="_blank" >Changelog</a> | <a class="saspes-link" href="https://github.com/gary-kim/saspes" target="_blank" >Source Code</a> | <a id="login-extension-settings" href="#" >Extension Options</a></div></p>`);
-    $('#login-extension-settings').on('click', () => {
-        browser.runtime.sendMessage({action: "open_settings"});
+    new Vue({
+        el: '#saspes-info',
+        render: h => h(ExtensionInfo)
     });
-    $('.saspes-link').on('click', (e) => {
-        let href = e.currentTarget.href;
-        browser.runtime.sendMessage({action: "analytics_send", args: {url: href, extra: {link: href}}});
-    });
-        
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {
@@ -309,7 +307,6 @@ function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
         percents[pos_in_arr] = final_percent.toFixed(2);
     }).fail(function()  {
         percents[pos_in_arr] = -1;
-        console.log(`Ajax failed! Error on accessing: ${url_link}.`);
     });
 }
 function calculate_gpa(course_names, grades)    {

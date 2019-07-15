@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
     entry: {
@@ -10,22 +11,36 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        publicPath: '/js/'
     },
     module: {
         rules: [
             {
+                test: /\.less$/,
+                use: ['vue-style-loader', 'css-loader', 'less-loader']
+            },
+            {
+                test: /\.css$/,
+                use: ['vue-style-loader', 'css-loader']
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                exclude: /node_modules/
             }
         ]
     },
     plugins: [
         new CopyPlugin([
-            { from: "src", to: '', ignore: ['*.js', 'manifest.json', 'manifest - chromium.json', '.eslintrc.json']}
-        ])
+            { from: "src", to: '', ignore: ['*.js', 'js/**', 'manifest.json', 'manifest - chromium.json', '.eslintrc.json']}
+        ]),
+        new VueLoaderPlugin()
     ],
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js', '.vue']
     }
 };

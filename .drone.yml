@@ -1,0 +1,23 @@
+kind: pipeline
+name: build-and-test
+
+steps:
+  - name: install-dependencies-and-test
+    image: node
+    commands:
+      - npm ci
+      - npm test
+  - name: firefox-build
+    image: node
+    commands:
+      - npm run clean
+      - npm run webpack:build:firefox
+      - npm run test:build
+      - npm run package
+  - name: chromium-build
+    image: node
+    commands:
+      - npm run clean
+      - npm run webpack:build:chromium
+      - npm run test:build
+      - npm run package

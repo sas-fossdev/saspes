@@ -212,10 +212,8 @@ function class_page()	{
 
     document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
     new (Vue.extend(HypoAssignment))({
-        data: {
-            initial: {
-                fp: parseFloat(number)
-            }
+        propsData: {
+            currentFP: number
         }
     }).$mount('#saspes-hypo-assignment');
 }

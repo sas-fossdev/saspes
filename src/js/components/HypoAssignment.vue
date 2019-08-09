@@ -32,19 +32,22 @@ import { avaliableGrades, fpToGrade, grade_fp } from '../helpers';
 
 export default {
     name: 'HypoAssignment',
+    props: {
+        currentFP: {
+            type: Number,
+            required: true
+        }
+    },
     data: () => ({
         assignment: {
             weight: 0,
             grade: 'B'
         },
-        initial: {
-            fp: 65
-        },
         gradeOptions: avaliableGrades
     }),
     computed: {
         hypo() {
-            let new_fp = this.assignment.weight * 0.01 * grade_fp(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.initial);
+            let new_fp = this.assignment.weight * 0.01 * grade_fp(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
             return {
                 fp: new_fp.toFixed(2),
                 grade: fpToGrade(new_fp)

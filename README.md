@@ -1,6 +1,6 @@
 # SAS Powerschool Enhancement Suite
 
-[![Build Status](https://ghdrone.garykim.dev/api/badges/gary-kim/saspes/status.svg)](https://ghdrone.garykim.dev/gary-kim/saspes)
+[![Build Status](https://img.shields.io/drone/build/gary-kim/saspes?server=https%3A%2F%2Fghdrone.garykim.dev)](https://ghdrone.garykim.dev/gary-kim/saspes)
 [![Build Status](https://api.travis-ci.com/gary-kim/saspes.svg?branch=master)](https://travis-ci.com/gary-kim/saspes)
 [![Firefox Addon](https://img.shields.io/badge/Firefox%20Addon-Download-brightgreen.svg)](https://gschool.ydgkim.com/saspowerschool/)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ehnkngeidilnoabcjjimkomcggndbhnk.svg)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)

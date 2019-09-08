@@ -1,5 +1,5 @@
 language: node_js
-node_js: '10'
+node_js: '12'
 dist: xenial
 install:
     - npm ci
@@ -8,11 +8,12 @@ matrix:
   - name: 'Firefox Build'
     script:
     - npm test
-    - 'npm run webpack:build:firefox'
-    - 'npm run test:build'
+    - npm run webpack:build:firefox
+    - npm run test:build
+    - npm run package
   - name: 'Chromium Build'
     script:
     - npm test
-    - 'npm run webpack:build:chromium'
-    - 'npm run test:build'
-
+    - npm run webpack:build:chromium
+    - npm run test:build
+    - npm run package

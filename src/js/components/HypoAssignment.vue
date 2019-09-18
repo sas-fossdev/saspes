@@ -20,7 +20,7 @@
                 :key="grade"
                 :value="grade"
             >
-                grade
+                {{ grade }}
             </option>
         </select>
         <br>

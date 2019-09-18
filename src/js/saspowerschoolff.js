@@ -133,17 +133,24 @@ function main_page()    {
     hypo_grade_panel += `</table><br /><h3>With the above grades, semester GPA would be: <text id="hypo-gpa-number">${calculate_gpa(course_names,hypo_grades)}</text>.</h3></div>`;
     $(hypo_grade_div).appendTo('body');
     let hypo_grade_div_dom = $('div.hypo-grade-div');
-    let hypo_grade_panel_dom = $(hypo_grade_panel).appendTo(hypo_grade_div_dom);
-    let hypo_grade_panel_dom_width = hypo_grade_panel_dom.width() + 1;
+    $(hypo_grade_panel).appendTo(hypo_grade_div_dom);
+    
+    // TODO: Having a setTimeout is not elegant for this situation.
+    let hypo_grade_panel_dom_width = 1000;
+    setTimeout(() => {
+        hypo_grade_panel_dom_width = document.querySelector('.hypo-grade-panel').offsetWidth + 1;
+        hypo_grade_div_dom.css('left', hypo_grade_panel_dom_width);
+    }, 500);
+
+
     let hypo_grade_open_dom = $('div.hypo-grade-open');
-    hypo_grade_div_dom.css('left',hypo_grade_panel_dom_width);
     $('.hypo-grade-select').on('change', function( event )  {
         hypo_grades[$(event.currentTarget).attr('id')] = this.value;
         $('#hypo-gpa-number').html(calculate_gpa(course_names,hypo_grades));
     });
 
-    hypo_grade_open_dom.on('click', function(event) {
-        if(currently_open)  {
+    hypo_grade_open_dom.on('click', function() {
+        if(currently_open) {
             let hypo_grade_panel_dom = $('div.hypo-grade-panel');
 
             hypo_grade_div_dom.css('left', hypo_grade_panel_dom_width);

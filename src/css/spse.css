@@ -77,11 +77,15 @@ div.hypo-grade-div-fixed {
     right: 0;
     top: 20px;
     background: transparent;
+    pointer-events: none;
+}
+.hypo-grade-div-fixed * {
+    pointer-events: initial;
 }
 .tooltip.saspe .tooltiptext.saspe {
     visibility: hidden;
     background-color: black;
-    width: 120px; 
+    width: 120px;
     color: #fff;
     text-align: center;
     padding: 5px 0;

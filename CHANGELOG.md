@@ -2,6 +2,9 @@
 
 ## Open Beta 0.1.7.0 - 2019-09-18
 
+### Added
+* Open options page on new install
+
 ### Fixed
 * Fix Hypo Grade Calculator sometimes now showing
 * Fix parsing issue introduced by 2019 Powerschool update

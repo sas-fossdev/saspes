@@ -85,6 +85,7 @@ function main_page()    {
     for(let i = 0; i < $grade_rows.length; i++)  {
         let $course;
         if(second_semester) {
+            // TODO: Currently not working after 2019 Powerschool update. Needs to be updated.
             $course = $grade_rows.eq(i).children('td').eq(3).find("a[href^='scores.html?']");
             let first_grade = $grade_rows.eq(i).children('td').eq(2).find(`a[href^='scores.html?']`);
             if(first_grade.length === 1)    {
@@ -93,7 +94,7 @@ function main_page()    {
                 }
             }
         } else {
-            $course = $grade_rows.eq(i).children('td').eq(2).find("a[href^='scores.html?']");
+            $course = $grade_rows.eq(i).find('td a[href^="scores.html"]').eq(0);
         }
         if($course.length === 1) {
             let temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];

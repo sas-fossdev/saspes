@@ -1,5 +1,10 @@
 # Changelog
 
+## Open Beta 0.1.7.1 - 2019-09-18
+
+### Fixed
+* Fix Hypo Assignment giving the incorrect grade for a corresponding final percent if the final percent is on a cutoff.
+
 ## Open Beta 0.1.7.0 - 2019-09-18
 
 ### Added

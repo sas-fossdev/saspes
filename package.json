@@ -1,6 +1,6 @@
 {
   "name": "saspes",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "SAS Powerschool Enhancement Suite",
   "main": "index.js",
   "scripts": {

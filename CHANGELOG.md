@@ -1,4 +1,11 @@
-# Master
+# Changelog
+
+## Open Beta 0.1.7.0 - 2019-09-18
+
+### Fixed
+* Fix Hypo Grade Calculator sometimes now showing
+* Fix parsing issue introduced by 2019 Powerschool update
+* Fix an issue where Hypo Assignment would not show proper grade selection introduced during Vue migration.
 
 ### Miscellaneous
 
@@ -11,6 +18,8 @@
 * **Install:** The options page is now opened on first install
 * **jQuery:** jQuery has been updated to `3.4.1`
 * **Contributing:** Contributing now requires the DCO.  
+* **Vue Migration:** Hypo Assignment has been migrated to Vue.
+* **Vue Migration:** Extension Info has been migrated to Vue.
 
 # Open Beta 0.1.6.1
 

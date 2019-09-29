@@ -28,7 +28,7 @@
     </div>
 </template>
 <script>
-import { avaliableGrades, fpToGrade, grade_fp } from '../helpers';
+import { avaliableGrades, fpToGrade, gradeToFP } from '../helpers';
 
 export default {
     name: 'HypoAssignment',
@@ -47,7 +47,7 @@ export default {
     }),
     computed: {
         hypo() {
-            let new_fp = this.assignment.weight * 0.01 * grade_fp(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
+            let new_fp = this.assignment.weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
             return {
                 fp: new_fp.toFixed(2),
                 grade: fpToGrade(new_fp)

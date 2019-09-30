@@ -47,6 +47,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.6.2",
     "get-in-range": "^0.2.4",
     "get-key-range": "^1.0.1",
     "jquery": "^3.4.1"

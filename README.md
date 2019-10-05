@@ -9,7 +9,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/gary-kim/saspes.svg)](https://github.com/gary-kim/saspes/issues)
 
 
-![SAP PES](https://github.com/jadijadi/saspes/tree/master/images/logo.png)
+![SAP PES](https://github.com/jadijadi/saspes/raw/master/images/logo.png)
 
 SAS PES is an extension using the WebExtension standard for use by **Singapore American School students only**. The extension provides various enhancements when using Powerschool at SAS.
 

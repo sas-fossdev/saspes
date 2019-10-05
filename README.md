@@ -9,15 +9,15 @@
 [![GitHub issues](https://img.shields.io/github/issues/gary-kim/saspes.svg)](https://github.com/gary-kim/saspes/issues)
 
 
-![SAP PES](https://github.com/jadijadi/saspes/raw/master/images/logo.png)
+![SAP PES](https://github.com/gary-kim/saspes/raw/master/images/logo.png)
 
 SAS PES is an extension using the WebExtension standard for use by **Singapore American School students only**. The extension provides various enhancements when using Powerschool at SAS.
 
-![](https://github.com/gary-kim/saspes/tree/master/images/img1.png)
+![](https://github.com/gary-kim/saspes/raw/master/images/img1.png)
 
-![](https://github.com/gary-kim/saspes/tree/master/images/img2.png)
+![](https://github.com/gary-kim/saspes/raw/master/images/img2.png)
 
-![](https://github.com/jadijadi/saspes/tree/master/images/img3.png)
+![](https://github.com/gary-kim/saspes/raw/master/images/img3.png)
 
 ## Features
 
@@ -52,7 +52,7 @@ People have gotten the extension to work on the following browsers
 
 ## Download
 
-Download for Chrome can be found on [chrome web store](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk) and for Firefox, please check the [relase directory](https://github.com/jadijadi/saspes/tree/master/release).
+Download for Chrome can be found on [chrome web store](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk) and for Firefox, please check the [relase directory](https://github.com/gary-kim/saspes/tree/master/release).
 
 
 ## Contributing

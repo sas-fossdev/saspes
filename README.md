@@ -2,13 +2,22 @@
 
 [![Build Status](https://img.shields.io/drone/build/gary-kim/saspes?server=https%3A%2F%2Fghdrone.garykim.dev)](https://ghdrone.garykim.dev/gary-kim/saspes)
 [![Build Status](https://api.travis-ci.com/gary-kim/saspes.svg?branch=master)](https://travis-ci.com/gary-kim/saspes)
-[![Firefox Addon](https://img.shields.io/badge/Firefox%20Addon-Download-brightgreen.svg)](https://gschool.ydgkim.com/saspowerschool/)
+[![Firefox Addon](https://img.shields.io/badge/Firefox%20Addon-Download-brightgreen.svg)](https://github.com/gary-kim/saspes/tree/master/release)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ehnkngeidilnoabcjjimkomcggndbhnk.svg)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/ehnkngeidilnoabcjjimkomcggndbhnk.svg?label=chrome%20web%20store%20users)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)
 [![GitHub](https://img.shields.io/github/license/gary-kim/saspes.svg)](https://github.com/gary-kim/saspes/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/gary-kim/saspes.svg)](https://github.com/gary-kim/saspes/issues)
 
-SAS PES is an extension using the WebExtension standard for use by Singapore American School students. The extension provides various enhancements when using Powerschool at SAS.
+
+![SAP PES](https://github.com/gary-kim/saspes/tree/master/images/logo.png)
+
+SAS PES is an extension using the WebExtension standard for use by **Singapore American School students only**. The extension provides various enhancements when using Powerschool at SAS.
+
+![](https://github.com/gary-kim/saspes/tree/master/images/img1.png)
+
+![](https://github.com/gary-kim/saspes/tree/master/images/img2.png)
+
+![](https://github.com/gary-kim/saspes/tree/master/images/img3.png)
 
 ## Features
 
@@ -23,6 +32,7 @@ SAS PES is an extension using the WebExtension standard for use by Singapore Ame
 
 ### Extra Features
 * (Temporarily removed for development [#4](https://github.com/gary-kim/saspes/issues/4) ) ~~View grades and final percents for courses even when Powerschool is closed.~~
+*  The ability to recalculate per-class grade with hypothetical assignments and color code classes that have improved or dropped is currently in the works.
 
 ## Browser Support
 
@@ -42,7 +52,7 @@ People have gotten the extension to work on the following browsers
 
 ## Download
 
-Downloads for both Firefox and Chromium can be found on the project website: [https://gschool.ydgkim.com/saspowerschool/](https://gschool.ydgkim.com/saspowerschool/?pk_campaign=SASPES&pk_kwd=github-readme)
+Download for Chrome can be found on [chrome web store](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk) and for Firefox, please check the [relase directory](https://github.com/gary-kim/saspes/tree/master/release).
 
 
 ## Contributing

@@ -34,7 +34,7 @@
             <p>
                 <a
                     class="saspes-link"
-                    href="https://gschool.ydgkim.com/saspowerschool/"
+                    href="https://github.com/gary-kim/saspes"
                     target="_blank"
                     @click="link_analytics"
                 >Project Website</a> |

@@ -4,7 +4,7 @@
     "short_name": "SAS PES",
     "version": "0.1.7.1",
     "author": "Gary Kim",
-    "homepage_url":"https://gschool.ydgkim.com/saspowerschool/",
+    "homepage_url":"https://github.com/gary-kim/saspes",
     "description": "Provides various enhancements for SAS Powerschool",
     "permissions": [
         "storage",

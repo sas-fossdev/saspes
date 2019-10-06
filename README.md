@@ -13,11 +13,11 @@
 
 SAS PES is an extension using the WebExtension standard for use by **Singapore American School students only**. The extension provides various enhancements when using Powerschool at SAS.
 
-![](https://github.com/gary-kim/saspes/raw/master/images/img1.png)
+![](https://cdn.ydgkim.com/gschool/saspes/img1.png)
 
-![](https://github.com/gary-kim/saspes/raw/master/images/img2.png)
+![](https://cdn.ydgkim.com/gschool/saspes/img2.png)
 
-![](https://github.com/gary-kim/saspes/raw/master/images/img3.png)
+![](https://cdn.ydgkim.com/gschool/saspes/img3.png)
 
 ## Features
 
@@ -32,7 +32,7 @@ SAS PES is an extension using the WebExtension standard for use by **Singapore A
 
 ### Extra Features
 * (Temporarily removed for development [#4](https://github.com/gary-kim/saspes/issues/4) ) ~~View grades and final percents for courses even when Powerschool is closed.~~
-*  The ability to recalculate per-class grade with hypothetical assignments and color code classes that have improved or dropped is currently in the works.
+
 
 ## Browser Support
 
@@ -52,8 +52,7 @@ People have gotten the extension to work on the following browsers
 
 ## Download
 
-Download for Chrome can be found on [chrome web store](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk) and for Firefox, please check the [relase directory](https://github.com/gary-kim/saspes/tree/master/release).
-
+Download for Chromium can be found on [chrome web store](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk) and for Firefox, please check the [relase directory](https://github.com/gary-kim/saspes/releases/).
 
 ## Contributing
 

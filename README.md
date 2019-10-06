@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/drone/build/gary-kim/saspes?server=https%3A%2F%2Fghdrone.garykim.dev)](https://ghdrone.garykim.dev/gary-kim/saspes)
 [![Build Status](https://api.travis-ci.com/gary-kim/saspes.svg?branch=master)](https://travis-ci.com/gary-kim/saspes)
-[![Firefox Addon](https://img.shields.io/badge/Firefox%20Addon-Download-brightgreen.svg)](https://github.com/gary-kim/saspes/tree/master/release)
+[![Firefox Addon](https://img.shields.io/badge/Firefox%20Addon-Download-brightgreen.svg)](https://github.com/gary-kim/saspes/releases)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ehnkngeidilnoabcjjimkomcggndbhnk.svg)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/ehnkngeidilnoabcjjimkomcggndbhnk.svg?label=chrome%20web%20store%20users)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)
 [![GitHub](https://img.shields.io/github/license/gary-kim/saspes.svg)](https://github.com/gary-kim/saspes/blob/master/LICENSE)

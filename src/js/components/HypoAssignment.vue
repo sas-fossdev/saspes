@@ -50,7 +50,7 @@ export default {
             let new_fp = this.assignment.weight * 0.01 * grade_fp(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
             return {
                 fp: new_fp.toFixed(2),
-                grade: fpToGrade(new_fp)
+                grade: fpToGrade(parseFloat(new_fp.toFixed(2)))
             };
         }
     }

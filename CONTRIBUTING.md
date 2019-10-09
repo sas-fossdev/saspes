@@ -50,7 +50,40 @@ Signed-off-by: Random J Developer <random@developer.example.org>
 
 Once you fix an issue or add/improve a feature, make a pull request to this repository. Your pull request will be tested automatically, manually reviewed and, hopefully, get merged into the project and released as part of the next release. Your name will also be added to the changelog and to an `CONTRIBUTORS.md` file to credit your change.
 
-By making a contribution to SAS Powerschool Enhancement Suite, you provide a [AGPL-3.0-only](/LICENSE) license.
+By making a contribution to SAS Powerschool Enhancement Suite, you provide a [AGPL-3.0-only](/LICENSE) license but you keep copyright ownership of your contribution.
+
+### License Header
+
+If you modify an exisiting file, add your copyright notice to the file. Something like this:
+```
+@copyright Copyright (c) <year> <your name> <<your email address>>
+```
+For a new file, add this license header to the top of the file:
+```
+/**
+ * 
+ * @copyright Copyright (c) <year> <your name> <<your email address>>
+ * 
+ * @author <your name> <<your email address>>
+ *
+ * @license GNU AGPL version 3
+ *
+ * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as 
+ * published by the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ */
+```
 
 ### Developer Certificate of Origin
 ```

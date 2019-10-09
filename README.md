@@ -1,4 +1,6 @@
-# SAS Powerschool Enhancement Suite
+<p align="center">
+    <img src="https://cdn.ydgkim.com/gschool/saspes/mainimage.png" alt="SAS Powerschool Enhancement Suite" height="200">
+</p>
 
 [![Build Status](https://img.shields.io/drone/build/gary-kim/saspes?server=https%3A%2F%2Fghdrone.garykim.dev)](https://ghdrone.garykim.dev/gary-kim/saspes)
 [![Build Status](https://api.travis-ci.com/gary-kim/saspes.svg?branch=master)](https://travis-ci.com/gary-kim/saspes)
@@ -9,15 +11,17 @@
 [![GitHub issues](https://img.shields.io/github/issues/gary-kim/saspes.svg)](https://github.com/gary-kim/saspes/issues)
 
 
-![SAS PES](https://cdn.ydgkim.com/gschool/saspes/mainimage.png)
-
 SAS PES is an extension using the WebExtension standard for use by **Singapore American School students only**. The extension provides various enhancements when using Powerschool at SAS.
 
-![](https://cdn.ydgkim.com/gschool/saspes/img1.png)
-
-![](https://cdn.ydgkim.com/gschool/saspes/img2.png)
-
-![](https://cdn.ydgkim.com/gschool/saspes/img3.png)
+<p align="center">
+    <img src="https://cdn.ydgkim.com/gschool/saspes/img1.png" height="250">
+</p>
+<p align="center">
+    <img src="https://cdn.ydgkim.com/gschool/saspes/img2.png" height="250">
+</p>
+<p align="center">
+    <img src="https://cdn.ydgkim.com/gschool/saspes/img3.png" height="250">
+</p>
 
 ## Features
 

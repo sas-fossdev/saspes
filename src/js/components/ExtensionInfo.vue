@@ -31,6 +31,7 @@
             <p style="font-size: 1.5em;">
                 Version: {{ version }}
             </p>
+            <p><b>Do not rely</b> on the data provided by SAS PES.</p>
             <p>
                 <a
                     class="saspes-link"
@@ -50,6 +51,12 @@
                     target="_blank"
                     @click="link_analytics"
                 >Source Code</a> |
+                <a
+                    class="saspes-link"
+                    href="https://github.com/gary-kim/saspes/blob/master/LICENSE"
+                    target="_blank"
+                    @click="link_analytics"
+                >License (AGPL-3.0-only)</a> |
                 <a
                     id="login-extension-settings"
                     href="#"
@@ -96,10 +103,13 @@ export default {
         color: #444444;
     }
     .saspes-content {
-        padding: 20px;
+        padding: 10px 20px 15px 20px;
     }
     .saspes-logo {
         height: 2em;
         padding-right: 0.7em;
+    }
+    b {
+        margin: initial !important;
     }
 </style>

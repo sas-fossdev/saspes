@@ -13,6 +13,8 @@
     "webpack:build:firefox": "npx webpack --progress --config webpack.firefox.js",
     "webpack:dev:firefox": "npx webpack --progress --watch --config webpack.firefox.dev.js",
     "webpack:dev:chromium": "npx webpack --progress --watch --config webpack.chromium.dev.js",
+    "integration:chromium": "npm run webpack:build:chromium && npm run package && npx nightwatch --env chromium",
+    "integration:firefox": "npm run webpack:build:firefox && npm run package && npx nightwatch --env firefox",
     "clean": "rm -r dist artifacts || true"
   },
   "repository": {
@@ -28,13 +30,17 @@
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "babel-loader": "^8.0.6",
+    "chromedriver": "^77.0.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "eslint": "^6.5.1",
     "eslint-plugin-mocha": "^5.3.0",
     "eslint-plugin-vue": "^5.2.3",
+    "geckodriver": "^1.19.0",
+    "jszip": "^2.6.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "nightwatch": "^1.2.4",
     "rewire": "^4.0.1",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.1",

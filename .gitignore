@@ -1,6 +1,14 @@
+# Generated Files
 chromium_build.zip
 firefox_build.zip
-chromiumtest/
-node_modules/
 artifacts/
 dist/
+
+# Node
+node_modules/
+
+# Testing Files
+chromiumtest/
+tests_output/
+chromedriver.log
+geckodriver.log

@@ -13,8 +13,8 @@
     "webpack:build:firefox": "npx webpack --progress --config webpack.firefox.js",
     "webpack:dev:firefox": "npx webpack --progress --watch --config webpack.firefox.dev.js",
     "webpack:dev:chromium": "npx webpack --progress --watch --config webpack.chromium.dev.js",
-    "integration:chromium": "npm run webpack:build:chromium && npm run package && npx nightwatch --env chromium",
-    "integration:firefox": "npm run webpack:build:firefox && npm run package && npx nightwatch --env firefox",
+    "integration:chromium": "npm run clean && npm run webpack:build:chromium && npm run package && npx nightwatch --env chromium",
+    "integration:firefox": "npm run clean && npm run webpack:build:firefox && npm run package && npx nightwatch --env firefox",
     "clean": "rm -r dist artifacts || true"
   },
   "repository": {

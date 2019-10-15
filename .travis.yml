@@ -1,19 +1,25 @@
 language: node_js
 node_js: '12'
-dist: xenial
+dist: bionic
 install:
-    - npm ci
+- npm ci
+services:
+- xvfb
 matrix:
   include:
-  - name: 'Firefox Build'
+  - name: 'Firefox'
+    addons:
+      firefox: latest-unsigned
     script:
     - npm test
     - npm run webpack:build:firefox
     - npm run test:build
-    - npm run package
-  - name: 'Chromium Build'
+    - npm run integration:firefox
+  - name: 'Chromium'
+    addons: 
+      chrome: stable
     script:
     - npm test
     - npm run webpack:build:chromium
     - npm run test:build
-    - npm run package
+    - npm run integration:chromium

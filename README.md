@@ -13,6 +13,8 @@
 
 SAS PES is an extension using the WebExtension standard for use by **Singapore American School students only**. The extension provides various enhancements when using Powerschool at SAS.
 
+Regardless of what the extension calculates, teachers are able to override the final grade. **DO NOT RELY ON THE DATA FROM THIS EXTENSION**
+
 <p align="center">
     <img src="https://cdn.ydgkim.com/gschool/saspes/img1.png" height="250">
 </p>
@@ -70,6 +72,6 @@ Refer to the [libraries.txt](/libraries.txt).
 
 Copyright &copy; 2018-2019 Gary Kim &lt;<gary@garykim.dev>&gt;
 
-Source code licensed under AGPL-3.0-only
+Source code licensed under [AGPL-3.0-only](LICENSE)
 
 The logo and name are not licensed for use, modification, or distribution.

@@ -1,5 +1,22 @@
 # Changelog
 
+## Open Beta 0.1.7.2 - 2019-10-23
+
+GitHub is now the offical home for the SAS PES project.
+
+### Added
+* Add No Warrently Disclaimer ([@gary-kim](https://github.com/gary-kim)) [#26](https://github.com/gary-kim/saspes/pull/26)
+
+### Changed
+* Change all project website links to GitHub repository ([@jadijadi](https://github.com/jadijadi)) [#19](https://github.com/gary-kim/saspes/pull/19)
+* Update all dependencies
+* Adjust readme and contributing ([@gary-kim](https://github.com/gary-kim)) [#21](https://github.com/gary-kim/saspes/pull/21)
+
+### Fixed
+* Fix a bug where hypothetical assignment calculator would calculate a grade and final percent that don't match ([@tcode2k16](https://github.com/tcode2k16)) [#20](https://github.com/gary-kim/saspes/pull/20)
+* Properly configure Babel
+
+
 ## Open Beta 0.1.7.1 - 2019-09-18
 
 ### Fixed

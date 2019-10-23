@@ -3,19 +3,19 @@ name: build-and-test
 
 steps:
   - name: install-dependencies-and-test
-    image: node
+    image: node:12
     commands:
       - npm ci
       - npm test
   - name: firefox-build
-    image: node
+    image: node:12
     commands:
       - npm run clean
       - npm run webpack:build:firefox
       - npm run test:build
       - npm run package
   - name: chromium-build
-    image: node
+    image: node:12
     commands:
       - npm run clean
       - npm run webpack:build:chromium

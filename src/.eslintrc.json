@@ -2,7 +2,8 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es6": true
+        "es2020": true,
+        "webextensions": true
     },
     "extends": [
         "eslint:recommended",
@@ -14,7 +15,7 @@
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "ecmaVersion": 2018,
+        "parser": "babel-eslint",
         "sourceType": "module"
     },
     "rules": {

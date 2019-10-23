@@ -4,7 +4,7 @@
   "description": "SAS Powerschool Enhancement Suite",
   "main": "index.js",
   "scripts": {
-    "test": "npx eslint --ext .js,.vue src && npx web-ext lint -s src",
+    "test": "npx eslint --ext .js,.vue src",
     "test:build": "npx web-ext lint",
     "eslint": "npx eslint --ext .js,.vue src",
     "libraries": "yarn licenses --silent generate-disclaimer > libraries.txt",
@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.6.2",
+    "babel-eslint": "^10.0.3",
     "get-in-range": "^0.2.4",
     "get-key-range": "^1.0.1",
     "jquery": "^3.4.1"

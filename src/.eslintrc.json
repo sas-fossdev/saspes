@@ -12,7 +12,8 @@
     ],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "EXTENSION_VERSION_NAME": true
     },
     "parserOptions": {
         "parser": "babel-eslint",

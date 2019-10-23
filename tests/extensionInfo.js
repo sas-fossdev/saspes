@@ -33,7 +33,20 @@ module.exports = {
     "Extension Version Correct": browser => {
         browser
             .assert.containsText('#saspes-info', 'SAS Powerschool Enhancement Suite')
-            .assert.containsText("#saspes-info", `Version: ${package.version}`)
+            .assert.containsText("#saspes-info", `Version: ${package.version_name}`)
+    },
+    "Extension Info Remember Open State": browser => {
+        browser
+            .assert.elementPresent('#saspes-info .saspes-content')
+            .click('#saspes-info .arrow')
+            .assert.elementNotPresent('#saspes-info .saspes-content')
+            .click('#saspes-info .arrow')
+            .assert.elementPresent('#saspes-info .saspes-content')
+            .click('#saspes-info .arrow')
+            .refresh()
+            .assert.elementNotPresent('#saspes-info .saspes-content')
+            .click('#saspes-info .arrow')
+            .assert.elementPresent('#saspes-info .saspes-content')
             .end()
     }
 }

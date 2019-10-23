@@ -20,14 +20,21 @@
 
 <template>
     <div id="saspes-info">
-        <h3>
+        <h3 @click="toggleInfo">
             <img
                 :src="logo"
                 class="saspes-logo"
             >
             SAS Powerschool Enhancement Suite
+            <div
+                :class="{ 'arrow-down': showInfo, 'arrow-left': !showInfo }"
+                class="arrow"
+            />
         </h3>
-        <div class="saspes-content">
+        <div
+            v-if="showInfo"
+            class="saspes-content"
+        >
             <p style="font-size: 1.5em;">
                 Version: {{ version }}
             </p>
@@ -38,7 +45,7 @@
                     href="https://github.com/gary-kim/saspes/"
                     target="_blank"
                     @click="link_analytics"
-                >Project Website</a> |
+                >Website/Source Code</a> |
                 <a
                     href="https://github.com/gary-kim/saspes/blob/master/CHANGELOG.md"
                     class="saspes-link"
@@ -47,10 +54,10 @@
                 >Changelog</a> |
                 <a
                     class="saspes-link"
-                    href="https://github.com/gary-kim/saspes"
+                    href="https://github.com/gary-kim/saspes/issues"
                     target="_blank"
                     @click="link_analytics"
-                >Source Code</a> |
+                >Issue Tracker</a> |
                 <a
                     class="saspes-link"
                     href="https://github.com/gary-kim/saspes/blob/master/LICENSE"
@@ -61,7 +68,7 @@
                     id="login-extension-settings"
                     href="#"
                     @click.prevent="open_settings"
-                >Extension Options</a>
+                >Options</a>
             </p>
         </div>
     </div>
@@ -74,7 +81,8 @@ export default {
     data() {
         return {
             logo: browser.runtime.getURL("icons/128.png"),
-            version: browser.runtime.getManifest().version
+            version: EXTENSION_VERSION_NAME,
+            showInfo: false,
         };
     },
     methods: {
@@ -85,13 +93,17 @@ export default {
                 args: { url: href, extra: { link: href } }
             });
         },
+        toggleInfo() {
+            this.showInfo = !this.showInfo;
+            browser.storage.local.set({showExtensionInfo: this.showInfo});
+        },
         open_settings() {
             browser.runtime.sendMessage({ action: "open_settings" });
         }
     }
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
     #saspes-info {
         background-color: #FFF;
         box-shadow: 0 10px 20px rgba(0,0,0,0.4);
@@ -101,9 +113,22 @@ export default {
         padding: 0;
         font-size: inherit;
         color: #444444;
+
+        & > h3 {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+            user-select: none;
+            border-bottom: initial;
+        }
+
+        .arrow {
+            margin: 0 0 0 auto;
+        }
     }
     .saspes-content {
-        padding: 10px 20px 15px 20px;
+        padding: 0 20px 10px 20px;
     }
     .saspes-logo {
         height: 2em;
@@ -111,5 +136,25 @@ export default {
     }
     b {
         margin: initial !important;
+    }
+    .arrow {
+        vertical-align: middle;
+        transition-property: transform;
+        transition-duration: 0.2s;
+
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid grey;
+
+        &.arrow-left {
+            transform: rotate(270deg);
+        }
+
+        &.arrow-down {
+            transform: rotate(180deg);
+        }
+
     }
 </style>

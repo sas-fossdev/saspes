@@ -144,7 +144,13 @@ function class_page()	{
 }
 function login_page()   {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    new (Vue.extend(ExtensionInfo))().$mount('#saspes-info');
+    browser.storage.local.get({showExtensionInfo: true}).then(result => {
+        new (Vue.extend(ExtensionInfo))({
+            data: {
+                showInfo: result.showExtensionInfo
+            }
+        }).$mount('#saspes-info');
+    });
 }
 function fill_percent($fill_location,url_link,percents, pos_in_arr)    {
     if(!percent_main_page)  {

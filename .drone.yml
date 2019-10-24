@@ -10,6 +10,7 @@ steps:
   - name: firefox-build
     image: node:12
     commands:
+      - npm test
       - npm run clean
       - npm run webpack:build:firefox
       - npm run test:build

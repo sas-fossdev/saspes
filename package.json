@@ -4,7 +4,7 @@
   "description": "SAS Powerschool Enhancement Suite",
   "main": "index.js",
   "scripts": {
-    "test": "npx eslint --ext .js,.vue src",
+    "test": "npx eslint --ext .js,.vue src && npx ava",
     "test:build": "npx web-ext lint",
     "eslint": "npx eslint --ext .js,.vue src",
     "libraries": "yarn licenses --silent generate-disclaimer > libraries.txt",
@@ -29,6 +29,8 @@
   "homepage": "https://github.com/gary-kim/saspes#readme",
   "devDependencies": {
     "@babel/core": "^7.6.4",
+    "@babel/register": "^7.6.2",
+    "ava": "^2.4.0",
     "babel-loader": "^8.0.6",
     "chromedriver": "^77.0.0",
     "copy-webpack-plugin": "^5.0.4",
@@ -64,5 +66,13 @@
     "lint": {
       "selfHosted": true
     }
+  },
+  "ava": {
+    "files": [
+      "**/__tests__/*.js"
+    ],
+    "require": [
+      "@babel/register"
+    ]
   }
 }

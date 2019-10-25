@@ -69,7 +69,8 @@ function main() {
     }
 }
 function analytics_message(action_input) {
-    browser.runtime.sendMessage({action: "analytics_send", args: {url: window.location.href,action: action_input}});
+    let href = window.location.href.split("?")[0];
+    browser.runtime.sendMessage({action: "analytics_send", args: {url: href,action: action_input}});
 }
 function main_page()    {
     let student_name = document.querySelector('#userName').querySelector('span').innerText;

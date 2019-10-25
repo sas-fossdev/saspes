@@ -64,7 +64,7 @@ function message_recieve(message) {
 function analytics_send(arg)	{
     browser.storage.local.get({analytics: true, percent_main_page : true, save_grades_temp: true}).then(function(returned) {
         analytics.enabled = returned.analytics;
-        if(analytics.enabled || arg.override === true)   {
+        if(analytics.enabled)   {
             let cvar_json = JSON.stringify({"1":["version", version], "2": ["FP", returned.percent_main_page.toString()], "3":["Save Grades Temp", returned.save_grades_temp.toString()]});
             let send_info = {
                 'idsite': '4',

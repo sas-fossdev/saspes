@@ -22,12 +22,7 @@
 
 'use strict';
 
-const browser = require('webextension-polyfill');
 const getKeyRange = require('get-key-range');
-
-function analyticsMessage(action_input) {
-    browser.runtime.sendMessage({action: "analytics_send", args: {url: window.location.href,action: action_input}});
-}
 
 const grade_gpa = {
     'A+': 4.5,
@@ -129,7 +124,6 @@ function calculate_gpa(courses)    {
 }
 
 export {
-    analyticsMessage,
     gradeToFP,
     grade_fp,
     avaliableGrades,

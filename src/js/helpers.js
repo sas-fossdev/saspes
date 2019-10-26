@@ -77,7 +77,7 @@ const fprange = {
 };
 
 function fpToGrade(finalPercent) {
-    return getKeyRange(fprange, finalPercent);
+    return getKeyRange(fprange, parseFloat(parseFloat(finalPercent).toFixed(2)));
 }
 
 /**

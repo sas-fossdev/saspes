@@ -4,7 +4,7 @@
   "description": "SAS Powerschool Enhancement Suite",
   "main": "index.js",
   "scripts": {
-    "test": "npx eslint --ext .js,.vue src",
+    "test": "npx eslint --ext .js,.vue src && npx ava",
     "test:build": "npx web-ext lint",
     "eslint": "npx eslint --ext .js,.vue src",
     "libraries": "yarn licenses --silent generate-disclaimer > libraries.txt",
@@ -13,6 +13,8 @@
     "webpack:build:firefox": "npx webpack --progress --config webpack.firefox.js",
     "webpack:dev:firefox": "npx webpack --progress --watch --config webpack.firefox.dev.js",
     "webpack:dev:chromium": "npx webpack --progress --watch --config webpack.chromium.dev.js",
+    "integration:chromium": "npm run clean && npm run webpack:build:chromium && npm run package && npx nightwatch --env chromium",
+    "integration:firefox": "npm run clean && npm run webpack:build:firefox && npm run package && npx nightwatch --env firefox",
     "clean": "rm -r dist artifacts || true"
   },
   "repository": {
@@ -27,14 +29,20 @@
   "homepage": "https://github.com/gary-kim/saspes#readme",
   "devDependencies": {
     "@babel/core": "^7.6.4",
+    "@babel/register": "^7.6.2",
+    "ava": "^2.4.0",
     "babel-loader": "^8.0.6",
+    "chromedriver": "^77.0.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "eslint": "^6.5.1",
     "eslint-plugin-mocha": "^5.3.0",
     "eslint-plugin-vue": "^5.2.3",
+    "geckodriver": "^1.19.0",
+    "jszip": "^2.6.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "nightwatch": "^1.2.4",
     "rewire": "^4.0.1",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.1",
@@ -58,5 +66,13 @@
     "lint": {
       "selfHosted": true
     }
+  },
+  "ava": {
+    "files": [
+      "**/__tests__/*.js"
+    ],
+    "require": [
+      "@babel/register"
+    ]
   }
 }

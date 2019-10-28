@@ -41,7 +41,12 @@ const grade_gpa = {
  * @param {string} grade The grade to convert.
  * @returns {number} The corresponding grade point average.
  */
-const gradeToGPA = grade => grade_gpa[grade] || -1;
+function gradeToGPA(grade) {
+    if (grade in grade_gpa) {
+        return grade_gpa[grade];
+    }
+    return -1;
+}
 
 const grade_fp = {
     'A+': 90,
@@ -60,7 +65,12 @@ const grade_fp = {
  * @param {string} grade The grade to convert.
  * @returns {number} The corresponding final percent.
  */
-const gradeToFP = grade => grade_fp[grade] || -1;
+function gradeToFP(grade) {
+    if (grade in grade_fp) {
+        return grade_fp[grade];
+    }
+    return -1;
+}
 
 const avaliableGrades = ["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F"];
 

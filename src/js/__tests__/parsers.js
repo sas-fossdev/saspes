@@ -101,6 +101,18 @@ test('Grade to GPA without Weighting', t => {
         {
             i: "P",
             o: -1
+        },
+        {
+            i: "",
+            o: -1
+        },
+        {
+            i: "asdjfh",
+            o: -1
+        },
+        {
+            i: 182.2,
+            o: -1
         }
     ];
 
@@ -151,6 +163,18 @@ test('Grade to Final Percent', t => {
         },
         {
             i: "P",
+            o: -1
+        },
+        {
+            i: "",
+            o: -1
+        },
+        {
+            i: "asdjfh",
+            o: -1
+        },
+        {
+            i: 182.2,
             o: -1
         }
     ];

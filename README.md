@@ -2,7 +2,6 @@
     <img src="https://cdn.ydgkim.com/gschool/saspes/mainimage.png" alt="SAS Powerschool Enhancement Suite" height="200">
 </p>
 
-[![Build Status](https://img.shields.io/drone/build/gary-kim/saspes?server=https%3A%2F%2Fghdrone.garykim.dev)](https://ghdrone.garykim.dev/gary-kim/saspes)
 [![Build Status](https://api.travis-ci.com/gary-kim/saspes.svg?branch=master)](https://travis-ci.com/gary-kim/saspes)
 [![Firefox Addon](https://img.shields.io/badge/Firefox%20Addon-Download-brightgreen.svg)](https://github.com/gary-kim/saspes/releases)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ehnkngeidilnoabcjjimkomcggndbhnk.svg)](https://chrome.google.com/webstore/detail/sas-powerschool-enhanceme/ehnkngeidilnoabcjjimkomcggndbhnk)

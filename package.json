@@ -37,7 +37,7 @@
     "css-loader": "^3.2.0",
     "eslint": "^6.5.1",
     "eslint-plugin-vue": "^5.2.3",
-    "geckodriver": "^1.19.0",
+    "geckodriver": "^1.19.1",
     "jszip": "^2.6.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",

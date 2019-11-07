@@ -7,7 +7,7 @@
     "test": "npx eslint --ext .js,.vue src && npx ava",
     "test:build": "npx web-ext lint",
     "eslint": "npx eslint --ext .js,.vue src",
-    "libraries": "yarn licenses --silent generate-disclaimer > libraries.txt",
+    "libraries": "mkdir -p src/web_accessible_resources && yarn licenses --silent generate-disclaimer > src/web_accessible_resources/libraries.txt",
     "package": "npx web-ext build",
     "webpack:build:chromium": "npx webpack --progress --config webpack.chromium.js",
     "webpack:build:firefox": "npx webpack --progress --config webpack.firefox.js",

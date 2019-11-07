@@ -3,6 +3,7 @@ chromium_build.zip
 firefox_build.zip
 artifacts/
 dist/
+src/web_accessible_resources/libraries.txt
 
 # Node
 node_modules/

@@ -36,6 +36,7 @@ function main() {
         document.getElementById("analytics-id").innerText = returned.id;
         analyticsid = returned.id;
     });
+    document.getElementById("third-party-libraries").href = browser.extension.getURL("web_accessible_resources/libraries.txt");
     document.getElementById("analytics").addEventListener("click", function() {
         let value = document.getElementById("analytics").checked;
         if(!value)  {

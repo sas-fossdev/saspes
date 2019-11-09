@@ -22,12 +22,18 @@
  * 
  */
 
+const package = require('../package.json');
 
 module.exports = {
     "Show Extension Info": browser => {
         browser
             .url("https://powerschool.sas.edu.sg")
             .waitForElementVisible("#saspes-info")
-            .end();
+    },
+    "Extension Version Correct": browser => {
+        browser
+            .assert.containsText('#saspes-info', 'SAS Powerschool Enhancement Suite')
+            .assert.containsText("#saspes-info", `Version: ${package.version}`)
+            .end()
     }
 }

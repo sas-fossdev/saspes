@@ -85,6 +85,16 @@ For a new file, add this license header to the top of the file:
  */
 ```
 
+### Make a new release
+
+1. Ensure that all CI tests pass on the latest commit.
+2. Update the version number with `npm version [major|minor|patch] --no-git` and update the version name manually in [package.json](package.json).
+3. Run `npm ci` to install all dependencies for building from [package-lock.json](package-lock.json).
+4. Update [CHANGELOG.md](CHANGELOG.md) with the update changelog for the new version.
+5. Make a new git commit and tag with `git commit -S`,  `git tag VERSION -a`, add the new version name as the annotation, then run `git push origin VERSION`.
+6. Run `npm run clean`, `npm run webpack:build:firefox`, then `npm run package`. Upload the resulting package to [AMO](https://addons.mozilla.org/en-US/developers/addons) to have the extension signed. Upload the result into GitHub releases then update the update server to point to the new release.
+7. Run `npm run clean`, `npm run webpack:build:chromium`, then `npm run package`. Upload the resulting package to [CWS](https://chrome.google.com/webstore/developer/dashboard) to have the new version signed and released.
+
 ### Developer Certificate of Origin
 ```
 Developer Certificate of Origin

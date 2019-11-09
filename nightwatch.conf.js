@@ -24,7 +24,7 @@
 
 const fs = require('fs');
 const JSZip = require('jszip');
-const manifest = require('./src/manifest.json');
+const manifest = require('./dist/manifest.json');
 
 module.exports = {
     src_folders: ['tests'],
@@ -64,6 +64,9 @@ module.exports = {
 };
 
 function generateFirefoxProfile() {
+	if (!manifest.applications){
+		return;
+	}
 	const zip = new JSZip();
 	zip.file(`extensions/${manifest.applications.gecko.id}.xpi`, fs.readFileSync(`artifacts/sas_powerschool_enhancement_suite-${manifest.version}.zip`));
 	zip.file('prefs.js', 'user_pref("xpinstall.signatures.required", false);');

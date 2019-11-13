@@ -1,6 +1,8 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader')
+const { VueLoaderPlugin } = require('vue-loader');
+const webpack = require('webpack');
+const package = require('./package.json');
 
 module.exports = {
     entry: {
@@ -38,7 +40,10 @@ module.exports = {
         new CopyPlugin([
             { from: "src", to: '', ignore: ['*.js', 'js/**', 'manifest.json', 'manifest - chromium.json', '.eslintrc.json']}
         ]),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new webpack.DefinePlugin({
+            "EXTENSION_VERSION_NAME": JSON.stringify(package.version_name)
+        })
     ],
     resolve: {
         extensions: ['.js', '.vue']

@@ -48,7 +48,7 @@ Signed-off-by: Random J Developer <random@developer.example.org>
 
 ### Pull Request
 
-Once you fix an issue or add/improve a feature, make a pull request to this repository. Your pull request will be tested automatically, manually reviewed and, hopefully, get merged into the project and released as part of the next release. Your name will also be added to the changelog and to an `CONTRIBUTORS.md` file to credit your change.
+Once you fix an issue or add/improve a feature, make a pull request to this repository. Your pull request will be tested automatically, manually reviewed and, hopefully, get merged into the project and released as part of the next release. Your name will also be added to the changelog to credit your change. You should also add your name to the [AUTHORS](AUTHORS) file for your first commit to the repo.
 
 By making a contribution to SAS Powerschool Enhancement Suite, you provide a [AGPL-3.0-only](/LICENSE) license but you keep copyright ownership of your contribution.
 

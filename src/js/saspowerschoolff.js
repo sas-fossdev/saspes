@@ -1,13 +1,13 @@
 /**
- * 
+ *
  * @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
- * 
+ *
  * @author Gary Kim <gary@garykim.dev>
- * 
+ *
  * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, version 3.
  *
  * This program is distributed in the hope that it will be useful,
@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 
@@ -42,7 +42,7 @@ browser.storage.local.get({percent_main_page: true}).then(
 );
 main();
 function main() {
-    
+
     // Button on options page
     let $topright = $('ul#tools');
     if($topright.length === 0)  {
@@ -76,20 +76,36 @@ function main_page()    {
     let student_name = document.querySelector('#userName').querySelector('span').innerText;
     let second_semester = false;
     let courses = [];
-    let percents = [];
-    let $grade_rows = $('div#quickLookup table.grid').find('tr');
+    let $grade_rows = $('#quickLookup table.grid').find('tr');
+    let s1col = 0;
+    let s2col = 0;
+
     if($grade_rows.eq(1).html().match("S2") != null) {
         second_semester = true;
+        let curr = 0;
+        $grade_rows.eq(1).find('th').get().forEach(e => {
+            switch (e.innerText) {
+                case "S1":
+                    s1col = curr;
+                    break;
+                case "S2":
+                    s2col = curr;
+                    break;
+                default:
+                    break;
+            }
+            curr += parseInt(e.getAttribute('colspan')) || 1;
+        });
     }
     for(let i = 0; i < $grade_rows.length; i++)  {
         let $course;
         if(second_semester) {
-            // TODO: Currently not working after 2019 Powerschool update. Needs to be updated.
-            $course = $grade_rows.eq(i).children('td').eq(3).find("a[href^='scores.html?']");
-            let first_grade = $grade_rows.eq(i).children('td').eq(2).find(`a[href^='scores.html?']`);
-            if(first_grade.length === 1)    {
-                if(gradeToGPA(first_grade.text()) !== -1 )   {
-                    fill_percent(first_grade, `https://powerschool.sas.edu.sg/guardian/${first_grade.attr('href')}`, [0], 0);
+            let $cells = $grade_rows.eq(i).find('td');
+            $course = $cells.eq(s2col).find('a[href^="scores.html"]');
+            let $first_grade = $cells.eq(s1col).find('a[href^="scores.html"]');
+            if ($first_grade.length === 1) {
+                if(gradeToGPA($first_grade.text()) !== -1 )   {
+                    fill_percent($first_grade, `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, [0], 0);
                 }
             }
         } else {
@@ -107,7 +123,7 @@ function main_page()    {
                 fill_percent($course, "https://powerschool.sas.edu.sg/guardian/" + $course.attr('href'), courses[courses.length - 1], "fp");
             }
         }
-        
+
     }
     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester?'S2':'S1'}): ${calculate_gpa(courses)}</td></tr>`);
 

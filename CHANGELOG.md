@@ -1,5 +1,40 @@
 # Changelog
 
+## Open Beta 0.18.0 - 2019-12-20
+
+### Added
+
+* Add AUTHORS file ([@gary-kim](https://github.com/gary-kim)) [#58](https://github.com/gary-kim/saspes/pull/58)
+* Generate attributions during build process ([@gary-kim](https://github.com/gary-kim)) [#55](https://github.com/gary-kim/saspes/pull/55)
+* Add Ava Unit Testing ([@gary-kim](https://github.com/gary-kim)) [#25](https://github.com/gary-kim/saspes/pull/25)
+
+### Changed
+
+* Migrate HypoGrades to Vue ([@gary-kim](https://github.com/gary-kim)) [#16](https://github.com/gary-kim/saspes/pull/16)
+* Remove unnecessary analytics information ([@gary-kim](https://github.com/gary-kim)) [#37](https://github.com/gary-kim/saspes/pull/37)
+* Enhance Extension Info Pane ([@gary-kim](https://github.com/gary-kim)) [#28](https://github.com/gary-kim/saspes/pull/28)
+* Improved Version Management ([@gary-kim](https://github.com/gary-kim)) [#56](https://github.com/gary-kim/saspes/pull/56)
+
+### Fixed
+
+* Fix Incorrect GPA Conversion When Grade is F ([@gary-kim](https://github.com/gary-kim)) [#41](https://github.com/gary-kim/saspes/pull/41)
+* Fix Semester 2 Grade parsing ([@gary-kim](https://github.com/gary-kim)) [#69](https://github.com/gary-kim/saspes/pull/69)
+
+### Removed
+
+* Remove Drone OSS CI ([@gary-kim](https://github.com/gary-kim)) [#40](https://github.com/gary-kim/saspes/pull/40)
+
+### Dependencies
+
+* build(deps-dev): bump @babel/core from 7.6.0 to 7.6.4 [#32](https://github.com/gary-kim/saspes/pull/32)
+* build(deps-dev): bump eslint from 6.4.0 to 6.5.1 [#29](https://github.com/gary-kim/saspes/pull/29)
+* build(deps-dev): bump webextension-polyfill from 0.4.0 to 0.5.0 [#34](https://github.com/gary-kim/saspes/pull/34)
+* build(deps-dev): bump chromedriver from 77.0.0 to 78.0.1 [#45](https://github.com/gary-kim/saspes/pull/45)
+* build(deps-dev): bump geckodriver from 1.19.0 to 1.19.1 [#44](https://github.com/gary-kim/saspes/pull/44)
+* build(deps-dev): bump webpack from 4.40.2 to 4.41.2 [#30](https://github.com/gary-kim/saspes/pull/30)
+* build(deps): bump @babel/preset-env from 7.6.2 to 7.6.3 [#36](https://github.com/gary-kim/saspes/pull/36)
+
+
 ## Open Beta 0.1.7.2 - 2019-10-23
 
 GitHub is now the offical home for the SAS PES project.

@@ -1,8 +1,8 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const helpers = require('./webpack-helpers.js');
 const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
-const package = require('./package.json');
 
 module.exports = {
     entry: {
@@ -42,7 +42,8 @@ module.exports = {
         ]),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
-            "EXTENSION_VERSION_NAME": JSON.stringify(package.version_name)
+            "SASPES_VERSION_NAME": JSON.stringify(helpers.versionName()),
+            "SASPES_IS_OFFICIAL_RELEASE": helpers.isRelease(),
         })
     ],
     resolve: {

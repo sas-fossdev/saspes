@@ -1,28 +1,48 @@
 <template>
     <div id="saspes-hypo-assignment">
-        <h3>Hypothetical Assignment</h3>
-        <label for="saspes-assignment-effect">Effect of new assignment (currently):</label>
-        <input
-            id="saspes-assignment-effect"
-            v-model.number="assignment.weight"
-            type="number"
-            min="0"
-            max="100"
-            value="0"
-        >%
-        <label for="hypo-grade-select">Grade of new assignment: </label>
-        <select
-            id="hypo-grade-select"
-            v-model="assignment.grade"
-        >
-            <option
-                v-for="grade in gradeOptions"
-                :key="grade"
-                :value="grade"
-            >
-                {{ grade }}
-            </option>
-        </select>
+        <h3>Hypothetical Assignments/Exemptions</h3>
+        <label for="saspes-assignment-effect">Input hypothetical assingments and weightage for overall grade or an exemption of an existing assignment:</label>
+        <table style='width:50%;'>
+            <thead>
+                <th>Weight</th>
+                <th>Grade</th>
+                <th>Exemption?</th>
+            </thead>
+            <tr v-for="(content, index) in assignments">
+                <td>
+                    <input
+                        id="saspes-assignment-effect"
+                        v-model.number="content.weight"
+                        type="number"
+                        min="0"
+                        max="100"
+                        value="0"
+                    >%
+                </td>
+                <td>
+                    <select
+                        id="hypo-grade-select"
+                        v-model="content.grade"
+                    >
+                        <option
+                            v-for="grade in gradeOptions"
+                            :key="grade"
+                            :value="grade"
+                        >
+                            {{ grade }}
+                        </option>
+
+                    </select>
+                </td>
+                <td>
+                    <input type="checkbox" v-model="content.exempt"/>
+                </td>
+                <td>
+                    <button @click='removeAssignment(index)'>Remove</button>
+                </td>
+            </tr>
+        </table>
+        <button @click='addAssignment()'>Add Assignment</button>
         <br>
         <h4>Your grade with the selected assignment would be {{ hypo.grade }} with a final percent of {{ hypo.fp }}.</h4>
     </div>
@@ -39,15 +59,35 @@ export default {
         }
     },
     data: () => ({
-        assignment: {
-            weight: 0,
-            grade: 'B'
-        },
+        assignments: [
+            {weight: 0, grade: 'B', exempt: false}
+        ],
         gradeOptions: avaliableGrades
     }),
+    methods: {
+        addAssignment: function() {
+            this.assignments.push({weight: 0, grade: 'B', exempt: false});
+        },
+        removeAssignment: function(n){
+            this.assignments.splice(n,1);
+        }
+    },
     computed: {
         hypo() {
-            let new_fp = this.assignment.weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
+            let total_percent = 0;
+            let new_fp = 0;
+            let exempt_percent = 0;
+            let exempt_score = 0;
+            for(var i = 0; i < this.assignments.length; i++){
+                if(this.assignments[i].exempt){
+                    exempt_percent += this.assignments[i].weight * 0.01;
+                    exempt_score += this.assignments[i].weight * 0.01 * gradeToFP(this.assignments[i].grade);
+                }else{
+                    total_percent += this.assignments[i].weight * 0.01;
+                    new_fp += this.assignments[i].weight * 0.01 * gradeToFP(this.assignments[i].grade);
+                }
+            }
+            new_fp += (1 - total_percent) * (this.currentFP - exempt_score)/(1 - exempt_percent);
             return {
                 fp: new_fp.toFixed(2),
                 grade: fpToGrade(new_fp)

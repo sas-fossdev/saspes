@@ -54,34 +54,34 @@ By making a contribution to SAS Powerschool Enhancement Suite, you provide a [AG
 
 ### License Header
 
-If you modify an exisiting file, add your copyright notice to the file. Something like this:
+If you modify an existing file, add your copyright notice to the file. Something like this:
 ```
 @copyright Copyright (c) <year> <your name> <<your email address>>
 ```
 For a new file, add this license header to the top of the file:
 ```
 /**
- * 
+ *
  * @copyright Copyright (c) <year> <your name> <<your email address>>
- * 
+ *
  * @author <your name> <<your email address>>
  *
- * @license GNU AGPL version 3
+ * @license GNU AGPL version 3 only
  *
  * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  */
 ```
 
@@ -89,7 +89,7 @@ For a new file, add this license header to the top of the file:
 
 1. Ensure that all CI tests pass on the latest commit.
 2. Update the version number with `npm version [major|minor|patch] --no-git` and update the version name manually in [package.json](package.json).
-3. Run [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator) with `--since-tag <LAST VERSION> --future-release <NEW VERSION>` and take the resulting generated changelog and adjust it to our changelog style. Add this to the [CHANGELOG.md](CHANGELOG.md) file and make a PR for the new version. Wait until this PR gets merged (unlike other PRs, this PR should be merged with `--ff-only` rather then a merge commit).
+3. Run [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator) with `--since-tag <LAST VERSION> --future-release <NEW VERSION>` and take the resulting generated changelog and adjust it to our changelog style. Add this to the [CHANGELOG.md](CHANGELOG.md) file and make a PR for the new version. Wait until this PR gets merged (unlike other PRs, this PR should be merged with `--ff-only` rather then a merge commit). ([gary-kim/gcg-fork](https://github.com/gary-kim/gcg-fork) has a patch for making the changelog in SASPES's style)
 4. Run `npm ci` to install all dependencies for building from [package-lock.json](package-lock.json).
 5. Update [CHANGELOG.md](CHANGELOG.md) with the update changelog for the new version.
 6. Make a new git commit and tag with `git commit -S`,  `git tag VERSION -a`, add the new version name as the annotation, then run `git push origin VERSION`.

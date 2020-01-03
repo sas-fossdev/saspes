@@ -1,18 +1,20 @@
 <!--
  - @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
- - 
+ -
  - @author Gary Kim <gary@garykim.dev>
- - 
+ -
+ - @license GNU AGPL version 3 only
+ -
  - SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
  -
  - This program is free software: you can redistribute it and/or modify
- - it under the terms of the GNU Affero General Public License as 
+ - it under the terms of the GNU Affero General Public License as
  - published by the Free Software Foundation, version 3.
  -
  - This program is distributed in the hope that it will be useful,
  - but WITHOUT ANY WARRANTY; without even the implied warranty of
  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- - GNU General Public License for more details.
+ - GNU Affero General Public License for more details.
  -
  - You should have received a copy of the GNU Affero General Public License
  - along with this program.  If not, see <https://www.gnu.org/licenses/>.
@@ -31,7 +33,7 @@
                 class="hypo-grade-open"
                 @click="toggleOpen"
             >
-                <div 
+                <div
                     id="hypo-arrow"
                     class="arrow"
                     :class="{ 'arrow-left': !opened, 'arrow-right': opened }"
@@ -43,7 +45,7 @@
             >
                 <table id="hypo-table">
                     <br>
-                    <tr 
+                    <tr
                         v-for="course in courses"
                         :key="course.name"
                     >
@@ -52,11 +54,11 @@
                                 :href="course.link"
                                 target="_blank"
                             >
-                                {{ course.name }}: 
+                                {{ course.name }}:
                             </a>
                         </td>
                         <td>
-                            <select 
+                            <select
                                 v-model="course.grade"
                                 class="hypo-grade-select"
                             >
@@ -85,43 +87,43 @@ export default {
     props: {
         initialCourses: {
             type: Array,
-            required: true
-        }
+            required: true,
+        },
     },
     data: () => ({
         courses: [
             {
                 name: "Course 1",
                 link: "/course",
-                grade: "B"
-            }
+                grade: "B",
+            },
         ],
         gradeOptions: [...avaliableGrades, ""],
         opened: false,
-        width: 10000
+        width: 10000,
     }),
     computed: {
-        hypo() {
+        hypo () {
             return calculate_gpa(this.courses);
-        }
+        },
     },
-    beforeMount() {
+    beforeMount () {
         this.resetData();
     },
-    mounted() {
+    mounted () {
         this.width = this.$refs.panel.offsetWidth + 1;
     },
     methods: {
-        toggleOpen() {
+        toggleOpen () {
             this.opened = !this.opened;
             if (!this.opened) {
                 this.resetData();
             }
         },
-        resetData() {
+        resetData () {
             this.courses = JSON.parse(JSON.stringify(this.initialCourses));
-        }
-    }
+        },
+    },
 };
 </script>
 <style lang="less" scoped>
@@ -169,7 +171,6 @@ export default {
             box-shadow: 3px 8px 20px 0 rgba(0,0,0,0.2);
         }
     }
-
 
 }
 .hypo-grade-panel    {

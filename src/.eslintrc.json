@@ -7,6 +7,7 @@
     },
     "extends": [
         "eslint:recommended",
+        "standard",
         "plugin:vue/essential",
         "plugin:vue/recommended"
     ],
@@ -43,6 +44,28 @@
         ],
         "no-console": [
             "warn"
+        ],
+        "import/first": [
+            "off"
+        ],
+        "camelcase": [
+            "off"
+        ],
+        "quotes": [
+            "off"
+        ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "always-multiline",
+                "objects": "always-multiline",
+                "imports": "always-multiline",
+                "exports": "always-multiline",
+                "functions": "always-multiline"
+            }
+        ],
+        "quote-props": [
+            "off"
         ]
     }
 }

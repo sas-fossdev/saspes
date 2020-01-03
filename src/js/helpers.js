@@ -1,23 +1,25 @@
 /**
- * 
- * @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
- * 
+ *
+ * @copyright Copyright (c) 2018-2020 Gary Kim <gary@garykim.dev>
+ *
  * @author Gary Kim <gary@garykim.dev>
- * 
+ *
+ * @license GNU AGPL version 3 only
+ *
  * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 'use strict';
@@ -33,7 +35,7 @@ const grade_gpa = {
     'C': 2.0,
     'D+': 1.5,
     'D': 1.0,
-    'F': 0.0
+    'F': 0.0,
 };
 
 /**
@@ -41,7 +43,7 @@ const grade_gpa = {
  * @param {string} grade The grade to convert.
  * @returns {number} The corresponding grade point average.
  */
-function gradeToGPA(grade) {
+function gradeToGPA (grade) {
     if (grade in grade_gpa) {
         return grade_gpa[grade];
     }
@@ -57,7 +59,7 @@ const grade_fp = {
     'C': 40,
     'D+': 30,
     'D': 20,
-    'F': 10
+    'F': 10,
 };
 
 /**
@@ -65,7 +67,7 @@ const grade_fp = {
  * @param {string} grade The grade to convert.
  * @returns {number} The corresponding final percent.
  */
-function gradeToFP(grade) {
+function gradeToFP (grade) {
     if (grade in grade_fp) {
         return grade_fp[grade];
     }
@@ -83,10 +85,10 @@ const fprange = {
     '35-45': 'C',
     '25-35': 'D+',
     '15-25': 'D',
-    '0-15': 'F'
+    '0-15': 'F',
 };
 
-function fpToGrade(finalPercent) {
+function fpToGrade (finalPercent) {
     return getKeyRange(fprange, parseFloat(parseFloat(finalPercent).toFixed(2)));
 }
 
@@ -95,36 +97,36 @@ function fpToGrade(finalPercent) {
  * @param {Object[]} courses The courses for which the overall grade point average should be calculated.
  * @returns {string} The grade point average to the hundredth place.
  */
-function calculate_gpa(courses)    {
+function calculate_gpa (courses) {
     let courses_with_grades = 0;
     let sum = 0;
-    for(var i = 0; i < courses.length; i++)  {
-        if(gradeToGPA(courses[i].grade) !== -1)  {
-            let multiplier = total_add(courses[i].name);
+    for (var i = 0; i < courses.length; i++) {
+        if (gradeToGPA(courses[i].grade) !== -1) {
+            const multiplier = total_add(courses[i].name);
             courses_with_grades += multiplier;
             sum += multiplier * (gradeToGPA(courses[i].grade) + course_boost(courses[i].name, courses[i].grade));
         }
     }
-    if(courses_with_grades === 0) {
+    if (courses_with_grades === 0) {
         return '0.00';
     }
-    return (sum/courses_with_grades).toFixed(2);
-    function total_add(course_name) {
-        let double_effect_courses = [`English 10/American History`,`English 9/World History`];
-        if(double_effect_courses.indexOf(course_name) != -1)     {
+    return (sum / courses_with_grades).toFixed(2);
+    function total_add (course_name) {
+        const double_effect_courses = [`English 10/American History`, `English 9/World History`];
+        if (double_effect_courses.includes(course_name)) {
             return 2;
         }
-        if(/^(I Service: |IS: )/.test(course_name))   {
+        if (/^(I Service: |IS: )/.test(course_name)) {
             return 0.5;
         }
         return 1;
     }
-    function course_boost(course_name, grade)  {
-        if(gradeToGPA(grade) < 1.8)  {
+    function course_boost (course_name, grade) {
+        if (gradeToGPA(grade) < 1.8) {
             return 0;
         }
-        if(/^(AP |AT )/.test(course_name) )    {
-            if(course_name.substring(course_name.length - 1) === '.')   {
+        if (/^(AP |AT )/.test(course_name)) {
+            if (course_name.substring(course_name.length - 1) === '.') {
                 return 0.25;
             }
             return 0.5;
@@ -140,5 +142,5 @@ export {
     fprange,
     fpToGrade,
     gradeToGPA,
-    calculate_gpa
+    calculate_gpa,
 };

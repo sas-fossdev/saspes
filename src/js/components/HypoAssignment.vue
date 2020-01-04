@@ -1,14 +1,15 @@
+
 <template>
     <div id="saspes-hypo-assignment">
         <h3>Hypothetical Assignments/Exemptions</h3>
         <label for="saspes-assignment-effect">Input hypothetical assingments and weightage for overall grade or an exemption of an existing assignment:</label>
-        <table style='width:50%;'>
+        <table style="width:50%;">
             <thead>
                 <th>Weight</th>
                 <th>Grade</th>
                 <th>Exemption?</th>
             </thead>
-            <tr v-for="(content, index) in assignments">
+            <tr v-for="index in assignments" v-bind:key="content>
                 <td>
                     <input
                         id="saspes-assignment-effect"
@@ -31,18 +32,19 @@
                         >
                             {{ grade }}
                         </option>
-
                     </select>
                 </td>
                 <td>
-                    <input type="checkbox" v-model="content.exempt"/>
+                    <input v-model="content.exempt" type="checkbox" >
                 </td>
                 <td>
-                    <button @click='removeAssignment(index)'>Remove</button>
+                    <button @click="removeAssignment(index)">Remove</button>
                 </td>
             </tr>
         </table>
-        <button @click='addAssignment()'>Add Assignment</button>
+        <button @click="addAssignment()">
+            Add Assignment
+        </button>
         <br>
         <h4>Your grade with the selected assignment would be {{ hypo.grade }} with a final percent of {{ hypo.fp }}.</h4>
     </div>
@@ -64,14 +66,6 @@ export default {
         ],
         gradeOptions: avaliableGrades
     }),
-    methods: {
-        addAssignment: function() {
-            this.assignments.push({weight: 0, grade: 'B', exempt: false});
-        },
-        removeAssignment: function(n){
-            this.assignments.splice(n,1);
-        }
-    },
     computed: {
         hypo() {
             let total_percent = 0;
@@ -92,6 +86,14 @@ export default {
                 fp: new_fp.toFixed(2),
                 grade: fpToGrade(new_fp)
             };
+        }
+    },
+    methods: {
+        addAssignment: function() {
+            this.assignments.push({weight: 0, grade: 'B', exempt: false});
+        },
+        removeAssignment: function(n){
+            this.assignments.splice(n,1);
         }
     }
 };

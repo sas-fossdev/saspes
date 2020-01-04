@@ -1,6 +1,6 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const helpers = require('./webpack.helpers.js');
+const helpers = require('./webpack-helpers.js');
 const CopyPlugin = require('copy-webpack-plugin');
 const package = require('./package.json');
 const path = require('path');

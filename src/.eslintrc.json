@@ -13,7 +13,8 @@
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly",
-        "EXTENSION_VERSION_NAME": true
+        "SASPES_VERSION_NAME": true,
+        "SASPES_IS_OFFICIAL_RELEASE": true
     },
     "parserOptions": {
         "parser": "babel-eslint",

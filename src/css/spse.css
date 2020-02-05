@@ -1,4 +1,4 @@
-.tooltip.saspe .tooltiptext.saspe {
+.tooltip.saspes .tooltiptext.saspes {
     visibility: hidden;
     background-color: black;
     width: 120px;
@@ -11,10 +11,10 @@
     top: -95px;
     left: -5px;
 }
-.tooltip.saspe:hover .tooltiptext.saspe {
+.tooltip.saspes:hover .tooltiptext.saspes {
     visibility: visible;
 }
-.tooltip.saspe  {
+.tooltip.saspes  {
     cursor: default;
     position: relative;
     display: inline-block;

@@ -135,6 +135,27 @@ function calculate_gpa (courses) {
     }
 }
 
+/**
+ * Extract the final percent from the course page html.
+ * @param {String} html course page html
+ * @returns {Number|undefined} The final percent
+ */
+function extractFinalPercent (html) {
+    let number;
+    try {
+        let current_string = html.match(/(?=document\.write).*/g)[1];
+        current_string = /\[.*\]/g.exec(current_string)[0].slice(1, -1);
+        const temp = current_string.split(";");
+        number = Math.max(isNaN(temp[temp.length - 2]) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(temp[temp.length - 1]) ? -Infinity : parseFloat(temp[temp.length - 1]));
+    } catch (e) {
+        return;
+    }
+    if (number === -Infinity) {
+        return;
+    }
+    return number;
+}
+
 export {
     gradeToFP,
     grade_fp,
@@ -143,4 +164,5 @@ export {
     fpToGrade,
     gradeToGPA,
     calculate_gpa,
+    extractFinalPercent,
 };

@@ -1,5 +1,43 @@
 # Changelog
 
+## [Open Beta 0.18.1](https://github.com/gary-kim/saspes/tree/v0.18.1)- 2020-02-06
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.18.0...v0.18.1)
+
+### Changed
+
+- Add configuration for github\_changelog\_generator [\#100](https://github.com/gary-kim/saspes/pull/100) ([@gary-kim](https://github.com/gary-kim))
+- Add .github files [\#83](https://github.com/gary-kim/saspes/pull/83) ([@gary-kim](https://github.com/gary-kim))
+- Make version name indicate in-development versions [\#82](https://github.com/gary-kim/saspes/pull/82) ([@gary-kim](https://github.com/gary-kim))
+
+### Security
+
+- build\(deps\): \[security\] bump https-proxy-agent from 2.2.2 to 2.2.4 [\#59](https://github.com/gary-kim/saspes/pull/59) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+### Dependencies
+
+- build\(deps-dev\): bump chromedriver from 78.0.1 to 79.0.2 [\#96](https://github.com/gary-kim/saspes/pull/96) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps\): bump @babel/preset-env from 7.7.7 to 7.8.4 [\#95](https://github.com/gary-kim/saspes/pull/95) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump @babel/core from 7.7.7 to 7.8.4 [\#94](https://github.com/gary-kim/saspes/pull/94) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump css-loader from 3.4.0 to 3.4.2 [\#93](https://github.com/gary-kim/saspes/pull/93) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump nightwatch from 1.3.2 to 1.3.4 [\#92](https://github.com/gary-kim/saspes/pull/92) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump @babel/register from 7.7.7 to 7.8.3 [\#91](https://github.com/gary-kim/saspes/pull/91) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump eslint-plugin-vue from 6.1.1 to 6.1.2 [\#87](https://github.com/gary-kim/saspes/pull/87) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump vue and vue-template-compiler [\#86](https://github.com/gary-kim/saspes/pull/86) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump nightwatch from 1.2.4 to 1.3.2 [\#85](https://github.com/gary-kim/saspes/pull/85) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump webpack from 4.41.2 to 4.41.5 [\#84](https://github.com/gary-kim/saspes/pull/84) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump eslint-plugin-vue from 5.2.3 to 6.1.1 [\#81](https://github.com/gary-kim/saspes/pull/81) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump eslint from 6.5.1 to 6.8.0 [\#80](https://github.com/gary-kim/saspes/pull/80) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump @babel/core from 7.6.4 to 7.7.7 [\#79](https://github.com/gary-kim/saspes/pull/79) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps\): bump @babel/preset-env from 7.6.3 to 7.7.7 [\#77](https://github.com/gary-kim/saspes/pull/77) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump webextension-polyfill from 0.5.0 to 0.6.0 [\#76](https://github.com/gary-kim/saspes/pull/76) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump @babel/register from 7.6.2 to 7.7.7 [\#75](https://github.com/gary-kim/saspes/pull/75) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump css-loader from 3.2.0 to 3.4.0 [\#74](https://github.com/gary-kim/saspes/pull/74) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump vue-loader from 15.7.2 to 15.8.3 [\#73](https://github.com/gary-kim/saspes/pull/73) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump copy-webpack-plugin from 5.0.4 to 5.1.1 [\#68](https://github.com/gary-kim/saspes/pull/68) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump vue-loader from 15.7.1 to 15.7.2 [\#47](https://github.com/gary-kim/saspes/pull/47) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump webpack-cli from 3.3.9 to 3.3.10 [\#46](https://github.com/gary-kim/saspes/pull/46) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## Open Beta 0.18.0 - 2019-12-20
 
 ### Added

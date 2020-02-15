@@ -1,3 +1,25 @@
+<!--
+ - @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
+ -
+ - @author Gary Kim <gary@garykim.dev>
+ -
+ - @license GNU AGPL version 3 only
+ -
+ - SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU Affero General Public License as
+ - published by the Free Software Foundation, version 3.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ - GNU Affero General Public License for more details.
+ -
+ - You should have received a copy of the GNU Affero General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ -->
+
 <template>
     <div id="saspes-hypo-assignment">
         <h3>Hypothetical Assignment</h3>
@@ -35,25 +57,25 @@ export default {
     props: {
         currentFP: {
             type: Number,
-            required: true
-        }
+            required: true,
+        },
     },
     data: () => ({
         assignment: {
             weight: 0,
-            grade: 'B'
+            grade: 'B',
         },
-        gradeOptions: avaliableGrades
+        gradeOptions: avaliableGrades,
     }),
     computed: {
-        hypo() {
-            let new_fp = this.assignment.weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
+        hypo () {
+            const new_fp = this.assignment.weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
             return {
                 fp: new_fp.toFixed(2),
-                grade: fpToGrade(new_fp)
+                grade: fpToGrade(new_fp),
             };
-        }
-    }
+        },
+    },
 };
 </script>
 <style lang="less" scoped>
@@ -88,4 +110,3 @@ export default {
 }
 
 </style>
-

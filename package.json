@@ -55,7 +55,7 @@
     "vue": "^2.6.11",
     "vue-loader": "^15.8.3",
     "vue-template-compiler": "^2.6.11",
-    "web-ext": "^4.0.0",
+    "web-ext": "^4.1.0",
     "webextension-polyfill": "^0.6.0",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",

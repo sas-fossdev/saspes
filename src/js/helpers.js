@@ -24,6 +24,8 @@
 
 'use strict';
 
+import Assignment from "./models/Assignment";
+
 const getKeyRange = require('get-key-range');
 
 const grade_gpa = {
@@ -94,7 +96,7 @@ function fpToGrade (finalPercent) {
 
 /**
  * Calculates the grade point average with the given courses.
- * @param {Object[]} courses The courses for which the overall grade point average should be calculated.
+ * @param {Course[]} courses The courses for which the overall grade point average should be calculated.
  * @returns {string} The grade point average to the hundredth place.
  */
 function calculate_gpa (courses) {
@@ -153,6 +155,25 @@ function extractFinalPercent (html) {
     return number;
 }
 
+/**
+ * Return Assignment instances for the given class page.
+ * @param {Element} node Root node element of the class page.
+ * @returns {Assignment[]} Assignments in this course
+ */
+function assignments (node) {
+    const tr = [];
+    // Find assignments table, get it's rows, take out the header and legend rows.
+    [...node.querySelector('table[align=center').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
+        const curr = e.querySelectorAll('td');
+        const assignment = new Assignment(curr[2].innerText, curr[curr.length - 1].innerText, i);
+        if (e.querySelector('img[src="/images/icon_missing.gif"]')) {
+            assignment.addStatus(Assignment.statuses.MISSING);
+        }
+        tr.push(assignment);
+    });
+    return tr;
+}
+
 export {
     gradeToFP,
     grade_fp,
@@ -162,4 +183,5 @@ export {
     gradeToGPA,
     calculate_gpa,
     extractFinalPercent,
+    assignments,
 };

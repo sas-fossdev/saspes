@@ -27,7 +27,7 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { calculate_gpa, gradeToGPA } from './helpers';
+import { calculate_gpa, extractFinalPercent, gradeToGPA } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -139,15 +139,11 @@ function main_page () {
 }
 function class_page () {
     // Show final percent
-    let current_string = $("table.linkDescList").html();
-    current_string = current_string.match(/(?=document\.write).*/g)[1];
-    current_string = /\[.*\]/g.exec(current_string)[0].slice(1, -1);
-    const temp = current_string.split(";");
-    const number = Math.max(isNaN(temp[temp.length - 2]) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(temp[temp.length - 1]) ? -Infinity : parseFloat(temp[temp.length - 1]));
-    if (number === -Infinity) {
+    const number = extractFinalPercent($("table.linkDescList").html());
+    if (!number) {
         return;
     }
-    document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + parseFloat(number).toFixed(2) + ` <div class="tooltip saspe">&#9432;<span class="tooltiptext saspe">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
+    document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
     document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
     new (Vue.extend(HypoAssignment))({
@@ -173,12 +169,8 @@ function fill_percent ($fill_location, url_link, percents, pos_in_arr) {
     $.ajax({
         url: url_link,
     }).done(function (data) {
-        let current_string = data;
-        current_string = current_string.match(/(?=document\.write).*/g)[1];
-        current_string = /\[.*\]/g.exec(current_string)[0].slice(1, -1);
-        const temp = current_string.split(";");
-        const final_percent = Math.max(isNaN(temp[temp.length - 2]) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(temp[temp.length - 1]) ? -Infinity : parseFloat(temp[temp.length - 1]));
-        if (final_percent === -Infinity) {
+        const final_percent = extractFinalPercent(data);
+        if (!final_percent) {
             percents[pos_in_arr] = -1;
             return;
         }

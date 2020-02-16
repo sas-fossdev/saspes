@@ -186,3 +186,94 @@ test('Grade to Final Percent', t => {
         t.is(helpers.gradeToFP(tc.i), tc.o, `Convert ${tc.i} to Final Percent`);
     });
 });
+
+test('Extract Final Percent from Class Page', t => {
+    const test_cases = [
+        {
+            i: "<tbody><tr>\n" +
+                "            \t<td><strong>Final\n" +
+                "                        Letter Grade<sup>1</sup>:</strong></td><td>A</td>\n" +
+                "            </tr>\n" +
+                "\t\t\t<!-- \n" +
+                "            <tr>\n" +
+                "                [if.1=0]<td><strong>\n" +
+                "                        Final Percent:\n" +
+                "                        </strong></td>\n" +
+                "                 <td>\n" +
+                "                        <script type=\"text/javascript\">\n" +
+                "                            if (\"A\" == \"--\") {\n" +
+                "                                document.write(\"&nbsp;\");\n" +
+                "                            }\n" +
+                "                            else {\n" +
+                "                                document.write(\"[decode;004887413;031@;.;81.25] &nbsp;\");\n" +
+                "                            }\n" +
+                "                        </script>\n" +
+                "\t\t\t\t</td>\n" +
+                "\t\t\t\t[/if]\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t-->\t\n" +
+                "                        </tbody>",
+            o: 81.25,
+        },
+        {
+            i: "<table class=\"linkDescList\">\n" +
+                "            <colgroup><col><col></colgroup>\n" +
+                "            <tbody><tr>\n" +
+                "            \t<td><strong>Final\n" +
+                "                        Letter Grade<sup>1</sup>:</strong></td><td>_</td>\n" +
+                "            </tr>\n" +
+                "\t\t\t<!-- \n" +
+                "            <tr>\n" +
+                "                [if.1=0]<td><strong>\n" +
+                "                        Final Percent:\n" +
+                "                        </strong></td>\n" +
+                "                 <td>\n" +
+                "                        <script type=\"text/javascript\">\n" +
+                "                            if (\"_\" == \"--\") {\n" +
+                "                                document.write(\"&nbsp;\");\n" +
+                "                            }\n" +
+                "                            else {\n" +
+                "                                document.write(\"[decode;004888554;031@;.;_] &nbsp;\");\n" +
+                "                            }\n" +
+                "                        </script>\n" +
+                "\t\t\t\t</td>\n" +
+                "\t\t\t\t[/if]\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t-->\t\n" +
+                "                        </tbody></table>",
+            o: undefined,
+        },
+        {
+            i: "<tbody><tr>\n" +
+                "            \t<td><strong>Final\n" +
+                "                        Letter Grade<sup>1</sup>:</strong></td><td>A</td>\n" +
+                "            </tr>\n" +
+                "\t\t\t<!-- \n" +
+                "            <tr>\n" +
+                "                [if.1=0]<td><strong>\n" +
+                "                        Final Percent:\n" +
+                "                        </strong></td>\n" +
+                "                 <td>\n" +
+                "                        <script type=\"text/javascript\">\n" +
+                "                            if (\"A\" == \"--\") {\n" +
+                "                                document.write(\"&nbsp;\");\n" +
+                "                            }\n" +
+                "                            else {\n" +
+                "                                document.write(\"[decode;004925338;031@;.;75] &nbsp;\");\n" +
+                "                            }\n" +
+                "                        </script>\n" +
+                "\t\t\t\t</td>\n" +
+                "\t\t\t\t[/if]\n" +
+                "\t\t\t</tr>\n" +
+                "\t\t\t-->\t\n" +
+                "                        </tbody>",
+            o: 75,
+        },
+    ];
+
+    t.plan(test_cases.length);
+
+    test_cases.forEach((tc, i) => {
+        t.is(helpers.extractFinalPercent(tc.i), tc.o, `Convert to Final Percent, test case ${i + 1}`);
+    });
+});

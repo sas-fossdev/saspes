@@ -55,10 +55,6 @@ function main () {
         const href = event.currentTarget.getAttribute('href');
         browser.runtime.sendMessage({ action: "analytics_send", args: { url: href, extra: { link: href } } });
     });
-    document.getElementById("website-link").addEventListener("click", (event) => {
-        const href = event.currentTarget.getAttribute('href');
-        browser.runtime.sendMessage({ action: "analytics_send", args: { url: href, extra: { link: href } } });
-    });
     document.getElementById("copy-analytics-id").addEventListener("click", (event) => {
         const target = event.currentTarget;
         if (target.getAttribute("attr-pressed")) {

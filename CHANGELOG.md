@@ -1,6 +1,33 @@
 # Changelog
 
-## [Open Beta 0.18.1](https://github.com/gary-kim/saspes/tree/v0.18.1)- 2020-02-06
+## [Open Beta 0.18.2](https://github.com/gary-kim/saspes/tree/v0.18.2) - 2020-02-29
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.18.1...v0.18.2)
+
+### Changed
+
+- Update AUTHORS [\#116](https://github.com/gary-kim/saspes/pull/116) ([@insertcustomname](https://github.com/insertcustomname))
+- Add @gary-kim for Github Sponsors [\#111](https://github.com/gary-kim/saspes/pull/111) ([@gary-kim](https://github.com/gary-kim))
+- Move final percent extract to a function [\#99](https://github.com/gary-kim/saspes/pull/99) ([@gary-kim](https://github.com/gary-kim))
+- Make ESLint far more picky [\#90](https://github.com/gary-kim/saspes/pull/90) ([@gary-kim](https://github.com/gary-kim))
+
+### Fixed
+
+- Remove 0.25 weighting [\#115](https://github.com/gary-kim/saspes/pull/115) ([@insertcustomname](https://github.com/insertcustomname))
+- Fix options page can't find id error [\#113](https://github.com/gary-kim/saspes/pull/113) ([@gary-kim](https://github.com/gary-kim))
+
+### Dependencies
+
+- build\(deps-dev\): bump web-ext from 4.0.0 to 4.1.0 [\#110](https://github.com/gary-kim/saspes/pull/110) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump less from 3.10.3 to 3.11.1 [\#109](https://github.com/gary-kim/saspes/pull/109) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump vue-loader from 15.8.3 to 15.9.0 [\#108](https://github.com/gary-kim/saspes/pull/108) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump ava from 3.2.0 to 3.3.0 [\#107](https://github.com/gary-kim/saspes/pull/107) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump webpack from 4.41.5 to 4.41.6 [\#106](https://github.com/gary-kim/saspes/pull/106) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump webpack-cli from 3.3.10 to 3.3.11 [\#105](https://github.com/gary-kim/saspes/pull/105) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump chromedriver from 79.0.2 to 80.0.1 [\#104](https://github.com/gary-kim/saspes/pull/104) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump ava from 2.4.0 to 3.2.0 [\#98](https://github.com/gary-kim/saspes/pull/98) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [Open Beta 0.18.1](https://github.com/gary-kim/saspes/tree/v0.18.1) - 2020-02-06
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.18.0...v0.18.1)
 

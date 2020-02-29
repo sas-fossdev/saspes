@@ -126,9 +126,6 @@ function calculate_gpa (courses) {
             return 0;
         }
         if (/^(AP |AT )/.test(course_name)) {
-            if (course_name.substring(course_name.length - 1) === '.') {
-                return 0.25;
-            }
             return 0.5;
         }
         return 0;

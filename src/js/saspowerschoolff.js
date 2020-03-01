@@ -109,7 +109,7 @@ function main_page () {
             el.innerHTML = data;
             element_list = el.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
             element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-            if (element_list.length>2) {
+            if (element_list.length > 2) {
                 for (let i = 2; i < element_list.length; i++) {
                     const $prev_course = element_list[i];
                     courses_first_semester.push({
@@ -121,8 +121,8 @@ function main_page () {
                     });
                 }
                 $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
-            } 
-        })
+            }
+        });
     }
     for (let i = 0; i < $grade_rows.length; i++) {
         let $course;

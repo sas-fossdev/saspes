@@ -99,30 +99,30 @@ function main_page () {
         });
     }
     if (second_semester) {
-        $.ajax({
+        fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
+            .then((response) => {
+                return response.text();
+            })
+            .then((data) => {
+                const el = document.createElement("html");
+                let element_list = [];
+                el.innerHTML = data;
+                element_list = el.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
+                element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+                if (element_list.length > 2) {
+                    for (let i = 2; i < element_list.length; i++) {
+                        const $prev_course = element_list[i];
+                        courses_first_semester.push({
+                            name: $prev_course.getElementsByTagName("td")[0].textContent.trim(),
+                            grade: $prev_course.getElementsByTagName("td")[1].textContent.trim(),
+                            link: $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
+                            fp: -1,
 
-            url: "https://powerschool.sas.edu.sg/guardian/termgrades.html",
-
-        }).done(function (data) {
-            const el = document.createElement("html");
-            let element_list = [];
-            el.innerHTML = data;
-            element_list = el.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
-            element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-            if (element_list.length > 2) {
-                for (let i = 2; i < element_list.length; i++) {
-                    const $prev_course = element_list[i];
-                    courses_first_semester.push({
-                        name: $prev_course.getElementsByTagName("td")[0].textContent.trim(),
-                        grade: $prev_course.getElementsByTagName("td")[1].textContent.trim(),
-                        link: $prev_course.getElementsByTagName("td")[2].innerHTML.trim().split('href="')[1].split("&amp")[0],
-                        fp: -1,
-
-                    });
+                        });
+                    }
+                    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
                 }
-                $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
-            }
-        });
+            });
     }
     for (let i = 0; i < $grade_rows.length; i++) {
         let $course;
@@ -193,6 +193,7 @@ function fill_percent ($fill_location, url_link, percents, pos_in_arr) {
     if (!percent_main_page) {
         return;
     }
+
     $.ajax({
         url: url_link,
     }).done(function (data) {

@@ -62,7 +62,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-env": "^7.8.6",
     "babel-eslint": "^10.0.3",
     "get-in-range": "^0.2.4",
     "get-key-range": "^1.0.1",

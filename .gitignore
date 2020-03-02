@@ -4,6 +4,7 @@ firefox_build.zip
 artifacts/
 dist/
 src/web_accessible_resources/libraries.txt
+.DS_Store
 
 # Node
 node_modules/

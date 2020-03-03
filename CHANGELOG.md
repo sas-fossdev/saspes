@@ -1,5 +1,20 @@
 # Changelog
 
+## [Open Beta 0.19.0](https://github.com/gary-kim/saspes/tree/v0.19.0) - 2020-03-04
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.18.2...v0.19.0)
+
+### Added
+
+- Shows first semester GPA during second semester [\#126](https://github.com/gary-kim/saspes/pull/126) ([@insertcustomname](https://github.com/insertcustomname))
+
+### Dependencies
+
+- build\(deps-dev\): bump @babel/register from 7.8.3 to 7.8.6 [\#124](https://github.com/gary-kim/saspes/pull/124) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps\): bump @babel/preset-env from 7.8.4 to 7.8.6 [\#123](https://github.com/gary-kim/saspes/pull/123) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- build\(deps-dev\): bump @babel/core from 7.8.4 to 7.8.6 [\#120](https://github.com/gary-kim/saspes/pull/120) ([@dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+
 ## [Open Beta 0.18.2](https://github.com/gary-kim/saspes/tree/v0.18.2) - 2020-02-29
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.18.1...v0.18.2)

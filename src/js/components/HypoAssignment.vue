@@ -51,6 +51,7 @@
 </template>
 <script>
 import { avaliableGrades, fpToGrade, gradeToFP } from '../helpers';
+const getInRange = require('get-in-range');
 
 export default {
     name: 'HypoAssignment',
@@ -69,7 +70,8 @@ export default {
     }),
     computed: {
         hypo () {
-            const new_fp = this.assignment.weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - (this.assignment.weight)) * 0.01 * this.currentFP);
+            const weight = getInRange(this.assignment.weight, 0, 100, true)
+            const new_fp = weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - weight) * 0.01 * this.currentFP);
             return {
                 fp: new_fp.toFixed(2),
                 grade: fpToGrade(new_fp),

@@ -1,5 +1,22 @@
 # Changelog
 
+## [Open Beta 0.20.0](https://github.com/gary-kim/saspes/tree/v0.20.0) - 2020-03-17
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.19.0...v0.20.0)
+
+### Added
+
+- Add Missing Indicator on the Main Page and Classes for Course and Assignment [\#112](https://github.com/gary-kim/saspes/pull/112) ([@gary-kim](https://github.com/gary-kim))
+
+### Changed
+
+- Configure Renovate [\#130](https://github.com/gary-kim/saspes/pull/130) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+
+### Fixed
+
+- Preserve semver ranges for Renovate [\#132](https://github.com/gary-kim/saspes/pull/132) ([@gary-kim](https://github.com/gary-kim))
+- Fix visual bug [\#129](https://github.com/gary-kim/saspes/pull/129) ([@DGET-Program](https://github.com/DGET-Program))
+
 ## [Open Beta 0.19.0](https://github.com/gary-kim/saspes/tree/v0.19.0) - 2020-03-04
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.18.2...v0.19.0)

@@ -17,5 +17,5 @@
 .tooltip.saspes  {
     cursor: default;
     position: relative;
-    display: inline-block;
+    display: inline-block !important;
 }

@@ -91,11 +91,12 @@ export default {
         },
     },
     data: () => ({
+        // Due to an issue with Vue reactivity not working on Course instances, using a standard JS object instead
         courses: [
             {
-                name: "Course 1",
-                link: "/course",
-                grade: "B",
+                name: "",
+                link: "",
+                grade: "",
             },
         ],
         gradeOptions: [...avaliableGrades, ""],
@@ -121,7 +122,16 @@ export default {
             }
         },
         resetData () {
-            this.courses = JSON.parse(JSON.stringify(this.initialCourses));
+            const toSet = [];
+            for (let i = 0; i < this.initialCourses.length; i++) {
+                const curr = this.initialCourses[i];
+                toSet.push({
+                    name: curr.name,
+                    link: curr.link,
+                    grade: curr.grade,
+                });
+            }
+            this.courses = toSet;
         },
     },
 };

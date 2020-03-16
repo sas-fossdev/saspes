@@ -70,7 +70,7 @@ export default {
     }),
     computed: {
         hypo () {
-            const weight = getInRange(this.assignment.weight, 0, 100, true)
+            const weight = getInRange(this.assignment.weight, 0, 100, true);
             const new_fp = weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - weight) * 0.01 * this.currentFP);
             return {
                 fp: new_fp.toFixed(2),

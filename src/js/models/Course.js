@@ -21,6 +21,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+import { calculate_credit_hours } from '../helpers';
 
 export default class Course {
     #name;
@@ -40,13 +41,13 @@ export default class Course {
      * @param {Assignment[]} [assignments] number of missing assignments
      * @param {Number?} [creditHour] number of credit hours this course counts for, optional
      */
-    constructor (name, link, grade, finalPercent, assignments, creditHour) {
+    constructor (name, link, grade, finalPercent, assignments) {
         this.#name = name;
         this.#link = link;
         this.#grade = grade;
         this.#finalPercent = finalPercent;
         this.#assignments = assignments;
-        this.#creditHour = creditHour;
+        this.#creditHour = calculate_credit_hours(this.#name);
     }
 
     get name () {

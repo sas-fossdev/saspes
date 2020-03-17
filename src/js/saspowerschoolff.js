@@ -29,7 +29,7 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { calculate_gpa, extractFinalPercent, gradeToGPA, calculate_credit_hours } from './helpers';
+import { calculate_gpa, extractFinalPercent, gradeToGPA } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -120,7 +120,7 @@ function main_page () {
         }
         if ($course.length === 1) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), 0, "", calculate_credit_hours(temp.trim())));
+            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), 0, ""));
             if (gradeToGPA($course.text()) !== -1) {
                 new (Vue.extend(ClassGrade))({
                     propsData: {
@@ -238,7 +238,7 @@ function calculate_cumulative_gpa (current_courses) {
                                     const $prev_course = element_list[t];
                                     // Creates course object with each course from grade history page
                                     const course = new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(), "",
-                                        $prev_course.getElementsByTagName("td")[1].textContent.trim(), 0, "", parseFloat($prev_course.getElementsByTagName("td")[4].innerText));
+                                        $prev_course.getElementsByTagName("td")[1].textContent.trim(), 0, "");
 
                                     courses.push(course);
                                 }

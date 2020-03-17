@@ -120,7 +120,7 @@ function main_page () {
         }
         if ($course.length === 1) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), 0, ""));
+            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text()));
             if (gradeToGPA($course.text()) !== -1) {
                 new (Vue.extend(ClassGrade))({
                     propsData: {
@@ -174,7 +174,7 @@ function main_page () {
 function show_cumulative_gpa (courses) {
     $("#calculateCumulative").hide();
     calculate_cumulative_gpa(courses).then(cumulative_gpa => {
-        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Cumulative GPA: ${cumulative_gpa.toFixed(2)}</td></tr>`);
+        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Cumulative GPA(9-12): ${cumulative_gpa.toFixed(2)}</td></tr>`);
     });
 }
 function class_page () {
@@ -216,8 +216,8 @@ function calculate_cumulative_gpa (current_courses) {
             const el = document.createElement("html");
             el.innerHTML = data;
             const tabs = el.getElementsByClassName("tabs")[0].getElementsByTagName("li");
-            for (let i = 0; i < tabs.length; i++) {
-                // Iterates through semesters and adds each list of courses to all_courses list
+            // Iterate until the end of tabs or until no longer at a high school semester.
+            for (let i = 0; i < tabs.length && /HS$/.test(tabs[i].innerText); i++) {
                 fetches.push(
                     fetch(tabs[i].getElementsByTagName("a")[0].href)
                         .then(res => res.text())

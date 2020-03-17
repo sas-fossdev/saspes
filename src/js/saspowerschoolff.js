@@ -29,7 +29,7 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { calculate_gpa, extractFinalPercent, gradeToGPA } from './helpers';
+import { calculate_gpa, extractFinalPercent, gradeToGPA, calculate_credit_hours } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -72,15 +72,7 @@ function analytics_message (action_input) {
     const href = window.location.href.split("?")[0];
     browser.runtime.sendMessage({ action: "analytics_send", args: { url: href, action: action_input } });
 }
-function calculate_credit_hours (text) {
-    if (text.substr(0, 2) === "IS") {
-        return 0.25;
-    } else if (text.includes("A-B")) {
-        return 1;
-    } else {
-        return 0.5;
-    }
-}
+
 function main_page () {
     const student_name = document.querySelector('#userName').querySelector('span').innerText;
     let second_semester = false;
@@ -117,7 +109,7 @@ function main_page () {
                 if (gradeToGPA($first_grade.text()) !== -1) {
                     new (Vue.extend(ClassGrade))({
                         propsData: {
-                            course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), 0, ""),
+                            course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text()),
                             showMissing: false,
                         },
                     }).$mount($first_grade.get(0));
@@ -128,9 +120,7 @@ function main_page () {
         }
         if ($course.length === 1) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            let creditHour = 0;
-            creditHour = calculate_credit_hours($($course.parents().get(1)).find("td").get(0).textContent);
-            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), 0, "", creditHour));
+            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), 0, "", calculate_credit_hours(temp.trim())));
             if (gradeToGPA($course.text()) !== -1) {
                 new (Vue.extend(ClassGrade))({
                     propsData: {

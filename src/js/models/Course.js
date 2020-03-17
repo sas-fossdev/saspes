@@ -28,6 +28,7 @@ export default class Course {
     #finalPercent;
     #link;
     #assignments;
+    #creditHour;
 
     /**
      * Create new course instance
@@ -37,17 +38,23 @@ export default class Course {
      * @param {String} [grade] current grade for the course
      * @param {Number?} [finalPercent] current final percent of the course
      * @param {Assignment[]} [assignments] number of missing assignments
+     * @param {Number?} [creditHour] number of credit hours this course counts for, optional
      */
-    constructor (name, link, grade, finalPercent, assignments) {
+    constructor (name, link, grade, finalPercent, assignments, creditHour) {
         this.#name = name;
         this.#link = link;
         this.#grade = grade;
         this.#finalPercent = finalPercent;
         this.#assignments = assignments;
+        this.#creditHour = creditHour;
     }
 
     get name () {
         return this.#name;
+    }
+
+    get creditHour () {
+        return this.#creditHour;
     }
 
     get link () {
@@ -60,6 +67,10 @@ export default class Course {
 
     set grade (g) {
         this.#grade = g;
+    }
+
+    set creditHour (c) {
+        this.#creditHour = c;
     }
 
     get finalPercent () {

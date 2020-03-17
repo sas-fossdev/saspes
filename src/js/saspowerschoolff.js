@@ -2,6 +2,8 @@
  *
  * @copyright Copyright (c) 2018-2020 Gary Kim <gary@garykim.dev>
  *
+ * @copyright Copyright (c) 2020 Suhas Hariharan <mail@suhas.net>
+ *
  * @author Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 only
@@ -128,6 +130,7 @@ function main_page () {
         }
     }
     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
+
     if (second_semester) {
         fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
             .then((response) => {
@@ -150,6 +153,8 @@ function main_page () {
                     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
                 }
             });
+        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<td style="background-color: white;" align="center"><button id="calculateCumulative">Calculate Cumulative GPA</button></td>`);
+        $("#calculateCumulative").click(show_cumulative_gpa);
     }
     // Hypo Grade Calculator
     const HypoGradesDiv = document.createElement('div');
@@ -161,6 +166,12 @@ function main_page () {
             initialCourses: courses,
         },
     }).$mount(".hypo-grade-div-fixed");
+}
+function show_cumulative_gpa () {
+    $("#calculateCumulative").hide();
+    calculate_cumulative_gpa().then(cumulative_gpa => {
+        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Cumulative GPA(Completed Semesters): ${cumulative_gpa.toFixed(2)}</td></tr>`);
+    });
 }
 function class_page () {
     // Show final percent
@@ -186,6 +197,74 @@ function login_page () {
             },
         }).$mount('#saspes-info');
     });
+}
+
+function calculate_cumulative_gpa () {
+    const list_of_gpas = [];
+    const all_courses = [];
+    const credit_hour_list = [];
+    let element_list = [];
+    const fetches = [];
+    // Fetches grade history page
+    const gpas = fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
+        .then(response => response.text())
+        .then(data => {
+            const el = document.createElement("html");
+            el.innerHTML = data;
+            const tabs = el.getElementsByClassName("tabs")[0].getElementsByTagName("li");
+            for (let i = 0; i < tabs.length; i++) {
+                // Iterates through semesters and adds each list of courses to all_courses list
+                fetches.push(
+                    fetch(tabs[i].getElementsByTagName("a")[0].href)
+                        .then(res => res.text())
+                        .then(function (data2) {
+                            let courses = [];
+                            const semester = document.createElement("html");
+                            semester.innerHTML = data2;
+                            element_list = semester.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
+                            element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+                            for (let t = 2; t < element_list.length; t++) {
+                                if (element_list[t].innerText.trim() === ("S2")) {
+                                    all_courses.push(courses);
+                                    courses = [];
+                                }
+                                if (element_list[t].getElementsByTagName("th").length > 0) {
+                                    continue;
+                                } else {
+                                    const $prev_course = element_list[t];
+                                    // Creates course object with each course from grade history page
+                                    const course = new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(), "",
+                                        $prev_course.getElementsByTagName("td")[1].textContent.trim(), 0, "", parseFloat($prev_course.getElementsByTagName("td")[4].innerText));
+
+                                    courses.push(course);
+                                }
+                            }
+                            all_courses.push(courses);
+                        }));
+            }
+            // Calculates cumulative GPA based on credit hours per semester and gpa for each semester.
+            const cumulative_gpa = Promise.all(fetches).then(function () {
+                let total_count = 0;
+                let total_gpa = 0;
+                for (let i = 0; i < all_courses.length; i++) {
+                    let count = 0;
+                    list_of_gpas.push(calculate_gpa(all_courses[i]));
+                    for (let t = 0; t < all_courses[i].length; t++) {
+                        count += all_courses[i][t].creditHour;
+                    }
+                    // Adds all credit hours to overall credit hour count
+                    total_count += count;
+                    // Adds each amount of credit hours per semester to list
+                    credit_hour_list.push(count);
+                }
+                for (let i = 0; i < all_courses.length; i++) {
+                    total_gpa += ((credit_hour_list[i] / total_count) * list_of_gpas[i]);
+                }
+                return (total_gpa);
+            });
+            return cumulative_gpa;
+        });
+    return gpas;
 }
 
 function html2node (html_string) {

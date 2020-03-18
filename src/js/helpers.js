@@ -104,7 +104,7 @@ function calculate_gpa (courses) {
     let sum = 0;
     for (var i = 0; i < courses.length; i++) {
         if (gradeToGPA(courses[i].grade) !== -1) {
-            const multiplier = total_add(courses[i].name);
+            const multiplier = calculate_credit_hours(courses[i].name);
             courses_with_grades += multiplier;
             sum += multiplier * (gradeToGPA(courses[i].grade) + course_boost(courses[i].name, courses[i].grade));
         }
@@ -113,16 +113,7 @@ function calculate_gpa (courses) {
         return '0.00';
     }
     return (sum / courses_with_grades).toFixed(2);
-    function total_add (course_name) {
-        const double_effect_courses = [`English 10/American History`, `English 9/World History`];
-        if (double_effect_courses.includes(course_name)) {
-            return 2;
-        }
-        if (/^(I Service: |IS: )/.test(course_name)) {
-            return 0.5;
-        }
-        return 1;
-    }
+
     function course_boost (course_name, grade) {
         if (gradeToGPA(grade) < 1.8) {
             return 0;
@@ -132,6 +123,17 @@ function calculate_gpa (courses) {
         }
         return 0;
     }
+}
+
+function calculate_credit_hours (course_name) {
+    const double_effect_courses = [`English 10/American History`, `English 9/World History`];
+    if (double_effect_courses.includes(course_name)) {
+        return 2;
+    }
+    if (/^(I Service: |IS: )/.test(course_name)) {
+        return 0.5;
+    }
+    return 1;
 }
 
 /**
@@ -184,4 +186,5 @@ export {
     calculate_gpa,
     extractFinalPercent,
     assignments,
+    calculate_credit_hours,
 };

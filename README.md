@@ -28,8 +28,9 @@ Regardless of what the extension calculates, teachers are able to override the f
 
 ### Main Page
 * View final percent for each course
-* View current semester GPA
+* View semester GPA for both S1 and S2
 * Recalculate semester GPA with custom hypothetical grades.
+* Calculate cumulative GPA
 
 ### Class Page
 * View final percent and cutoffs for grades
@@ -41,14 +42,14 @@ Regardless of what the extension calculates, teachers are able to override the f
 
 ## Browser Support
 
-### Offically Supported
+### Officially Supported
 
 * Firefox
 * Chromium
 
 Please be aware that the extension is mainly designed for use in Firefox.
 
-### Unoffical Support
+### Unofficial Support
 
 People have gotten the extension to work on the following browsers
 
@@ -69,7 +70,8 @@ Refer to the [libraries.txt](/libraries.txt).
 
 ## License
 
-Copyright &copy; 2018-2019 Gary Kim &lt;<gary@garykim.dev>&gt;
+Copyright &copy; 2020 The SAS PES Authors  
+Copyright &copy; 2018-2020 Gary Kim &lt;<gary@garykim.dev>&gt;
 
 Source code licensed under [AGPL-3.0-only](LICENSE)
 

@@ -1,9 +1,5 @@
 /**
  *
- * @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
- *
- * @author Gary Kim <gary@garykim.dev>
- *
  * @license GNU AGPL version 3 only
  *
  * SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
@@ -22,12 +18,14 @@
  *
  */
 
-'use strict';
+import browserEnv from 'browser-env';
 
-import Vue from 'vue';
-import Options from '../js/views/Options';
+browserEnv();
 
-window.addEventListener("load", main, false);
-function main () {
-    new (Vue.extend(Options))().$mount('#options');
-}
+// Convince webextension-polyfill that this is in fact a browser environment so it does not complain. We don't test browser
+// storage in unit tests anyways.
+global.chrome = {
+    runtime: {
+        id: "mock",
+    },
+};

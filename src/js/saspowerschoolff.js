@@ -29,7 +29,7 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { calculate_gpa, extractFinalPercent, gradeToGPA } from './helpers';
+import { calculate_gpa, extractFinalPercent, gradeToGPA, analytics_message } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -67,10 +67,6 @@ function main () {
     } else {
         analytics_message("default");
     }
-}
-function analytics_message (action_input) {
-    const href = window.location.href.split("?")[0];
-    browser.runtime.sendMessage({ action: "analytics_send", args: { url: href, action: action_input } });
 }
 
 function main_page () {

@@ -37,6 +37,7 @@
     "@babel/register": "^7.9.0",
     "ava": "^3.3.0",
     "babel-loader": "^8.1.0",
+    "browser-env": "^3.3.0",
     "chromedriver": "^80.0.1",
     "command-exists": "^1.2.8",
     "copy-webpack-plugin": "^5.1.1",
@@ -84,7 +85,8 @@
       "**/__tests__/*.js"
     ],
     "require": [
-      "@babel/register"
+      "@babel/register",
+      "./src/js/__tests__/_setup-browser-env.js"
     ]
   }
 }

@@ -185,13 +185,29 @@ function assignments (node) {
 function getSavedGrades (username) {
     const courses = [];
     let course_list = {};
-    chrome.storage.local.get(["user_list"], function (data) {
+    browser.storage.local.get(["user_list"], function (data) {
         course_list = data.user_list[username].courses;
     });
     for (let i = 0; i < course_list.length; i++) {
         courses.push(new Course(course_list[i].name, course_list[i].link, course_list[i].grade, course_list[i].finalPercent, course_list[i].assignments));
     }
     return courses;
+}
+
+/**
+ * Saves grades for user to browser local storage
+ * @param {String} username users full name
+ * @param {Course[]} courses list of course objects to save
+ */
+function saveGradesLocally (username, courses) {
+    const user_data = {};
+    user_data.user_list = {};
+    const course_list = [];
+    for (let i = 0; i < courses.length; i++) {
+        course_list.push(courses[i].toObject());
+    }
+    user_data.user_list[username] = { "courses": course_list };
+    browser.storage.local.set(user_data);
 }
 
 /**
@@ -217,4 +233,5 @@ export {
     calculate_credit_hours,
     analytics_message,
     getSavedGrades,
+    saveGradesLocally,
 };

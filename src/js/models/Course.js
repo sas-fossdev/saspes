@@ -50,7 +50,7 @@ export default class Course {
         this.#creditHour = calculate_credit_hours(this.#name);
     }
 
-    toJson () {
+    toObject () {
         return { "name": this.#name, "link": this.#link, "grade": this.#grade, "finalPercent": this.#finalPercent, "assignments": this.#assignments, "creditHour": this.#creditHour };
     }
 

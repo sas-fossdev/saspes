@@ -25,7 +25,7 @@
 'use strict';
 
 import Assignment from "./models/Assignment";
-
+import Course from './models/Course';
 import browser from 'webextension-polyfill';
 const getKeyRange = require('get-key-range');
 
@@ -178,6 +178,23 @@ function assignments (node) {
 }
 
 /**
+ * Return saved grades for specified username.
+ * @param {String} username users full name
+ * @returns {Course[]} list of courses objects for that user
+ */
+function getSavedGrades (username) {
+    const courses = [];
+    let course_list = {};
+    chrome.storage.local.get(["user_list"], function (data) {
+        course_list = data.user_list[username].courses;
+    });
+    for (let i = 0; i < course_list.length; i++) {
+        courses.push(new Course(course_list[i].name, course_list[i].link, course_list[i].grade, course_list[i].finalPercent, course_list[i].assignments));
+    }
+    return courses;
+}
+
+/**
  * Send Analytics ping
  * @param {String} action_input the action being taken
  * @param {String} [url] Url to report. Defaults to the current page in the browser
@@ -199,4 +216,5 @@ export {
     assignments,
     calculate_credit_hours,
     analytics_message,
+    getSavedGrades,
 };

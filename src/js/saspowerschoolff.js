@@ -69,21 +69,16 @@ function main () {
     }
 }
 function save_grades_locally (username, courses) {
-    const grade_list = {};
-    for (let i = 0; i < courses.length; i++) {
-        grade_list[courses[i].name] = courses[i].grade;
-    }
     const user_data = {};
     user_data.user_list = {};
-    user_data.user_list[username] = { "courses": grade_list };
+    const course_list = [];
+    for (let i = 0; i < courses.length; i++) {
+        course_list.push(courses[i].toJson());
+    }
+    user_data.user_list[username] = { "courses": course_list };
     chrome.storage.local.set(user_data);
 }
-function get_local_grades (username) {
-    const courses = {};
-    chrome.storage.local.get([username], function (data) {
-        return (data);
-    });
-}
+
 function main_page () {
     const student_name = document.querySelector('#userName').querySelector('span').innerText;
     let second_semester = false;
@@ -172,8 +167,6 @@ function main_page () {
         show_cumulative_gpa(courses);
     });
     save_grades_locally(student_name, courses);
-    get_local_grades(student_name);
-
     // Hypo Grade Calculator
     const HypoGradesDiv = document.createElement('div');
     HypoGradesDiv.classList.add("hypo-grade-div-fixed");

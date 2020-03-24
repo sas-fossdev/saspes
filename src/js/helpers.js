@@ -25,7 +25,7 @@
 'use strict';
 
 import Assignment from "./models/Assignment";
-
+import Course from './models/Course';
 import browser from 'webextension-polyfill';
 const getKeyRange = require('get-key-range');
 
@@ -178,6 +178,43 @@ function assignments (node) {
 }
 
 /**
+ * Return saved grades for specified username.
+ * @async
+ * @param {String} username users full name
+ * @returns {Promise<Course[]>} list of courses objects for that user
+ */
+async function getSavedGrades (username) {
+    const courses = [];
+    const course_list = (await browser.storage.local.get("USERDATA_" + username))["USERDATA_" + username] || [];
+    course_list.forEach(course => {
+        courses.push(new Course(course.name, course.link, course_list.grade, course_list.finalPercent, course_list.assignments));
+    });
+    return courses;
+}
+/**
+ * Saves grades for user to browser local storage
+ * @async
+ * @param {String} username users full name
+ * @param {Course[]} courses list of course objects to save
+ */
+async function saveGradesLocally (username, courses) {
+    const user_data = {};
+    const course_list = [];
+    for (let i = 0; i < courses.length; i++) {
+        course_list.push(courses[i].toObject());
+    }
+    user_data["USERDATA_" + username] = { "courses": course_list };
+    browser.storage.local.set(user_data);
+    const user_list = (await browser.storage.local.get({ user_list: [] })).user_list;
+    if (!user_list.includes(username)) {
+        user_list.push(username);
+        const users = {};
+        users.user_list = user_list;
+        browser.storage.local.set(users);
+    }
+}
+
+/**
  * Send Analytics ping
  * @param {String} action_input the action being taken
  * @param {String} [url] Url to report. Defaults to the current page in the browser
@@ -199,4 +236,6 @@ export {
     assignments,
     calculate_credit_hours,
     analytics_message,
+    getSavedGrades,
+    saveGradesLocally,
 };

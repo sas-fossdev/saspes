@@ -29,7 +29,7 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { calculate_gpa, extractFinalPercent, gradeToGPA, analytics_message } from './helpers';
+import { calculate_gpa, extractFinalPercent, gradeToGPA, analytics_message, saveGradesLocally, getSavedGrades } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -156,6 +156,7 @@ function main_page () {
     $("#calculateCumulative").click(function () {
         show_cumulative_gpa(courses);
     });
+    saveGradesLocally(student_name, courses);
     // Hypo Grade Calculator
     const HypoGradesDiv = document.createElement('div');
     HypoGradesDiv.classList.add("hypo-grade-div-fixed");

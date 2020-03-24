@@ -179,35 +179,40 @@ function assignments (node) {
 
 /**
  * Return saved grades for specified username.
+ * @async
  * @param {String} username users full name
- * @returns {Course[]} list of courses objects for that user
+ * @returns {Promise<Course[]>} list of courses objects for that user
  */
-function getSavedGrades (username) {
+async function getSavedGrades (username) {
     const courses = [];
-    let course_list = {};
-    browser.storage.local.get(["user_list"], function (data) {
-        course_list = data.user_list[username].courses;
+    const course_list = (await browser.storage.local.get("USERDATA_" + username));
+    course_list.forEach(course => {
+        courses.push(new Course(course.name, course.link, course_list.grade, course_list.finalPercent, course_list.assignments));
     });
-    for (let i = 0; i < course_list.length; i++) {
-        courses.push(new Course(course_list[i].name, course_list[i].link, course_list[i].grade, course_list[i].finalPercent, course_list[i].assignments));
-    }
     return courses;
 }
-
 /**
  * Saves grades for user to browser local storage
+ * @async
  * @param {String} username users full name
  * @param {Course[]} courses list of course objects to save
  */
-function saveGradesLocally (username, courses) {
+async function saveGradesLocally (username, courses) {
     const user_data = {};
     user_data.user_list = {};
     const course_list = [];
     for (let i = 0; i < courses.length; i++) {
         course_list.push(courses[i].toObject());
     }
-    user_data.user_list[username] = { "courses": course_list };
-    browser.storage.local.set(user_data);
+    user_data["USERDATA_" + username] = { "courses": course_list };
+    await browser.storage.local.set(user_data);
+    const user_list = (await browser.storage.local.get("user_list"), []);
+    if (!user_list.includes(username)) {
+        user_list.push(username);
+        const users = {};
+        users.user_list = user_list;
+        await browser.storage.local.set(users);
+    }
 }
 
 /**

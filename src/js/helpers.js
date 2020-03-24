@@ -185,7 +185,7 @@ function assignments (node) {
  */
 async function getSavedGrades (username) {
     const courses = [];
-    const course_list = (await browser.storage.local.get("USERDATA_" + username));
+    const course_list = (await browser.storage.local.get("USERDATA_" + username))["USERDATA_" + username] || [];
     course_list.forEach(course => {
         courses.push(new Course(course.name, course.link, course_list.grade, course_list.finalPercent, course_list.assignments));
     });
@@ -199,19 +199,18 @@ async function getSavedGrades (username) {
  */
 async function saveGradesLocally (username, courses) {
     const user_data = {};
-    user_data.user_list = {};
     const course_list = [];
     for (let i = 0; i < courses.length; i++) {
         course_list.push(courses[i].toObject());
     }
     user_data["USERDATA_" + username] = { "courses": course_list };
-    await browser.storage.local.set(user_data);
-    const user_list = (await browser.storage.local.get("user_list"), []);
+    browser.storage.local.set(user_data);
+    const user_list = (await browser.storage.local.get({ user_list: [] })).user_list;
     if (!user_list.includes(username)) {
         user_list.push(username);
         const users = {};
         users.user_list = user_list;
-        await browser.storage.local.set(users);
+        browser.storage.local.set(users);
     }
 }
 

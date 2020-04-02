@@ -142,10 +142,12 @@ function main_page () {
                 if (element_list.length > 2) {
                     for (let i = 2; i < element_list.length; i++) {
                         const $prev_course = element_list[i];
-                        courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
-                            $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
-                            $prev_course.getElementsByTagName("td")[1].textContent.trim(),
-                        ));
+                        if ($prev_course && $prev_course.getElementsByTagName("td").length > 1) {
+                            courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
+                                $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
+                                $prev_course.getElementsByTagName("td")[1].textContent.trim(),
+                            ));
+                        }
                     }
                     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
                 }
@@ -233,11 +235,12 @@ function calculate_cumulative_gpa (current_courses) {
                                     continue;
                                 } else {
                                     const $prev_course = element_list[t];
+                                    if ($prev_course && $prev_course.getElementsByTagName("td").length > 1) {
+                                        const course = new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(), "",
+                                            $prev_course.getElementsByTagName("td")[1].textContent.trim(), 0, "");
+                                        courses.push(course);
+                                    }
                                     // Creates course object with each course from grade history page
-                                    const course = new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(), "",
-                                        $prev_course.getElementsByTagName("td")[1].textContent.trim(), 0, "");
-
-                                    courses.push(course);
                                 }
                             }
                             all_courses.push(courses);

@@ -39,7 +39,6 @@ export default class Course {
      * @param {String} [grade] current grade for the course
      * @param {Number?} [finalPercent] current final percent of the course
      * @param {Assignment[]} [assignments] number of missing assignments
-     * @param {Number?} [creditHour] number of credit hours this course counts for, optional
      */
     constructor (name, link, grade, finalPercent, assignments) {
         this.#name = name;
@@ -51,7 +50,14 @@ export default class Course {
     }
 
     toObject () {
-        return { "name": this.#name, "link": this.#link, "grade": this.#grade, "finalPercent": this.#finalPercent, "assignments": this.#assignments, "creditHour": this.#creditHour };
+        return {
+            "name": this.#name,
+            "link": this.#link,
+            "grade": this.#grade,
+            "finalPercent": this.#finalPercent,
+            "assignments": this.#assignments,
+            "creditHour": this.#creditHour,
+        };
     }
 
     get name () {

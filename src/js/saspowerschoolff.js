@@ -77,7 +77,8 @@ function main_page () {
     const $grade_rows = $('#quickLookup table.grid').find('tr');
     let s1col = 0;
     let s2col = 0;
-
+    let current_term = "";
+    let attendance_href = "";
     if ($grade_rows.eq(1).html().match("S2") != null) {
         second_semester = true;
         let curr = 0;
@@ -126,6 +127,9 @@ function main_page () {
             }
         }
     }
+    if ((attendance_href = $grade_rows.eq($grade_rows.length - 1)?.find('a[href*="attendancedates"]')?.[0]?.href)) { // Check that attendance_href exists and if it does, run the next line.
+        current_term = new URL(attendance_href).searchParams.get("term");
+    }
     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
 
     if (second_semester) {
@@ -142,10 +146,15 @@ function main_page () {
                 if (element_list.length > 2) {
                     for (let i = 2; i < element_list.length; i++) {
                         const $prev_course = element_list[i];
-                        courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
-                            $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
-                            $prev_course.getElementsByTagName("td")[1].textContent.trim(),
-                        ));
+                        if ($prev_course?.innerText?.trim() === "S2") {
+                            break;
+                        }
+                        if ($prev_course?.getElementsByTagName("td").length > 1) {
+                            courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
+                                $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
+                                $prev_course.getElementsByTagName("td")[1].textContent.trim(),
+                            ));
+                        }
                     }
                     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
                 }
@@ -153,8 +162,9 @@ function main_page () {
     }
     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<td style="background-color: white;" align="center"><button id="calculateCumulative">Calculate Cumulative GPA</button></td>`);
     // passing courses in to possibly include current semester GPA if term has not finished yet.
+
     $("#calculateCumulative").click(function () {
-        show_cumulative_gpa(courses);
+        show_cumulative_gpa(courses, current_term, second_semester);
     });
     saveGradesLocally(student_name, courses);
     // Hypo Grade Calculator
@@ -168,9 +178,9 @@ function main_page () {
         },
     }).$mount(".hypo-grade-div-fixed");
 }
-function show_cumulative_gpa (courses) {
+function show_cumulative_gpa (courses, current_term, current_semester) {
     $("#calculateCumulative").hide();
-    calculate_cumulative_gpa(courses).then(cumulative_gpa => {
+    calculate_cumulative_gpa(courses, current_term, current_semester).then(cumulative_gpa => {
         $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Cumulative GPA(9-12): ${cumulative_gpa.toFixed(2)}</td></tr>`);
     });
 }
@@ -200,11 +210,12 @@ function login_page () {
     });
 }
 
-function calculate_cumulative_gpa (current_courses) {
+function calculate_cumulative_gpa (current_courses, current_term, current_semester) {
     const list_of_gpas = [];
     const all_courses = [];
     const credit_hour_list = [];
     let element_list = [];
+    const current_term_grades = [];
     const fetches = [];
     // Fetches grade history page
     const gpas = fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
@@ -212,8 +223,9 @@ function calculate_cumulative_gpa (current_courses) {
         .then(data => {
             const el = document.createElement("html");
             el.innerHTML = data;
+            const current_term_history = el.getElementsByClassName("selected")[0].textContent.split(" - ")[0];
             const tabs = el.getElementsByClassName("tabs")[0].getElementsByTagName("li");
-            // Iterate until the end of tabs or until no longer at a high school semester.
+            // Iterate until the end of tabs or until no longer at a high school semester
             for (let i = 0; i < tabs.length && /HS$/.test(tabs[i].innerText); i++) {
                 fetches.push(
                     fetch(tabs[i].getElementsByTagName("a")[0].href)
@@ -227,35 +239,50 @@ function calculate_cumulative_gpa (current_courses) {
                             for (let t = 2; t < element_list.length; t++) {
                                 if (element_list[t].innerText.trim() === ("S2")) {
                                     all_courses.push(courses);
+                                    if (i === 0) {
+                                        current_term_grades.push(courses);
+                                    }
                                     courses = [];
                                 }
                                 if (element_list[t].getElementsByTagName("th").length > 0) {
                                     continue;
                                 } else {
                                     const $prev_course = element_list[t];
+                                    if ($prev_course?.getElementsByTagName("td").length > 1) {
+                                        const course = new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(), "",
+                                            $prev_course.getElementsByTagName("td")[1].textContent.trim());
+                                        courses.push(course);
+                                    }
                                     // Creates course object with each course from grade history page
-                                    const course = new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(), "",
-                                        $prev_course.getElementsByTagName("td")[1].textContent.trim(), 0, "");
-
-                                    courses.push(course);
                                 }
+                            }
+                            if (i === 0) {
+                                current_term_grades.push(courses);
                             }
                             all_courses.push(courses);
                         }));
             }
             // Calculates cumulative GPA based on credit hours per semester and gpa for each semester.
-            let include_current_semester = false;
-            if (current_courses.length !== 0) {
-                for (let i = 0; i < current_courses.length; i++) {
-                    if (current_courses[i].link.includes("begdate")) {
-                        include_current_semester = true;
+
+            const cumulative_gpa = Promise.all(fetches).then(function () {
+                let include_current_semester = false;
+                if (current_courses.length !== 0) {
+                    for (let i = 0; i < current_courses.length; i++) {
+                        if (new URL(current_courses[i].link).searchParams.get("begdate")) {
+                            include_current_semester = true;
+                        }
                     }
                 }
-            }
-            if (include_current_semester) {
-                all_courses.push(current_courses);
-            }
-            const cumulative_gpa = Promise.all(fetches).then(function () {
+                // Handles edge case where grade history page is updated before semester end
+                if (current_term_history === current_term && include_current_semester && current_term_grades.length === 2 && current_semester) {
+                    include_current_semester = false;
+                } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {
+                    include_current_semester = false;
+                }
+
+                if (include_current_semester) {
+                    all_courses.push(current_courses);
+                }
                 let total_count = 0;
                 let total_gpa = 0;
                 for (let i = 0; i < all_courses.length; i++) {

@@ -1,5 +1,38 @@
 # Changelog
 
+## [Open Beta 0.21.0](https://github.com/gary-kim/saspes/tree/v0.21.0) - 2020-04-17
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.20.0...v0.21.0)
+
+### Added
+
+- Added function to calculate cumulative GPA\(including unfinished semesters\) [\#140](https://github.com/gary-kim/saspes/pull/140) ([@insertcustomname](https://github.com/insertcustomname))
+
+### Changed
+
+- Added function to save grades to local storage and load grades from storage [\#153](https://github.com/gary-kim/saspes/pull/153) ([@insertcustomname](https://github.com/insertcustomname))
+- Migrate options to Vue and go more community driven [\#152](https://github.com/gary-kim/saspes/pull/152) ([@gary-kim](https://github.com/gary-kim))
+- Tune Renovate config [\#135](https://github.com/gary-kim/saspes/pull/135) ([@gary-kim](https://github.com/gary-kim))
+
+### Fixed
+
+- Fixes and cleanups for Course and cumulative GPA [\#162](https://github.com/gary-kim/saspes/pull/162) ([@gary-kim](https://github.com/gary-kim))
+- Fixed bug where cumulative GPA calculation would double count semester [\#160](https://github.com/gary-kim/saspes/pull/160) ([@insertcustomname](https://github.com/insertcustomname))
+- Fix an issue in HypoAssignment [\#141](https://github.com/gary-kim/saspes/pull/141) ([@gary-kim](https://github.com/gary-kim))
+
+### Dependencies
+
+- chore\(deps\): update dependency css-loader to ^3.5.2 [\#163](https://github.com/gary-kim/saspes/pull/163) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency chromedriver to ^80.0.2 [\#161](https://github.com/gary-kim/saspes/pull/161) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint-plugin-node to ^11.1.0 [\#156](https://github.com/gary-kim/saspes/pull/156) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency webpack to ^4.42.0 [\#151](https://github.com/gary-kim/saspes/pull/151) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency vue-loader to ^15.9.1 [\#150](https://github.com/gary-kim/saspes/pull/150) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint-plugin-vue to ^6.2.2 [\#149](https://github.com/gary-kim/saspes/pull/149) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint-plugin-import to ^2.20.1 [\#148](https://github.com/gary-kim/saspes/pull/148) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint-config-standard to ^14.1.1 [\#147](https://github.com/gary-kim/saspes/pull/147) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency ava to ^3.5.1 [\#144](https://github.com/gary-kim/saspes/pull/144) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update babel monorepo [\#143](https://github.com/gary-kim/saspes/pull/143) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+
 ## [Open Beta 0.20.0](https://github.com/gary-kim/saspes/tree/v0.20.0) - 2020-03-17
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.19.0...v0.20.0)

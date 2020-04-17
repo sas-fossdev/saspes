@@ -89,12 +89,13 @@ For a new file, add this license header to the top of the file:
 
 1. Ensure that all CI tests pass on the latest commit.
 2. Update the version number with `npm version [major|minor|patch] --no-git` and update the version name manually in [package.json](package.json).
-3. Run [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator) with `--since-tag <LAST VERSION> --future-release <NEW VERSION>` and take the resulting generated changelog and adjust it to our changelog style. Add this to the [CHANGELOG.md](CHANGELOG.md) file and make a PR for the new version. Wait until this PR gets merged (unlike other PRs, this PR should be merged with `--ff-only` rather then a merge commit). ([gary-kim/gcg-fork](https://github.com/gary-kim/gcg-fork) has a patch for making the changelog in SASPES's style)
-4. Run `npm ci` to install all dependencies for building from [package-lock.json](package-lock.json).
-5. Make a new git commit and tag with `git commit -S`,  `git tag VERSION -a`, add the new version name as the annotation, then run `git push origin VERSION`.
-6. Run `npm run libraries` to generate third-party library attributions.
-7. Run `npm run clean`, `SASPES_OFFICIAL_RELEASE=true npm run webpack:build:firefox`, then `npm run package`. Upload the resulting package to [AMO](https://addons.mozilla.org/en-US/developers/addons) to have the extension signed. Upload the result into GitHub releases then update the update server to point to the new release.
-8. Run `npm run clean`, `SASPES_OFFICIAL_RELEASE=true npm run webpack:build:chromium`, then `npm run package`. Upload the resulting package to [CWS](https://chrome.google.com/webstore/developer/dashboard) to have the new version signed and released.
+3. Run [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator) with `--since-tag <LAST VERSION> --future-release <NEW VERSION>` and take the resulting generated changelog and adjust it to our changelog style. ([gary-kim/gcg-fork](https://github.com/gary-kim/gcg-fork) has a patch for making the changelog in SASPES's style)
+4. Commit with the message `Open Beta v[VERSION] Release`.  Add this to the [CHANGELOG.md](CHANGELOG.md) file and make a PR for the new version. Wait until this PR gets merged (unlike other PRs, this PR should be merged with `--ff-only` rather then a merge commit).
+5. Run `npm ci` to install all dependencies for building from [package-lock.json](package-lock.json).
+6. Make a new git commit and tag with `git commit -S`,  `git tag VERSION -s`, add the new version name as the annotation, then run `git push origin VERSION`.
+7. Run `npm run libraries` to generate third-party library attributions.
+8. Run `npm run clean`, `SASPES_OFFICIAL_RELEASE=true npm run webpack:build:firefox`, then `npm run package`. Upload the resulting package to [AMO](https://addons.mozilla.org/en-US/developers/addons) to have the extension signed. Upload the result into GitHub releases then update the update server to point to the new release.
+9. Run `npm run clean`, `SASPES_OFFICIAL_RELEASE=true npm run webpack:build:chromium`, then `npm run package`. Upload the resulting package to [CWS](https://chrome.google.com/webstore/developer/dashboard) to have the new version signed and released.
 
 ### Developer Certificate of Origin
 ```

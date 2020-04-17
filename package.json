@@ -71,7 +71,8 @@
     "get-in-range": "^0.2.4",
     "get-key-range": "^1.0.1",
     "jquery": "^3.4.1",
-    "v-tooltip": "^2.0.3"
+    "v-tooltip": "^2.0.3",
+    "vue-loading-template": "^1.3.2"
   },
   "webExt": {
     "sourceDir": "dist",

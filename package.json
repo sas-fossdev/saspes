@@ -1,7 +1,7 @@
 {
   "name": "saspes",
   "version": "0.21.0",
-  "version_name": "Open Beta 0.21.0",
+  "version_name_prefix": "Open Beta ",
   "private": true,
   "description": "SAS Powerschool Enhancement Suite",
   "main": "index.js",

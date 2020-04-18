@@ -15,9 +15,10 @@ module.exports = {
         return !!process.env.SASPES_OFFICIAL_RELEASE;
     },
     versionName: function () {
+        const version_name = package.version_name_prefix + package.version
         if (this.isRelease()) {
-            return package.version_name;
+            return version_name;
         }
-        return package.version_name + " Development " + (commandExistsSync('git')? execSync('git describe --tags'): "(Exact Version Unknown)");
+        return version_name + " Development " + (commandExistsSync('git')? execSync('git describe --tags'): "(Exact Version Unknown)");
     }
 }

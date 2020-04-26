@@ -1,5 +1,25 @@
 # Changelog
 
+## [Open Beta 0.21.1](https://github.com/gary-kim/saspes/tree/v0.21.1) - 2020-04-26
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.21.0...v0.21.1)
+
+### Changed
+
+- Set Version Name Automatically [\#169](https://github.com/gary-kim/saspes/pull/169) ([@gary-kim](https://github.com/gary-kim))
+
+### Dependencies
+
+- chore\(deps\): update dependency less-loader to v6 [\#174](https://github.com/gary-kim/saspes/pull/174) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency css-loader to ^3.5.3 [\#173](https://github.com/gary-kim/saspes/pull/173) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency web-ext to ^4.2.0 [\#172](https://github.com/gary-kim/saspes/pull/172) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency chromedriver to v81 [\#166](https://github.com/gary-kim/saspes/pull/166) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- fix\(deps\): update dependency jquery to ^3.5.0 [\#165](https://github.com/gary-kim/saspes/pull/165) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- fix\(deps\): update dependency @babel/preset-env to ^7.9.5 [\#164](https://github.com/gary-kim/saspes/pull/164) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency ava to ^3.7.0 [\#158](https://github.com/gary-kim/saspes/pull/158) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint-plugin-import to ^2.20.2 [\#157](https://github.com/gary-kim/saspes/pull/157) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency webpack to ^4.42.1 [\#155](https://github.com/gary-kim/saspes/pull/155) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+
 ## [Open Beta 0.21.0](https://github.com/gary-kim/saspes/tree/v0.21.0) - 2020-04-17
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.20.0...v0.21.0)

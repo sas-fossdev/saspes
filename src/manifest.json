@@ -8,8 +8,7 @@
     "description": "Provides various enhancements for SAS Powerschool",
     "permissions": [
         "storage",
-        "clipboardWrite",
-        "clipboardRead"
+        "clipboardWrite"
     ],
     "applications": {
         "gecko": {

@@ -31,9 +31,9 @@
   },
   "homepage": "https://github.com/gary-kim/saspes#readme",
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/register": "^7.9.0",
     "ava": "^3.8.1",
     "babel-loader": "^8.1.0",
@@ -65,8 +65,8 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.9.5",
-    "@babel/runtime": "^7.9.2",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/runtime": "^7.9.6",
     "babel-eslint": "^10.1.0",
     "get-in-range": "^0.2.4",
     "get-key-range": "^1.0.1",

@@ -1,5 +1,20 @@
 # Changelog
 
+## [Open Beta 0.21.2](https://github.com/gary-kim/saspes/tree/v0.21.2) - 2020-05-02
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.21.1...v0.21.2)
+
+### Fixed
+
+- Remove clipboard read permission [\#176](https://github.com/gary-kim/saspes/pull/176) ([@gary-kim](https://github.com/gary-kim))
+
+### Dependencies
+
+- chore\(deps\): update babel monorepo to ^7.9.6 [\#177](https://github.com/gary-kim/saspes/pull/177) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency webpack to ^4.43.0 [\#171](https://github.com/gary-kim/saspes/pull/171) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency ava to ^3.8.1 [\#170](https://github.com/gary-kim/saspes/pull/170) ([@gary-kim-bot](https://github.com/gary-kim-bot))
+
+
 ## [Open Beta 0.21.1](https://github.com/gary-kim/saspes/tree/v0.21.1) - 2020-04-26
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.21.0...v0.21.1)

@@ -151,7 +151,7 @@ export default {
                     el.innerHTML = data;
                     const current_term_history = el.getElementsByClassName("selected")[0].textContent.split(" - ")[0];
                     const tabs = el.getElementsByClassName("tabs")[0].getElementsByTagName("li");
-                    // Iterate until the end of tabs or until no longer at a high school semester
+                    // Iterate until the end of tabs or until no longer at a high school semester, first value indicates whether the course list is the most recent set of courses
                     for (let i = 0; i < tabs.length && /HS$/.test(tabs[i].innerText); i++) {
                         fetches.push(
                             fetch(tabs[i].getElementsByTagName("a")[0].href)
@@ -202,9 +202,9 @@ export default {
                         }
                         // Handles edge case where grade history page is updated before semester end
                         if (current_term_history === current_term && include_current_semester && current_term_grades.length === 2 && current_semester) {
-                            include_current_semester = false;
+                            all_courses.splice(all_courses.indexOf(current_term_grades[1]), 1);
                         } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {
-                            include_current_semester = false;
+                            all_courses.splice(all_courses.indexOf(current_term_grades[0]), 1);
                         }
 
                         if (include_current_semester) {

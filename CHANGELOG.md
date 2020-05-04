@@ -1,5 +1,14 @@
 # Changelog
 
+## [Open Beta 0.21.3](https://github.com/gary-kim/saspes/tree/v0.21.3) - 2020-05-04
+
+[Full Changelog](https://github.com/gary-kim/saspes/compare/v0.21.2...v0.21.3)
+
+### Fixed
+
+- Fix version name not being set [\#183](https://github.com/gary-kim/saspes/pull/183) ([@gary-kim](https://github.com/gary-kim))
+- Fixes cumulative GPA counting older version of semester [\#181](https://github.com/gary-kim/saspes/pull/181) ([@Suhas-13](https://github.com/Suhas-13))
+
 ## [Open Beta 0.21.2](https://github.com/gary-kim/saspes/tree/v0.21.2) - 2020-05-02
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.21.1...v0.21.2)

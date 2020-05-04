@@ -56,7 +56,7 @@
     "nightwatch": "^1.3.4",
     "rewire": "^4.0.1",
     "vue": "^2.6.11",
-    "vue-loader": "^15.9.1",
+    "vue-loader": "^15.9.2",
     "vue-template-compiler": "^2.6.11",
     "web-ext": "^4.2.0",
     "webextension-polyfill": "^0.6.0",

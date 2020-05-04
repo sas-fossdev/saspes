@@ -13,7 +13,7 @@ module.exports = merge(common, {
                 from: path.join(__dirname, 'src', 'manifest - chromium.json'),
                 to: 'manifest.json',
                 transform(content) {
-                    return helpers.setManifestVersion(content, package.version, package.version_name)
+                    return helpers.setManifestVersion(content, package.version, true)
                 }
             }
         ])

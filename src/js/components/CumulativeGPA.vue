@@ -200,11 +200,11 @@ export default {
                                 }
                             }
                         }
-                        // Handles edge case where grade history page is updated before semester end
+                        // Handles edge case where grade history page is updated before semester end, removes the old value and counts the latest version of the current semester.
                         if (current_term_history === current_term && include_current_semester && current_term_grades.length === 2 && current_semester) {
-                            include_current_semester = false;
+                            all_courses.splice(all_courses.indexOf(current_term_grades[1]), 1);
                         } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {
-                            include_current_semester = false;
+                            all_courses.splice(all_courses.indexOf(current_term_grades[0]), 1);
                         }
 
                         if (include_current_semester) {

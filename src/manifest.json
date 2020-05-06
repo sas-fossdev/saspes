@@ -13,7 +13,7 @@
     "applications": {
         "gecko": {
             "id": "saspowerschoolff@ydgkim.com",
-            "update_url": "https://updates.ydgkim.com/firefox/saspowerschoolff/updates.json"
+            "update_url": "https://updates.garykim.dev/firefox/saspowerschoolff/updates.json"
         }
     },
     "icons": {

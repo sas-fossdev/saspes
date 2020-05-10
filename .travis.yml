@@ -17,7 +17,7 @@ matrix:
     - npm run test:build
     - npm run integration:firefox
   - name: 'Chromium'
-    addons: 
+    addons:
       chrome: stable
     script:
     - npm test
@@ -25,3 +25,8 @@ matrix:
     - npm run webpack:build:chromium
     - npm run test:build
     - npm run integration:chromium
+  - name: 'Scripts'
+    script:
+      - cd scripts
+      - npm i
+      - npm start -- -

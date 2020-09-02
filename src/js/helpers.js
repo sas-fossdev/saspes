@@ -187,7 +187,7 @@ async function getSavedGrades (username) {
     const courses = [];
     const course_list = (await browser.storage.local.get("USERDATA_" + username))["USERDATA_" + username] || [];
     course_list.forEach(course => {
-        courses.push(new Course(course.name, course.link, course_list.grade, course_list.finalPercent, course_list.assignments));
+        courses.push(new Course(course.name, course.link, course.grade, course.finalPercent, course.assignments));
     });
     return courses;
 }

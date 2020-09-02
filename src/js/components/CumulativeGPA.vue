@@ -128,7 +128,9 @@ export default {
             }
 
             this.currently = CURRENTLY.CALCULATING;
-            const gpa = await this.calculate_cumulative_gpa(this.courses, this.currentTerm, this.secondSemester).catch(() => null);
+            const gpa = await this.calculate_cumulative_gpa(this.courses, this.currentTerm, this.secondSemester).catch((err) => {
+                console.log("Error in cumulative GPA calculation " + err);
+            });
             if (gpa) {
                 this.gpa = gpa.toFixed(2);
                 this.currently = CURRENTLY.DONE;
@@ -149,7 +151,13 @@ export default {
                 .then(data => {
                     const el = document.createElement("html");
                     el.innerHTML = data;
-                    const current_term_history = el.getElementsByClassName("selected")[0].textContent.split(" - ")[0];
+                    let current_term_history = el.getElementsByClassName("selected");
+                    if (current_term_history.length !=0) {
+                        current_term_history=current_term_history[0].textContent.split(" - ")[0];
+                    }
+                    else {
+                        current_term_history=undefined;
+                    }
                     const tabs = el.getElementsByClassName("tabs")[0].getElementsByTagName("li");
                     // Iterate until the end of tabs or until no longer at a high school semester
                     for (let i = 0; i < tabs.length && /HS$/.test(tabs[i].innerText); i++) {
@@ -190,7 +198,7 @@ export default {
                                 }));
                     }
                     // Calculates cumulative GPA based on credit hours per semester and gpa for each semester.
-
+                    console.log("got this far in calculation");
                     const cumulative_gpa = Promise.all(fetches).then(function () {
                         let include_current_semester = false;
                         if (current_courses.length !== 0) {
@@ -206,7 +214,7 @@ export default {
                         } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {
                             all_courses.splice(all_courses.indexOf(current_term_grades[0]), 1);
                         }
-
+                        
                         if (include_current_semester) {
                             all_courses.push(current_courses);
                         }

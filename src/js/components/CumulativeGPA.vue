@@ -152,11 +152,10 @@ export default {
                     const el = document.createElement("html");
                     el.innerHTML = data;
                     let current_term_history = el.getElementsByClassName("selected");
-                    if (current_term_history.length !=0) {
-                        current_term_history=current_term_history[0].textContent.split(" - ")[0];
-                    }
-                    else {
-                        current_term_history=undefined;
+                    if (current_term_history.length !== 0) {
+                        current_term_history = current_term_history[0].textContent.split(" - ")[0];
+                    } else {
+                        current_term_history = undefined;
                     }
                     const tabs = el.getElementsByClassName("tabs")[0].getElementsByTagName("li");
                     // Iterate until the end of tabs or until no longer at a high school semester
@@ -213,7 +212,7 @@ export default {
                         } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {
                             all_courses.splice(all_courses.indexOf(current_term_grades[0]), 1);
                         }
-                        
+
                         if (include_current_semester) {
                             all_courses.push(current_courses);
                         }

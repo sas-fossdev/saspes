@@ -198,7 +198,6 @@ export default {
                                 }));
                     }
                     // Calculates cumulative GPA based on credit hours per semester and gpa for each semester.
-                    console.log("got this far in calculation");
                     const cumulative_gpa = Promise.all(fetches).then(function () {
                         let include_current_semester = false;
                         if (current_courses.length !== 0) {

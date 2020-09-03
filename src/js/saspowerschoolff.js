@@ -96,6 +96,12 @@ function main_page () {
             }
             curr += parseInt(e.getAttribute('colspan')) || 1;
         });
+        second_semester = false;
+        for (let t = 0; t < $grade_rows.length; t++) {
+            if (gradeToGPA($grade_rows.eq(t).find('td').get(s2col)) !== -1) {
+                second_semester = true;
+            }
+        }
     }
     for (let i = 0; i < $grade_rows.length; i++) {
         let $course;

@@ -1,5 +1,35 @@
 # Changelog
 
+## [v0.21.4](https://github.com/sas-fossdev/saspes/tree/v0.21.4) (2020-09-05)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.21.3...v0.21.4)
+
+### Fixed
+
+- removed chrome and firefox integration tests [\#223](https://github.com/sas-fossdev/saspes/pull/223) ([Suhas-13](https://github.com/Suhas-13))
+
+### Dependencies
+
+- chore\(deps\): update dependency webpack-cli to ^3.3.12 [\#203](https://github.com/sas-fossdev/saspes/pull/203) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency less-loader to ^6.1.1 [\#200](https://github.com/sas-fossdev/saspes/pull/200) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint to ^7.2.0 [\#198](https://github.com/sas-fossdev/saspes/pull/198) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency less to ^3.11.3 [\#197](https://github.com/sas-fossdev/saspes/pull/197) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency less to ^3.11.2 [\#196](https://github.com/sas-fossdev/saspes/pull/196) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency nightwatch to ^1.3.6 [\#195](https://github.com/sas-fossdev/saspes/pull/195) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint to ^7.1.0 [\#193](https://github.com/sas-fossdev/saspes/pull/193) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency chromedriver to v83 [\#192](https://github.com/sas-fossdev/saspes/pull/192) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency eslint to v7 [\#189](https://github.com/sas-fossdev/saspes/pull/189) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency ava to ^3.8.2 [\#188](https://github.com/sas-fossdev/saspes/pull/188) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency less-loader to ^6.1.0 [\#187](https://github.com/sas-fossdev/saspes/pull/187) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- fix\(deps\): update dependency jquery to ^3.5.1 [\#185](https://github.com/sas-fossdev/saspes/pull/185) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency nightwatch to ^1.3.5 [\#182](https://github.com/sas-fossdev/saspes/pull/182) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency vue-loader to ^15.9.2 [\#178](https://github.com/sas-fossdev/saspes/pull/178) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- chore\(deps\): update dependency command-exists to ^1.2.9 [\#167](https://github.com/sas-fossdev/saspes/pull/167) ([gary-kim-bot](https://github.com/gary-kim-bot))
+
+### Added
+
+- Add Firefox update file script [\#186](https://github.com/sas-fossdev/saspes/pull/186) ([gary-kim](https://github.com/gary-kim))
+
 ## [Open Beta 0.21.3](https://github.com/gary-kim/saspes/tree/v0.21.3) - 2020-05-04
 
 [Full Changelog](https://github.com/gary-kim/saspes/compare/v0.21.2...v0.21.3)

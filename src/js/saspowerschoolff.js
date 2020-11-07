@@ -29,7 +29,12 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { calculate_gpa, extractFinalPercent, gradeToGPA, analytics_message, saveGradesLocally } from './helpers';
+import { 
+    calculate_gpa, 
+    extractFinalPercent, 
+    gradeToGPA, 
+    analytics_message, 
+    saveGradesLocally } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -71,44 +76,21 @@ function main () {
 }
 
 function main_page () {
-    const student_name = document.querySelector('#userName').querySelector('span').innerText;
-    let second_semester = false;
+    let student_name = getStudentName();
+    let { sem1_col, sem2_col } = getSemesterCols();
+    let second_semester = isSecondSemester();
     const courses = [];
     const courses_first_semester = [];
     const $grade_rows = $('#quickLookup table.grid').find('tr');
-    let s1col = 0;
-    let s2col = 0;
     let current_term = "";
     let attendance_href = "";
-    if ($grade_rows.eq(1).html().match("S2") != null) {
-        second_semester = true;
-        let curr = 0;
-        $grade_rows.eq(1).find('th').get().forEach(e => {
-            switch (e.innerText) {
-                case "S1":
-                    s1col = curr;
-                    break;
-                case "S2":
-                    s2col = curr;
-                    break;
-                default:
-                    break;
-            }
-            curr += parseInt(e.getAttribute('colspan')) || 1;
-        });
-        second_semester = false;
-        for (let t = 0; t < $grade_rows.length; t++) {
-            if (gradeToGPA($grade_rows.eq(t).find('td').get(s2col)) !== -1) {
-                second_semester = true;
-            }
-        }
-    }
+    
     for (let i = 0; i < $grade_rows.length; i++) {
         let $course;
         if (second_semester) {
             const $cells = $grade_rows.eq(i).find('td');
-            $course = $cells.eq(s2col).find('a[href^="scores.html"]');
-            const $first_grade = $cells.eq(s1col).find('a[href^="scores.html"]');
+            $course = $cells.eq(sem2_col).find('a[href^="scores.html"]');
+            const $first_grade = $cells.eq(sem1_col).find('a[href^="scores.html"]');
             if ($first_grade.length === 1) {
                 if (gradeToGPA($first_grade.text()) !== -1) {
                     new (Vue.extend(ClassGrade))({
@@ -224,3 +206,57 @@ function html2nodelist (html_string) {
     temp.innerHTML = html_string;
     return temp.content.childNodes;
 }
+
+/**
+ * Returns the student name found in the main page's html
+ * @returns {string} The student's name
+ */
+function getStudentName () {
+    const student_name = document.querySelector('#userName').querySelector('span').innerText;
+}
+
+/**
+ * Return the semester 1 and semester 2 column indexes from the main page HTML.
+ * @returns { number, number } { sem1_col, sem2_col } The first and second semester column indexes.
+ */
+function getSemesterCols () {
+    let sem1_col = 0;
+    let sem2_col = 0;
+    const $grade_rows = $('#quickLookup table.grid').find('tr');
+    if ($grade_rows.eq(1).html().match("S2") != null) {
+        let curr = 0;
+        $grade_rows.eq(1).find('th').get().forEach(e => {
+            switch (e.innerText) {
+                case "S1":
+                    sem1_col = curr;
+                    break;
+                case "S2":
+                    sem2_col = curr;
+                    break;
+                default:
+                    break;
+            }
+            curr += parseInt(e.getAttribute('colspan')) || 1;
+        });
+    }
+    return { sem1_col, sem2_col };
+}
+
+/**
+ * Check whether it is currently second semester or not.
+ * @param {number} sem2_col The column index corresponding to the second semester
+ * @returns {bool} Whether it is currently second semester
+ */
+function isSecondSemester (sem2_col) {
+    const $grade_rows = $('#quickLookup table.grid').find('tr');
+    if ($grade_rows.eq(1).html().match("S2") != null) {
+        for (let t = 0; t < $grade_rows.length; t++) {
+            if (gradeToGPA($grade_rows.eq(t).find('td').get(sem2_col)) !== -1) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+

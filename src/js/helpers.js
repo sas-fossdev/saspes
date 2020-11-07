@@ -27,6 +27,7 @@
 import Assignment from "./models/Assignment";
 import Course from './models/Course';
 import browser from 'webextension-polyfill';
+
 const getKeyRange = require('get-key-range');
 
 const grade_gpa = {

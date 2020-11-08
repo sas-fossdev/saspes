@@ -80,11 +80,10 @@ function main_page () {
     let { sem1_col, sem2_col } = getSemesterCols();
     let second_semester = isSecondSemester();
     const courses = [];
-    const courses_first_semester = [];
     const $grade_rows = $('#quickLookup table.grid').find('tr');
     let current_term = "";
     let attendance_href = "";
-    
+
     for (let i = 0; i < $grade_rows.length; i++) {
         let $course;
         if (second_semester) {
@@ -119,36 +118,12 @@ function main_page () {
     if ((attendance_href = $grade_rows.eq($grade_rows.length - 1)?.find('a[href*="attendancedates"]')?.[0]?.href)) { // Check that attendance_href exists and if it does, run the next line.
         current_term = new URL(attendance_href).searchParams.get("term");
     }
-    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
+    showCurrentGPA(second_semester, courses);
 
     if (second_semester) {
-        fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
-            .then((response) => {
-                return response.text();
-            })
-            .then((data) => {
-                const el = document.createElement("html");
-                let element_list = [];
-                el.innerHTML = data;
-                element_list = el.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
-                element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-                if (element_list.length > 2) {
-                    for (let i = 2; i < element_list.length; i++) {
-                        const $prev_course = element_list[i];
-                        if ($prev_course?.innerText?.trim() === "S2") {
-                            break;
-                        }
-                        if ($prev_course?.getElementsByTagName("td").length > 1) {
-                            courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
-                                $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
-                                $prev_course.getElementsByTagName("td")[1].textContent.trim(),
-                            ));
-                        }
-                    }
-                    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
-                }
-            });
+        showFirstSemGPA();
     }
+
     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<td id="cumulative-gpa"></td>`);
     // passing courses in to possibly include current semester GPA if term has not finished yet.
     new (Vue.extend(CumulativeGPA))({
@@ -259,4 +234,54 @@ function isSecondSemester (sem2_col) {
     return false;
 }
 
+/**
+ * Show the current semester's GPA.
+ * @param second_semester If the current semester is the second semester
+ * @param courses an array of Courses that the student is taking
+ */
+function showCurrentGPA (second_semester, courses) {
+    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
+}
 
+/**
+ * Show the first semester GPA.
+ */
+function showFirstSemGPA () {
+    const courses_first_semester = [];
+    getFirstSemCourses()
+    .then((data) => {
+        const el = document.createElement("html");
+        let element_list = [];
+        el.innerHTML = data;
+        element_list = el.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
+        element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        if (element_list.length > 2) {
+            for (let i = 2; i < element_list.length; i++) {
+                const $prev_course = element_list[i];
+                if ($prev_course?.innerText?.trim() === "S2") {
+                    break;
+                }
+                if ($prev_course?.getElementsByTagName("td").length > 1) {
+                    courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
+                        $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
+                        $prev_course.getElementsByTagName("td")[1].textContent.trim(),
+                    ));
+                }
+            }
+            $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
+        }
+    });
+}
+
+/**
+ * Get the first semester courses and grades HTML.
+ * @returns {Promise} the html from the first semester course and grades page
+ */
+function getFirstSemCourses () {
+    return new Promise((resolve, reject) => {
+        fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
+        .then(response => {
+            resolve(response);
+        });
+    });
+}

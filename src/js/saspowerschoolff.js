@@ -99,16 +99,7 @@ function main_page () {
     }).$mount("#cumulative-gpa");
 
     saveGradesLocally(student_name, courses);
-    // Hypo Grade Calculator
-    const HypoGradesDiv = document.createElement('div');
-    HypoGradesDiv.classList.add("hypo-grade-div-fixed");
-    HypoGradesDiv.id = "saspes-hypo-grades";
-    document.body.appendChild(HypoGradesDiv);
-    new (Vue.extend(HypoGrades))({
-        propsData: {
-            initialCourses: courses,
-        },
-    }).$mount(".hypo-grade-div-fixed");
+    addHypoGradeCalc(courses);
 }
 
 function class_page () {
@@ -307,4 +298,20 @@ function getFirstSemCourses () {
             resolve(response);
         });
     });
+}
+
+/**
+ * Adds the hypothetical grade calculator.
+ * @param {courses} The courses of the student
+ */
+function addHypoGradeCalc (courses) {
+    const HypoGradesDiv = document.createElement('div');
+    HypoGradesDiv.classList.add("hypo-grade-div-fixed");
+    HypoGradesDiv.id = "saspes-hypo-grades";
+    document.body.appendChild(HypoGradesDiv);
+    new (Vue.extend(HypoGrades))({
+        propsData: {
+            initialCourses: courses,
+        },
+    }).$mount(".hypo-grade-div-fixed");
 }

@@ -81,8 +81,6 @@ function main_page () {
     let second_semester = isSecondSemester();
     const courses = [];
     const $grade_rows = $('#quickLookup table.grid').find('tr');
-    let current_term = "";
-    let attendance_href = "";
 
     for (let i = 0; i < $grade_rows.length; i++) {
         let $course;
@@ -115,9 +113,7 @@ function main_page () {
             }
         }
     }
-    if ((attendance_href = $grade_rows.eq($grade_rows.length - 1)?.find('a[href*="attendancedates"]')?.[0]?.href)) { // Check that attendance_href exists and if it does, run the next line.
-        current_term = new URL(attendance_href).searchParams.get("term");
-    }
+    let current_term = getCurrentTerm();
     showCurrentGPA(second_semester, courses);
 
     if (second_semester) {
@@ -241,6 +237,21 @@ function isSecondSemester (sem2_col) {
  */
 function showCurrentGPA (second_semester, courses) {
     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
+}
+
+/**
+ * Returns the current semester by parsing HTML.
+ * @return {string} representing the current semester
+ */
+function getCurrentTerm () {
+    const $grade_rows = $('#quickLookup table.grid').find('tr');
+    let attendance_href = "";
+    let current_term = "";
+    if ((attendance_href = $grade_rows.eq($grade_rows.length - 1)?.find('a[href*="attendancedates"]')?.[0]?.href)) { // Check that attendance_href exists and if it does, run the next line.
+        current_term = new URL(attendance_href).searchParams.get("term");
+    }
+
+    return current_term;
 }
 
 /**

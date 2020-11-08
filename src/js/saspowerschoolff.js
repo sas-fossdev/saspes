@@ -76,44 +76,12 @@ function main () {
 }
 
 function main_page () {
-    let student_name = getStudentName();
-    let { sem1_col, sem2_col } = getSemesterCols();
-    let second_semester = isSecondSemester();
-    const courses = [];
-    const $grade_rows = $('#quickLookup table.grid').find('tr');
+    const student_name = getStudentName();
+    const { sem1_col, sem2_col } = getSemesterCols();
+    const second_semester = isSecondSemester();
+    const current_term = getCurrentTerm();
+    const courses = getCourses(second_semester);
 
-    for (let i = 0; i < $grade_rows.length; i++) {
-        let $course;
-        if (second_semester) {
-            const $cells = $grade_rows.eq(i).find('td');
-            $course = $cells.eq(sem2_col).find('a[href^="scores.html"]');
-            const $first_grade = $cells.eq(sem1_col).find('a[href^="scores.html"]');
-            if ($first_grade.length === 1) {
-                if (gradeToGPA($first_grade.text()) !== -1) {
-                    new (Vue.extend(ClassGrade))({
-                        propsData: {
-                            course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text()),
-                            showMissing: false,
-                        },
-                    }).$mount($first_grade.get(0));
-                }
-            }
-        } else {
-            $course = $grade_rows.eq(i).find('td a[href^="scores.html"]').eq(0);
-        }
-        if ($course.length === 1) {
-            const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text()));
-            if (gradeToGPA($course.text()) !== -1) {
-                new (Vue.extend(ClassGrade))({
-                    propsData: {
-                        course: courses[courses.length - 1],
-                    },
-                }).$mount($course.get(0));
-            }
-        }
-    }
-    let current_term = getCurrentTerm();
     showCurrentGPA(second_semester, courses);
 
     if (second_semester) {
@@ -252,6 +220,50 @@ function getCurrentTerm () {
     }
 
     return current_term;
+}
+
+/**
+ * Returns an array of the current courses of the user and creates Vue objects for the courses.
+ * @param second_semester If the current semester is the second semester
+ * @returns {Course[]} array of Course objects representing the Courses of the user
+ */
+function getCourses(second_semester) {
+    const $grade_rows = $('#quickLookup table.grid').find('tr');
+    const courses = [];
+
+    for (let i = 0; i < $grade_rows.length; i++) {
+        let $course;
+        if (second_semester) {
+            const $cells = $grade_rows.eq(i).find('td');
+            $course = $cells.eq(sem2_col).find('a[href^="scores.html"]');
+            const $first_grade = $cells.eq(sem1_col).find('a[href^="scores.html"]');
+            if ($first_grade.length === 1) {
+                if (gradeToGPA($first_grade.text()) !== -1) {
+                    new (Vue.extend(ClassGrade))({
+                        propsData: {
+                            course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text()),
+                            showMissing: false,
+                        },
+                    }).$mount($first_grade.get(0));
+                }
+            }
+        } else {
+            $course = $grade_rows.eq(i).find('td a[href^="scores.html"]').eq(0);
+        }
+        if ($course.length === 1) {
+            const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
+            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text()));
+            if (gradeToGPA($course.text()) !== -1) {
+                new (Vue.extend(ClassGrade))({
+                    propsData: {
+                        course: courses[courses.length - 1],
+                    },
+                }).$mount($course.get(0));
+            }
+        }
+    }
+
+    return courses;
 }
 
 /**

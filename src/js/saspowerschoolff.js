@@ -30,11 +30,11 @@ import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
 import {
-    calculate_gpa, 
-    extractFinalPercent, 
-    gradeToGPA, 
-    analytics_message, 
-    saveGradesLocally 
+    calculate_gpa,
+    extractFinalPercent,
+    gradeToGPA,
+    analytics_message,
+    saveGradesLocally,
 } from './helpers';
 
 // Vue Components
@@ -110,7 +110,7 @@ function class_page () {
         return;
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
-    
+
     addHypoAssignment();
 }
 
@@ -262,28 +262,28 @@ function getCourses (second_semester, sem1_col, sem2_col) {
 function showFirstSemGPA () {
     const courses_first_semester = [];
     getFirstSemCourses()
-    .then((data) => {
-        const el = document.createElement("html");
-        let element_list = [];
-        el.innerHTML = data;
-        element_list = el.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
-        element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-        if (element_list.length > 2) {
-            for (let i = 2; i < element_list.length; i++) {
-                const $prev_course = element_list[i];
-                if ($prev_course?.innerText?.trim() === "S2") {
-                    break;
+        .then((data) => {
+            const el = document.createElement("html");
+            let element_list = [];
+            el.innerHTML = data;
+            element_list = el.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
+            element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            if (element_list.length > 2) {
+                for (let i = 2; i < element_list.length; i++) {
+                    const $prev_course = element_list[i];
+                    if ($prev_course?.innerText?.trim() === "S2") {
+                        break;
+                    }
+                    if ($prev_course?.getElementsByTagName("td").length > 1) {
+                        courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
+                            $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
+                            $prev_course.getElementsByTagName("td")[1].textContent.trim(),
+                        ));
+                    }
                 }
-                if ($prev_course?.getElementsByTagName("td").length > 1) {
-                    courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
-                        $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
-                        $prev_course.getElementsByTagName("td")[1].textContent.trim(),
-                    ));
-                }
+                $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
             }
-            $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
-        }
-    });
+        });
 }
 
 /**
@@ -293,9 +293,9 @@ function showFirstSemGPA () {
 function getFirstSemCourses () {
     return new Promise((resolve, reject) => {
         fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
-        .then(response => {
-            resolve(response);
-        });
+            .then(response => {
+                resolve(response);
+            });
     });
 }
 

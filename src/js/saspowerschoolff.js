@@ -109,14 +109,10 @@ function class_page () {
         return;
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
-
-    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
-    new (Vue.extend(HypoAssignment))({
-        propsData: {
-            currentFP: number,
-        },
-    }).$mount('#saspes-hypo-assignment');
+    
+    addHypoAssignment();
 }
+
 function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
     browser.storage.local.get({ showExtensionInfo: true }).then(result => {
@@ -302,7 +298,7 @@ function getFirstSemCourses () {
 
 /**
  * Adds the hypothetical grade calculator.
- * @param {courses} The courses of the student
+ * @param courses The courses of the student
  */
 function addHypoGradeCalc (courses) {
     const HypoGradesDiv = document.createElement('div');
@@ -314,4 +310,17 @@ function addHypoGradeCalc (courses) {
             initialCourses: courses,
         },
     }).$mount(".hypo-grade-div-fixed");
+}
+
+/**
+ * Add a hypothetical assignment calculator widget.
+ * @param number The current final percent of the student.
+ */
+function addHypoAssignment (number) {
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
+    new (Vue.extend(HypoAssignment))({
+        propsData: {
+            currentFP: number,
+        },
+    }).$mount('#saspes-hypo-assignment');
 }

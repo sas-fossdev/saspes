@@ -29,12 +29,13 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { 
+import {
     calculate_gpa, 
     extractFinalPercent, 
     gradeToGPA, 
     analytics_message, 
-    saveGradesLocally } from './helpers';
+    saveGradesLocally 
+} from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -80,7 +81,7 @@ function main_page () {
     const { sem1_col, sem2_col } = getSemesterCols();
     const second_semester = isSecondSemester();
     const current_term = getCurrentTerm();
-    const courses = getCourses(second_semester);
+    const courses = getCourses(second_semester, sem1_col, sem2_col);
 
     showCurrentGPA(second_semester, courses);
 
@@ -212,9 +213,11 @@ function getCurrentTerm () {
 /**
  * Returns an array of the current courses of the user and creates Vue objects for the courses.
  * @param second_semester If the current semester is the second semester
+ * @param sem1_col The column of the first semester
+ * @param sem2_col The column of the second semester
  * @returns {Course[]} array of Course objects representing the Courses of the user
  */
-function getCourses(second_semester) {
+function getCourses (second_semester, sem1_col, sem2_col) {
     const $grade_rows = $('#quickLookup table.grid').find('tr');
     const courses = [];
 

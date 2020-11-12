@@ -290,13 +290,8 @@ function showFirstSemGPA () {
  * Get the first semester courses and grades HTML.
  * @returns {Promise} the html from the first semester course and grades page
  */
-function getFirstSemCourses () {
-    return new Promise((resolve, reject) => {
-        fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
-            .then(response => {
-                resolve(response);
-            });
-    });
+async function getFirstSemCourses () {
+    return await (await fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")).text();
 }
 
 /**

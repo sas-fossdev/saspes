@@ -111,7 +111,7 @@ function class_page () {
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
-    addHypoAssignment();
+    addHypoAssignment(number);
 }
 
 function login_page () {

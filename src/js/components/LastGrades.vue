@@ -31,7 +31,8 @@
             <div
                 class="last-grade-open"
                 @click="toggleOpen"
-            >Last Seen Grades 
+            >
+                Last Seen Grades
                 <div
                     id="last-arrow"
                     class="arrow"
@@ -40,15 +41,17 @@
             </div>
             <div
                 ref="panel"
-                class="last-grade-panel"> 
+                class="last-grade-panel"
+            >
                 <table id="last-table">
                     <br>
-                    <tr align = "center"> <td> <h3> Last Seen Grades for {{username}} </h3> </td>
-                    <tr> 
-                    <td> Course Name </td>
-                    <td> Letter Grade </td>
-                    <td> Final Percent(Out of 90) </td>
-                    <tr
+                    <tr align="center">
+                        <td> <h3> Last Seen Grades for {{ username }} </h3> </td>
+                    </tr><tr>
+                        <td> Course Name </td>
+                        <td> Letter Grade </td>
+                        <td> Final Percent(Out of 90) </td>
+                    </tr><tr
                         v-for="course in courses"
                         :key="course.name"
                     >
@@ -61,13 +64,11 @@
                             </a>
                         </td>
                         <td align="center">
-                                {{ course.grade }}
+                            {{ course.grade }}
                         </td>
                         <td align="center">
-                                {{ course.finalPercent }}
+                            {{ course.finalPercent }}
                         </td>
-                        
-                        
                     </tr>
                 </table>
                 <br>
@@ -84,7 +85,7 @@ export default {
     props: {
         username: {
             type: String,
-            required: true
+            required: true,
         },
         initialCourses: {
             type: Array,
@@ -98,7 +99,7 @@ export default {
                 name: "",
                 link: "",
                 grade: "",
-                finalPercent:""
+                finalPercent: "",
             },
         ],
         gradeOptions: [...avaliableGrades, ""],
@@ -132,7 +133,7 @@ export default {
                         name: curr.name,
                         link: curr.link,
                         grade: curr.grade,
-                        finalPercent: curr.finalPercent
+                        finalPercent: curr.finalPercent,
                     });
                 }
             }

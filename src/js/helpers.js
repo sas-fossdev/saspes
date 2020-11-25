@@ -168,7 +168,7 @@ function assignments (node) {
     // Find assignments table, get it's rows, take out the header and legend rows.
     [...node.querySelector('table[align=center').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        const assignment = new Assignment(curr[2] ? curr[2].innerText: "", curr[curr.length - 1] ? curr[curr.length - 1].innerText: "", i);
+        const assignment = new Assignment(curr[2] ? curr[2].innerText : "", curr[curr.length - 1] ? curr[curr.length - 1].innerText : "", i);
         if (e.querySelector('img[src="/images/icon_missing.gif"]')) {
             assignment.addStatus(Assignment.statuses.MISSING);
         }
@@ -187,17 +187,16 @@ async function getSavedGrades (username) {
     const courses = [];
     return new Promise((resolve) => {
         (browser.storage.local.get("USERDATA_" + username)).then(output => {
-            if (output["USERDATA_" + username] != undefined) {     
-                const course_list = output["USERDATA_" + username]['courses'] || [];
+            if (output["USERDATA_" + username] !== undefined) {
+                const course_list = output["USERDATA_" + username].courses || [];
                 for (let i = 0; i < course_list.length; i++) {
-                    let course = course_list[i];
+                    const course = course_list[i];
                     courses.push(new Course(course.name, course.link, course.grade, course.finalPercent, course.assignments));
                 }
                 resolve(courses);
             }
-        })
-    })
-    
+        });
+    });
 }
 
 /**
@@ -212,9 +211,8 @@ async function saveGradesLocally (username, courses) {
     for (let i = 0; i < courses.length; i++) {
         course_list.push(courses[i].toObject());
     }
-    console.log(course_list);
     user_data["USERDATA_" + username] = { "courses": course_list };
-    user_data["most_recent_user"] = username;
+    user_data.most_recent_user = username;
     browser.storage.local.set(user_data);
 }
 

@@ -2,7 +2,7 @@
  - @copyright Copyright (c) 2020 Gary Kim <gary@garykim.dev>
  - @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  - @author Gary Kim <gary@garykim.dev>
- 
+
  -
  - @license GNU AGPL version 3 only
  -
@@ -106,11 +106,6 @@ export default {
             }
             return [];
         },
-    },
-    async mounted () {
-        if (!(await browser.storage.local.get({ percent_main_page: true })).percent_main_page) {
-            return;
-        }
     },
 };
 </script>

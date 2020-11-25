@@ -12,7 +12,6 @@
                 type="checkbox"
             >Load final percent and missing assignments on overall grade page (More network intensive)</label>
             <br>
-        <!--<label><input type="checkbox" id="save-grades" />Save last seen grades (requires previous option to work)</label>-->
         </form>
         <br>
 
@@ -27,10 +26,10 @@
                 <span v-else>Copy</span>
             </button><br>
             <br>
-            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a href="https://github.com/gary-kim/saspes">GitHub page</a> if you'd like to participate as well.<br>
+            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a href="https://github.com/sas-fossdev/saspes">GitHub page</a> if you'd like to participate as well.<br>
             <br>
             More info and source code (Anyone and everyone is welcome to contribute): <br>
-            <a href="https://github.com/gary-kim/saspes">https://github.com/gary-kim/saspes</a><br>
+            <a href="https://github.com/sas-fossdev/saspes">https://github.com/sas-fossdev/saspes</a><br>
             <br>
             Credits: <br>
             Special thanks to Alan Chang for the idea. <br>

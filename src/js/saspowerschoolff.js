@@ -2,7 +2,7 @@
  *
  * @copyright Copyright (c) 2018-2020 Gary Kim <gary@garykim.dev>
  *
- * @copyright Copyright (c) 2020 Suhas Hariharan <mail@suhas.net>
+ * @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  *
  * @author Gary Kim <gary@garykim.dev>
  *
@@ -29,7 +29,7 @@
 import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
-import { calculate_gpa, extractFinalPercent, gradeToGPA, analytics_message, saveGradesLocally } from './helpers';
+import { assignments, calculate_gpa, extractFinalPercent, gradeToGPA, analytics_message, saveGradesLocally, getSavedGrades } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
@@ -37,6 +37,7 @@ import ClassGrade from './components/ClassGrade';
 import ExtensionInfo from './components/ExtensionInfo.vue';
 import HypoAssignment from './components/HypoAssignment.vue';
 import HypoGrades from './components/HypoGrades';
+import LastSeenGrades from './components/LastGrades.vue';
 
 // Used models
 import Course from './models/Course';
@@ -75,6 +76,7 @@ function main_page () {
     let second_semester = false;
     const courses = [];
     const courses_first_semester = [];
+    const promises_grade_calc_list = [];
     const $grade_rows = $('#quickLookup table.grid').find('tr');
     let s1col = 0;
     let s2col = 0;
@@ -111,34 +113,54 @@ function main_page () {
             const $first_grade = $cells.eq(s1col).find('a[href^="scores.html"]');
             if ($first_grade.length === 1) {
                 if (gradeToGPA($first_grade.text()) !== -1) {
-                    new (Vue.extend(ClassGrade))({
-                        propsData: {
-                            course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text()),
-                            showMissing: false,
-                        },
-                    }).$mount($first_grade.get(0));
+                    (async () => {
+                        promises_grade_calc_list.push(new Promise(async (res, rej) => {
+                            const page = document.implementation.createHTMLDocument();
+                            page.documentElement.innerHTML =  await ( await fetch(`https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, { credentials: "same-origin" })).text();
+                            let finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
+                            new (Vue.extend(ClassGrade))({
+                                propsData: {
+                                    course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), finalPercent, showMissing= false)
+                                },
+                            }).$mount($first_grade.get(0));
+                            res("Success");
+                        }))
+                    })();
                 }
+                
             }
         } else {
             $course = $grade_rows.eq(i).find('td a[href^="scores.html"]').eq(0);
         }
         if ($course.length === 1) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text()));
-            if (gradeToGPA($course.text()) !== -1) {
-                new (Vue.extend(ClassGrade))({
-                    propsData: {
-                        course: courses[courses.length - 1],
-                    },
-                }).$mount($course.get(0));
-            }
+            (async () => {
+                promises_grade_calc_list.push(new Promise(async (res, rej) => {
+                    const page = document.implementation.createHTMLDocument();
+                    page.documentElement.innerHTML =  await ( await fetch(`https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, { credentials: "same-origin" })).text();
+                    let finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
+                    let assignment_list = assignments(page.querySelector('body'));
+                    courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), finalPercent, assignment_list));
+                    if (gradeToGPA($course.text()) !== -1) {
+                        new (Vue.extend(ClassGrade))({
+                            propsData: {
+                                course: courses[courses.length - 1],
+                            },
+                        }).$mount($course.get(0));
+                    }
+                    res("Success");
+                }))
+            })();
         }
     }
     if ((attendance_href = $grade_rows.eq($grade_rows.length - 1)?.find('a[href*="attendancedates"]')?.[0]?.href)) { // Check that attendance_href exists and if it does, run the next line.
         current_term = new URL(attendance_href).searchParams.get("term");
     }
-    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
-
+    Promise.all(promises_grade_calc_list).then(result => {
+        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
+        saveGradesLocally(student_name, courses);
+    })
+ 
     if (second_semester) {
         fetch("https://powerschool.sas.edu.sg/guardian/termgrades.html")
             .then((response) => {
@@ -159,12 +181,14 @@ function main_page () {
                         if ($prev_course?.getElementsByTagName("td").length > 1) {
                             courses_first_semester.push(new Course($prev_course.getElementsByTagName("td")[0].textContent.trim(),
                                 $prev_course.getElementsByTagName("td")[2].getElementsByTagName("a")[0].href,
-                                $prev_course.getElementsByTagName("td")[1].textContent.trim(),
+                                $prev_course.getElementsByTagName("td")[1].textContent.trim()
                             ));
                         }
                     }
-                    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
                 }
+                Promise.all(promises_grade_calc_list).then(result => {
+                    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
+                })
             });
     }
     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<td id="cumulative-gpa"></td>`);
@@ -176,8 +200,8 @@ function main_page () {
             secondSemester: second_semester,
         },
     }).$mount("#cumulative-gpa");
-
-    saveGradesLocally(student_name, courses);
+    
+    
     // Hypo Grade Calculator
     const HypoGradesDiv = document.createElement('div');
     HypoGradesDiv.classList.add("hypo-grade-div-fixed");
@@ -188,7 +212,18 @@ function main_page () {
             initialCourses: courses,
         },
     }).$mount(".hypo-grade-div-fixed");
+
+    new (Vue.extend(HypoGrades))({
+        propsData: {
+            initialCourses: courses,
+        },
+    }).$mount(".hypo-grade-div-fixed");
+
+    
+    
+
 }
+
 
 function class_page () {
     // Show final percent
@@ -214,6 +249,25 @@ function login_page () {
             },
         }).$mount('#saspes-info');
     });
+    const LastGradesDiv = document.createElement('div');
+    LastGradesDiv.classList.add("last-grade-div-fixed");
+    LastGradesDiv.id = "saspes-last-grades";
+    document.body.appendChild(LastGradesDiv);
+    (browser.storage.local.get("most_recent_user")).then(output => {
+        if (output["most_recent_user"] != undefined) {
+            (async () => {
+                let courses =  await getSavedGrades(output["most_recent_user"]);
+                new (Vue.extend(LastSeenGrades))({
+                propsData: {
+                    username: output["most_recent_user"],
+                    initialCourses: courses,
+                },
+                }).$mount(".last-grade-div-fixed");
+            })();
+         }
+    })
+   
+    
 }
 
 function html2node (html_string) {

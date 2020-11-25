@@ -1,7 +1,7 @@
 /**
  *
  * @copyright Copyright (c) 2018-2020 Gary Kim <gary@garykim.dev>
- *
+ * @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  * @author Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 only
@@ -168,7 +168,7 @@ function assignments (node) {
     // Find assignments table, get it's rows, take out the header and legend rows.
     [...node.querySelector('table[align=center').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        const assignment = new Assignment(curr[2].innerText, curr[curr.length - 1].innerText, i);
+        const assignment = new Assignment(curr[2] ? curr[2].innerText: "", curr[curr.length - 1] ? curr[curr.length - 1].innerText: "", i);
         if (e.querySelector('img[src="/images/icon_missing.gif"]')) {
             assignment.addStatus(Assignment.statuses.MISSING);
         }
@@ -179,18 +179,27 @@ function assignments (node) {
 
 /**
  * Return saved grades for specified username.
- * @async
+ *  @async
  * @param {String} username users full name
  * @returns {Promise<Course[]>} list of courses objects for that user
  */
 async function getSavedGrades (username) {
     const courses = [];
-    const course_list = (await browser.storage.local.get("USERDATA_" + username))["USERDATA_" + username] || [];
-    course_list.forEach(course => {
-        courses.push(new Course(course.name, course.link, course.grade, course.finalPercent, course.assignments));
-    });
-    return courses;
+    return new Promise((resolve) => {
+        (browser.storage.local.get("USERDATA_" + username)).then(output => {
+            if (output["USERDATA_" + username] != undefined) {     
+                const course_list = output["USERDATA_" + username]['courses'] || [];
+                for (let i = 0; i < course_list.length; i++) {
+                    let course = course_list[i];
+                    courses.push(new Course(course.name, course.link, course.grade, course.finalPercent, course.assignments));
+                }
+                resolve(courses);
+            }
+        })
+    })
+    
 }
+
 /**
  * Saves grades for user to browser local storage
  * @async
@@ -203,15 +212,10 @@ async function saveGradesLocally (username, courses) {
     for (let i = 0; i < courses.length; i++) {
         course_list.push(courses[i].toObject());
     }
+    console.log(course_list);
     user_data["USERDATA_" + username] = { "courses": course_list };
+    user_data["most_recent_user"] = username;
     browser.storage.local.set(user_data);
-    const user_list = (await browser.storage.local.get({ user_list: [] })).user_list;
-    if (!user_list.includes(username)) {
-        user_list.push(username);
-        const users = {};
-        users.user_list = user_list;
-        browser.storage.local.set(users);
-    }
 }
 
 /**

@@ -127,13 +127,13 @@ export default {
         resetData () {
             const toSet = [];
             for (let i = 0; i < this.initialCourses.length; i++) {
-                const curr = this.initialCourses[i];
-                if (curr.grade !== "[ i ]") {
+                const course = this.initialCourses[i];
+                if (course.grade !== "[ i ]") {
                     toSet.push({
-                        name: curr.name,
-                        link: curr.link,
-                        grade: curr.grade,
-                        finalPercent: curr.finalPercent,
+                        name: course.name,
+                        link: course.link,
+                        grade: course.grade,
+                        finalPercent: course.finalPercent,
                     });
                 }
             }

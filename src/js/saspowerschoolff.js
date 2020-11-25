@@ -113,7 +113,7 @@ function main_page () {
             const $first_grade = $cells.eq(s1col).find('a[href^="scores.html"]');
             if ($first_grade.length === 1) {
                 if (gradeToGPA($first_grade.text()) !== -1) {
-                    promises_grade_calc_list.push(new Promise ((resolve, reject) => {
+                    promises_grade_calc_list.push(new Promise((resolve, reject) => {
                         fetch(`https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
                             const page = document.implementation.createHTMLDocument();
                             page.documentElement.innerHTML = response;
@@ -123,8 +123,8 @@ function main_page () {
                                     course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), finalPercent), showMissing: false,
                                 },
                             }).$mount($first_grade.get(0));
-                        })
-                    }))
+                        });
+                    }));
                 }
             }
         } else {
@@ -132,7 +132,7 @@ function main_page () {
         }
         if ($course.length === 1) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            promises_grade_calc_list.push(new Promise ((resolve, reject) => {
+            promises_grade_calc_list.push(new Promise((resolve, reject) => {
                 fetch(`https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
                     const page = document.implementation.createHTMLDocument();
                     page.documentElement.innerHTML = response;
@@ -147,13 +147,14 @@ function main_page () {
                         }).$mount($course.get(0));
                     }
                     resolve("Success");
-                })}))
-            }
+                });
+            }));
+        }
     }
     if ((attendance_href = $grade_rows.eq($grade_rows.length - 1)?.find('a[href*="attendancedates"]')?.[0]?.href)) { // Check that attendance_href exists and if it does, run the next line.
         current_term = new URL(attendance_href).searchParams.get("term");
     }
-    
+
     Promise.all(promises_grade_calc_list).then(result => {
         $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
         saveGradesLocally(student_name, courses);
@@ -188,33 +189,33 @@ function main_page () {
                     $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Last Semester GPA (S1): ${calculate_gpa(courses_first_semester)}</td></tr>`);
                 });
             });
-    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<td id="cumulative-gpa"></td>`);
-    // passing courses in to possibly include current semester GPA if term has not finished yet.
-    new (Vue.extend(CumulativeGPA))({
-        propsData: {
-            courses: courses,
-            currentTerm: current_term,
-            secondSemester: second_semester,
-        },
-    }).$mount("#cumulative-gpa");
+        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<td id="cumulative-gpa"></td>`);
+        // passing courses in to possibly include current semester GPA if term has not finished yet.
+        new (Vue.extend(CumulativeGPA))({
+            propsData: {
+                courses: courses,
+                currentTerm: current_term,
+                secondSemester: second_semester,
+            },
+        }).$mount("#cumulative-gpa");
 
-    // Hypo Grade Calculator
-    const HypoGradesDiv = document.createElement('div');
-    HypoGradesDiv.classList.add("hypo-grade-div-fixed");
-    HypoGradesDiv.id = "saspes-hypo-grades";
-    document.body.appendChild(HypoGradesDiv);
-    new (Vue.extend(HypoGrades))({
-        propsData: {
-            initialCourses: courses,
-        },
-    }).$mount(".hypo-grade-div-fixed");
+        // Hypo Grade Calculator
+        const HypoGradesDiv = document.createElement('div');
+        HypoGradesDiv.classList.add("hypo-grade-div-fixed");
+        HypoGradesDiv.id = "saspes-hypo-grades";
+        document.body.appendChild(HypoGradesDiv);
+        new (Vue.extend(HypoGrades))({
+            propsData: {
+                initialCourses: courses,
+            },
+        }).$mount(".hypo-grade-div-fixed");
 
-    new (Vue.extend(HypoGrades))({
-        propsData: {
-            initialCourses: courses,
-        },
-    }).$mount(".hypo-grade-div-fixed");
-}
+        new (Vue.extend(HypoGrades))({
+            propsData: {
+                initialCourses: courses,
+            },
+        }).$mount(".hypo-grade-div-fixed");
+    }
 }
 
 function class_page () {

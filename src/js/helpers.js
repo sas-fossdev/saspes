@@ -185,18 +185,15 @@ function assignments (node) {
  */
 async function getSavedGrades (username) {
     const courses = [];
-    return new Promise((resolve) => {
-        (browser.storage.local.get("USERDATA_" + username)).then(output => {
-            if (output["USERDATA_" + username] !== undefined) {
-                const course_list = output["USERDATA_" + username].courses || [];
-                for (let i = 0; i < course_list.length; i++) {
-                    const course = course_list[i];
-                    courses.push(new Course(course.name, course.link, course.grade, course.finalPercent, course.assignments));
-                }
-                resolve(courses);
-            }
-        });
-    });
+    const course_list = await browser.storage.local.get("USERDATA_" + username)
+    if (output["USERDATA_" + username] !== undefined) {
+        const course_list = output["USERDATA_" + username].courses || [];
+        for (let i = 0; i < course_list.length; i++) {
+            const course = course_list[i];
+            courses.push(new Course(course.name, course.link, course.grade, course.finalPercent, course.assignments));
+        }
+        return course_list;
+    }
 }
 
 /**

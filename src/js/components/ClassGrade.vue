@@ -2,7 +2,6 @@
  - @copyright Copyright (c) 2020 Gary Kim <gary@garykim.dev>
  - @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  - @author Gary Kim <gary@garykim.dev>
-
  -
  - @license GNU AGPL version 3 only
  -

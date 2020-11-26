@@ -49,7 +49,7 @@
                     @click="link_analytics"
                 >Website/Source Code</a> |
                 <a
-                    href="hhttps://github.com/sas-fossdev/saspes/blob/master/CHANGELOG.md"
+                    href="https://github.com/sas-fossdev/saspes/blob/master/CHANGELOG.md"
                     class="saspes-link"
                     target="_blank"
                     @click="link_analytics"

@@ -168,7 +168,7 @@ function assignments (node) {
     // Find assignments table, get it's rows, take out the header and legend rows.
     [...node.querySelector('table[align=center').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        const assignment = new Assignment(curr[2] ? curr[2].innerText : "", curr[curr.length - 1] ? curr[curr.length - 1].innerText : "", i);
+        const assignment = new Assignment(curr[2]?.innerText || "", curr[curr.length - 1]?.innerText || "", i);
         if (e.querySelector('img[src="/images/icon_missing.gif"]')) {
             assignment.addStatus(Assignment.statuses.MISSING);
         }
@@ -179,7 +179,7 @@ function assignments (node) {
 
 /**
  * Return saved grades for specified username.
- *  @async
+ * @async
  * @param {String} username users full name
  * @returns {Promise<Course[]>} list of courses objects for that user
  */

@@ -20,7 +20,6 @@
         </form>
         <br>
         <footer>
-            For any suggestions or feedback/inquiries regarding downloading or deleting collected analytics data, please email <a href="mailto:kim42176@sas.edu.sg">kim42176@sas.edu.sg</a>.<br>
             <br>
             Analytics ID: {{ options.id }}<span style="white-space: nowrap; padding-left: 5px;" /><button @click="copyId">
                 <span v-if="copiedRecently">Copied!</span>

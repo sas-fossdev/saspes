@@ -101,7 +101,9 @@ function main_page () {
             secondSemester: second_semester,
         },
     }).$mount("#cumulative-gpa");
-    addHypoGradeCalc(courses);
+    Promise.all(promises_grade_calc_list).then(_ => {
+        addHypoGradeCalc(courses);
+    });
 }
 
 function class_page () {

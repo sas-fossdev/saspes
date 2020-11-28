@@ -86,7 +86,7 @@ function main_page () {
     const current_term = getCurrentTerm();
     const { courses, promises_grade_calc_list } = getCourses(second_semester, sem1_col, sem2_col);
 
-    showCurrentGPA(second_semester, courses);
+    showCurrentGPA(second_semester, courses, promises_grade_calc_list);
 
     if (second_semester) {
         showFirstSemGPA();
@@ -101,11 +101,6 @@ function main_page () {
             secondSemester: second_semester,
         },
     }).$mount("#cumulative-gpa");
-
-    Promise.all(promises_grade_calc_list).then(_ => {
-        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
-        saveGradesLocally(student_name, courses);
-    });
     addHypoGradeCalc(courses);
 }
 
@@ -218,8 +213,11 @@ function isSecondSemester (sem2_col) {
  * @param second_semester If the current semester is the second semester
  * @param courses an array of Courses that the student is taking
  */
-function showCurrentGPA (second_semester, courses) {
-    $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
+function showCurrentGPA (second_semester, courses, promises_grade_calc_list) {
+    Promise.all(promises_grade_calc_list).then(_ => {
+        $("table[border='0'][cellpadding='3'][cellspacing='1'][width='100%']").prepend(`<tr><td align="center">Current Semester GPA (${second_semester ? 'S2' : 'S1'}): ${calculate_gpa(courses)}</td></tr>`);
+        saveGradesLocally(getStudentName(), courses);
+    });
 }
 
 /**

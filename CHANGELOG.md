@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.22.1](https://github.com/sas-fossdev/saspes/tree/v0.22.1) (2020-11-28)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.22.0...v0.22.1)
+
+### Fixed
+
+- fixed hypo assignment and hypo grades not working due to refactor [\#236](https://github.com/sas-fossdev/saspes/pull/236) ([Suhas-13](https://github.com/Suhas-13))
+
 ## [v0.22.0](https://github.com/sas-fossdev/saspes/tree/v0.22.0) (2020-11-28)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.21.4...v0.22.0)

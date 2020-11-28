@@ -73,6 +73,11 @@
                 </table>
                 <br>
                 <h3>With the above grades, semester GPA would be: {{ gpa }}.</h3>
+                <br>
+                <div style="margin-left:2.5%; margin-right:2.5%">
+                    <i style="font-size: 13px">This will allow you to see grades while PowerSchool is closed, for example during exam periods.<br> However if you'd prefer to disable this, you can access the extension options in the top right hand<br> and uncheck this option.</i>
+                </div>
+                <br>
             </div>
         </div>
     </div>

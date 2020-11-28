@@ -120,7 +120,7 @@ function class_page () {
     addHypoAssignment(number);
 }
 
-function login_page () {
+async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
     browser.storage.local.get({ showExtensionInfo: true }).then(result => {
         new (Vue.extend(ExtensionInfo))({
@@ -133,19 +133,21 @@ function login_page () {
     LastGradesDiv.classList.add("last-grade-div-fixed");
     LastGradesDiv.id = "saspes-last-grades";
     document.body.appendChild(LastGradesDiv);
-    (browser.storage.local.get("most_recent_user")).then(output => {
-        if (output.most_recent_user !== undefined) {
-            (async () => {
-                const courses = await getSavedGrades(output.most_recent_user);
-                new (Vue.extend(LastSeenGrades))({
-                    propsData: {
-                        username: output.most_recent_user,
-                        initialCourses: courses,
-                    },
-                }).$mount(".last-grade-div-fixed");
-            })();
-        }
-    });
+    if ((await browser.storage.local.get({ save_last_grades: true })).save_last_grades) {
+        (browser.storage.local.get("most_recent_user")).then(output => {
+            if (output.most_recent_user !== undefined) {
+                (async () => {
+                    const courses = await getSavedGrades(output.most_recent_user);
+                    new (Vue.extend(LastSeenGrades))({
+                        propsData: {
+                            username: output.most_recent_user,
+                            initialCourses: courses,
+                        },
+                    }).$mount(".last-grade-div-fixed");
+                })();
+            }
+        });
+    }
 }
 
 function html2node (html_string) {

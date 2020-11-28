@@ -12,13 +12,14 @@
                 type="checkbox"
             >Load final percent and missing assignments on overall grade page (More network intensive)</label>
             <br>
+            <label><input
+                v-model="options.save_last_grades"
+                type="checkbox"
+            >Enable last seen grades, shows last seen grades without logging in to PowerSchool, can be used during exams when PowerSchool is closed.</label>
+            <br>
         </form>
         <br>
-
         <footer>
-            <br>
-            Last Seen Grades has been temporarily removed to be improved upon.<br>
-            <br>
             For any suggestions or feedback/inquiries regarding downloading or deleting collected analytics data, please email <a href="mailto:kim42176@sas.edu.sg">kim42176@sas.edu.sg</a>.<br>
             <br>
             Analytics ID: {{ options.id }}<span style="white-space: nowrap; padding-left: 5px;" /><button @click="copyId">
@@ -50,7 +51,7 @@ function defaultOptions () {
         id: "Not set yet",
         percent_main_page: true,
         analytics: true,
-        save_grades_temp: true,
+        save_last_grades: true,
     };
 }
 

@@ -1,6 +1,6 @@
 <!--
  - @copyright Copyright (c) 2018-2020 Gary Kim <gary@garykim.dev>
- -
+ - @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  - @author Gary Kim <gary@garykim.dev>
  -
  - @license GNU AGPL version 3 only
@@ -44,25 +44,25 @@
             <p>
                 <a
                     class="saspes-link"
-                    href="https://github.com/gary-kim/saspes/"
+                    href="https://github.com/sas-fossdev/saspes"
                     target="_blank"
                     @click="link_analytics"
                 >Website/Source Code</a> |
                 <a
-                    href="https://github.com/gary-kim/saspes/blob/master/CHANGELOG.md"
+                    href="https://github.com/sas-fossdev/saspes/blob/master/CHANGELOG.md"
                     class="saspes-link"
                     target="_blank"
                     @click="link_analytics"
                 >Changelog</a> |
                 <a
                     class="saspes-link"
-                    href="https://github.com/gary-kim/saspes/issues"
+                    href="https://github.com/sas-fossdev/saspes/issues"
                     target="_blank"
                     @click="link_analytics"
                 >Issue Tracker</a> |
                 <a
                     class="saspes-link"
-                    href="https://github.com/gary-kim/saspes/blob/master/LICENSE"
+                    href="https://github.com/sas-fossdev/saspes/blob/master/LICENSE"
                     target="_blank"
                     @click="link_analytics"
                 >License (AGPL-3.0-only)</a> |

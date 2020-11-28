@@ -1,6 +1,6 @@
 <!--
  - @copyright Copyright (c) 2020 Gary Kim <gary@garykim.dev>
- -
+ - @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  - @author Gary Kim <gary@garykim.dev>
  -
  - @license GNU AGPL version 3 only
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import { extractFinalPercent, assignments } from "../helpers";
 import Course from "../models/Course";
 
 import { VPopover } from 'v-tooltip';
@@ -106,17 +105,6 @@ export default {
             }
             return [];
         },
-    },
-    async mounted () {
-        if (!(await browser.storage.local.get({ percent_main_page: true })).percent_main_page) {
-            return;
-        }
-        const page = document.implementation.createHTMLDocument();
-        page.documentElement.innerHTML = await (await fetch(this.course.link, { credentials: "same-origin" })).text();
-        this.finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
-        if (this.showMissing) {
-            this.assignments = assignments(page.querySelector('body'));
-        }
     },
 };
 </script>

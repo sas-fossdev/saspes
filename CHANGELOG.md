@@ -1,5 +1,23 @@
 # Changelog
 
+## [v0.22.0](https://github.com/sas-fossdev/saspes/tree/v0.22.0) (2020-11-28)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.21.4...v0.22.0)
+
+### Changed
+
+- fix: refactor to improve readability of main\_page function [\#230](https://github.com/sas-fossdev/saspes/pull/230) ([priime0](https://github.com/priime0))
+
+### Dependencies
+
+- fix\(deps\): update dependency axios to ^0.21.0 [\#229](https://github.com/sas-fossdev/saspes/pull/229) ([gary-kim-bot](https://github.com/gary-kim-bot))
+- fix\(deps\): update dependency axios to ^0.20.0 [\#218](https://github.com/sas-fossdev/saspes/pull/218) ([gary-kim-bot](https://github.com/gary-kim-bot))
+
+### Added
+
+- fixed gpa calculation [\#234](https://github.com/sas-fossdev/saspes/pull/234) ([Suhas-13](https://github.com/Suhas-13))
+- added last seen grades feature, updated various links in extension op… [\#232](https://github.com/sas-fossdev/saspes/pull/232) ([Suhas-13](https://github.com/Suhas-13))
+
 ## [v0.21.4](https://github.com/sas-fossdev/saspes/tree/v0.21.4) (2020-09-05)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.21.3...v0.21.4)

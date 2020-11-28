@@ -37,7 +37,8 @@ Regardless of what the extension calculates, teachers are able to override the f
 * Recalculate final percent and grade with an extra assignment
 
 ### Extra Features
-* (Temporarily removed for development [#4](https://github.com/gary-kim/saspes/issues/4) ) ~~View grades and final percents for courses even when Powerschool is closed.~~
+* View grades and final percents for courses even when Powerschool is closed.
+
 
 
 ## Browser Support

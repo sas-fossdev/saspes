@@ -207,6 +207,8 @@ export default {
                             }
                         }
                         // Handles edge case where grade history page is updated before semester end, removes the old value and counts the latest version of the current semester.
+                        // Temporarily removing this as this edge case is causing double counting current semester, this can be re-implemented later, but is likely unimportant as the previous instance of this being needed was due to COVID-19 grade freeze.
+                        /*
                         if (current_term_history === current_term && include_current_semester && current_term_grades.length === 2 && current_semester) {
                             all_courses.splice(all_courses.indexOf(current_term_grades[1]), 1);
                         } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {
@@ -216,6 +218,7 @@ export default {
                         if (include_current_semester) {
                             all_courses.push(current_courses);
                         }
+                        */
                         let total_count = 0;
                         let total_gpa = 0;
                         for (let i = 0; i < all_courses.length; i++) {

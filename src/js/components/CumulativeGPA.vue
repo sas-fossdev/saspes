@@ -138,7 +138,7 @@ export default {
                 this.currently = CURRENTLY.ERROR;
             }
         },
-        calculate_cumulative_gpa (current_courses, current_term, current_semester) {
+        calculate_cumulative_gpa (current_courses, current_term, is_second_semester) {
             const list_of_gpas = [];
             const all_courses = [];
             const credit_hour_list = [];
@@ -198,20 +198,27 @@ export default {
                     }
                     // Calculates cumulative GPA based on credit hours per semester and gpa for each semester.
                     const cumulative_gpa = Promise.all(fetches).then(function () {
-                        let include_current_semester = false;
-                        if (current_courses.length !== 0) {
-                            for (let i = 0; i < current_courses.length; i++) {
-                                if (new URL(current_courses[i].link).searchParams.get("begdate")) {
-                                    include_current_semester = true;
-                                }
-                            }
+                        let include_current_semester;
+                        let current_semester;
+                        if (is_second_semester) {
+                            current_semester = "S2";
+                        } else {
+                            current_semester = "S1";
+                        }
+                        if (current_term === current_semester) {
+                            include_current_semester = false;
+                        } else {
+                            include_current_semester = true;
                         }
                         // Handles edge case where grade history page is updated before semester end, removes the old value and counts the latest version of the current semester.
+                        // Removed as it seems to be causing other issues with calculating cumulative GPA, this can be reworked if necessary, but it is a rare case as it only occured when SAS implemented a grade freeze due to COVID resulting in grade history being updated prematurely.
+                        /* temporarily
                         if (current_term_history === current_term && include_current_semester && current_term_grades.length === 2 && current_semester) {
                             all_courses.splice(all_courses.indexOf(current_term_grades[1]), 1);
                         } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {
                             all_courses.splice(all_courses.indexOf(current_term_grades[0]), 1);
                         }
+                        */
 
                         if (include_current_semester) {
                             all_courses.push(current_courses);

@@ -200,21 +200,19 @@ export default {
                     const cumulative_gpa = Promise.all(fetches).then(function () {
                         let include_current_semester;
                         let current_semester;
-                        if (second_semester) {
+                        if (is_second_semester) {
                             current_semester = "S2";
-                        }
-                        else {
+                        } else {
                             current_semester = "S1";
                         }
-                        if (current_term == current_semester) {
+                        if (current_term === current_semester) {
                             include_current_semester = false;
-                        }
-                        else {
+                        } else {
                             include_current_semester = true;
                         }
                         // Handles edge case where grade history page is updated before semester end, removes the old value and counts the latest version of the current semester.
                         // Removed as it seems to be causing other issues with calculating cumulative GPA, this can be reworked if necessary, but it is a rare case as it only occured when SAS implemented a grade freeze due to COVID resulting in grade history being updated prematurely.
-                        /* temporarily 
+                        /* temporarily
                         if (current_term_history === current_term && include_current_semester && current_term_grades.length === 2 && current_semester) {
                             all_courses.splice(all_courses.indexOf(current_term_grades[1]), 1);
                         } else if (current_term_history === current_term && include_current_semester && current_term_grades.length === 1 && current_semester === false) {

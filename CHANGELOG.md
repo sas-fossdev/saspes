@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.22.2](https://github.com/sas-fossdev/saspes/tree/v0.22.2) (2020-12-12)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.22.1...v0.22.2)
+
+### Fixed
+
+- Cumulative gpa fix [\#242](https://github.com/sas-fossdev/saspes/pull/242) ([Suhas-13](https://github.com/Suhas-13))
+
 ## [v0.22.1](https://github.com/sas-fossdev/saspes/tree/v0.22.1) (2020-11-28)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.22.0...v0.22.1)

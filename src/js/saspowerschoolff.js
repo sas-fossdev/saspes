@@ -70,7 +70,7 @@ function main () {
         class_page();
     } else if (page_url === "https://powerschool.sas.edu.sg/guardian/home.html" || page_url === "https://powerschool.sas.edu.sg/public/" || page_url === "https://powerschool.sas.edu.sg/public/home.html") {
         login_page();
-    } 
+    }
 }
 
 function main_page () {

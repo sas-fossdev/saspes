@@ -3,11 +3,6 @@
         <h3>Version: {{ version }}</h3>
         <form>
             <label><input
-                v-model="options.analytics"
-                type="checkbox"
-            >Enable Analytics</label>
-            <br>
-            <label><input
                 v-model="options.percent_main_page"
                 type="checkbox"
             >Load final percent and missing assignments on overall grade page (More network intensive)</label>
@@ -21,15 +16,9 @@
         <br>
         <footer>
             <br>
-            Analytics ID: {{ options.id }}<span style="white-space: nowrap; padding-left: 5px;" /><button @click="copyId">
-                <span v-if="copiedRecently">Copied!</span>
-                <span v-else>Copy</span>
-            </button><br>
+            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a href="https://github.com/sas-fossdev/saspes" target="_blank">GitHub page</a> if you'd like to participate as well.<br>
             <br>
-            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a href="https://github.com/sas-fossdev/saspes">GitHub page</a> if you'd like to participate as well.<br>
-            <br>
-            More info and source code (Anyone and everyone is welcome to contribute): <br>
-            <a href="https://github.com/sas-fossdev/saspes">https://github.com/sas-fossdev/saspes</a><br>
+            If you believe you have encountered a bug in the extension, or have any other inquiries, please create an issue on <a href="https://github.com/sas-fossdev/saspes/issues" target="_blank"> the repository</a> or email <a href="mailto:contact@suhas.net" target="_blank">contact@suhas.net</a><br>
             <br>
             Credits: <br>
             Special thanks to Alan Chang for the idea. <br>
@@ -42,14 +31,12 @@
 </template>
 
 <script>
-import { analytics_message } from '../helpers';
 import browser from 'webextension-polyfill';
 
 function defaultOptions () {
     return {
         id: "Not set yet",
         percent_main_page: true,
-        analytics: true,
         save_last_grades: true,
     };
 }
@@ -78,7 +65,6 @@ export default {
         },
     },
     async mounted () {
-        analytics_message("Options Page", "saspes://options");
         await this.resetData();
         browser.storage.onChanged.addListener(this.resetData);
     },

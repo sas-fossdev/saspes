@@ -34,7 +34,6 @@ import {
     calculate_gpa,
     extractFinalPercent,
     gradeToGPA,
-    analytics_message,
     saveGradesLocally,
     getSavedGrades,
 } from './helpers';
@@ -67,15 +66,10 @@ function main () {
     const page_url = window.location.href.split('#')[0];
     if (page_url === "https://powerschool.sas.edu.sg/guardian/homeHS.html") {
         main_page();
-        analytics_message("Main Page");
     } else if (page_url.match("https://powerschool.sas.edu.sg/guardian/scores") != null) {
         class_page();
-        analytics_message("Course Page");
     } else if (page_url === "https://powerschool.sas.edu.sg/guardian/home.html" || page_url === "https://powerschool.sas.edu.sg/public/" || page_url === "https://powerschool.sas.edu.sg/public/home.html") {
         login_page();
-        analytics_message("Login Page");
-    } else {
-        analytics_message("default");
     }
 }
 

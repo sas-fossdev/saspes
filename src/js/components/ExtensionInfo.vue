@@ -46,25 +46,21 @@
                     class="saspes-link"
                     href="https://github.com/sas-fossdev/saspes"
                     target="_blank"
-                    @click="link_analytics"
                 >Website/Source Code</a> |
                 <a
                     href="https://github.com/sas-fossdev/saspes/blob/master/CHANGELOG.md"
                     class="saspes-link"
                     target="_blank"
-                    @click="link_analytics"
                 >Changelog</a> |
                 <a
                     class="saspes-link"
                     href="https://github.com/sas-fossdev/saspes/issues"
                     target="_blank"
-                    @click="link_analytics"
                 >Issue Tracker</a> |
                 <a
                     class="saspes-link"
                     href="https://github.com/sas-fossdev/saspes/blob/master/LICENSE"
                     target="_blank"
-                    @click="link_analytics"
                 >License (AGPL-3.0-only)</a> |
                 <a
                     id="login-extension-settings"
@@ -88,13 +84,6 @@ export default {
         };
     },
     methods: {
-        link_analytics (e) {
-            const href = e.currentTarget.href;
-            browser.runtime.sendMessage({
-                action: "analytics_send",
-                args: { url: href, extra: { link: href } },
-            });
-        },
         toggleInfo () {
             this.showInfo = !this.showInfo;
             browser.storage.local.set({ showExtensionInfo: this.showInfo });

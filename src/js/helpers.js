@@ -214,15 +214,7 @@ async function saveGradesLocally (username, courses) {
     browser.storage.local.set(user_data);
 }
 
-/**
- * Send Analytics ping
- * @param {String} action_input the action being taken
- * @param {String} [url] Url to report. Defaults to the current page in the browser
- */
-async function analytics_message (action_input, url) {
-    const href = url || window.location.href.split("?")[0];
-    browser.runtime.sendMessage({ action: "analytics_send", args: { url: href, action: action_input } });
-}
+
 
 export {
     gradeToFP,
@@ -235,7 +227,6 @@ export {
     extractFinalPercent,
     assignments,
     calculate_credit_hours,
-    analytics_message,
     getSavedGrades,
     saveGradesLocally,
 };

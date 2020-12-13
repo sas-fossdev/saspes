@@ -44,5 +44,3 @@ function message_recieve (message) {
             break;
     }
 }
-
-

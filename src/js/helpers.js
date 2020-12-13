@@ -214,8 +214,6 @@ async function saveGradesLocally (username, courses) {
     browser.storage.local.set(user_data);
 }
 
-
-
 export {
     gradeToFP,
     grade_fp,

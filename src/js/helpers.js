@@ -2,7 +2,9 @@
  *
  * @copyright Copyright (c) 2018-2020 Gary Kim <gary@garykim.dev>
  * @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
+ * @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  * @author Gary Kim <gary@garykim.dev>
+ * @author Advay Ratan <advayratan@gmail.com>
  *
  * @license GNU AGPL version 3 only
  *
@@ -160,6 +162,55 @@ function extractFinalPercent (html) {
 }
 
 /**
+ * Extract all grade categories from the course page html.
+ * @param {String} html course page html
+ * @returns {String[]} List of all categories
+ */
+function extractGradeCategories(html){
+    let cat = [];
+    let match;
+    html = html.replace(/(\r\n|\n|\r)/gm, "");
+    let reg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)([^<]*)/g;
+    while(match = reg.exec(html)){
+        cat.push(match[1]);
+    }
+    console.log(calcPercentFromWeighting(html, {"formative ": 0.05, "HW": 0, "oral": 0.35, "writing": 0.15, "listening": 0.15, "reading": 0.2, "LB": 0, "speaking": 0.1}));
+    return cat;
+}
+
+/**
+ * Given user weightings, calculate final percent from the course page html.
+ * @param {String} html course page html
+ * @param {Map<String, int>} catmap user weightings for each category
+ * @returns {int} final percent
+ */
+function calcPercentFromWeighting(html, catmap){
+    html = html.replace(/(\r\n|\n|\r)/gm, "");
+    let catreg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)([^<]*)/g;
+    let gradereg = /(?:<td align=\"center\">)(A\+|A|B\+|B|C\+|C|D\+|D|F|INC|\&nbsp\;)(?:<\/td> *<\/tr>)/g;
+    let grade = {};
+    let catmatch, gmatch;
+    while(catmatch = catreg.exec(html)){ // NOTE: EXEMPTIONS ALSO WEIGHTED AS OF NOW
+        catmatch = catmatch[1];
+        gmatch = gradereg.exec(html)[1];
+        if(gmatch == "\&nbsp\;") continue;
+        if(grade[catmatch] == null){
+            grade[catmatch] = [grade_fp[gmatch]];
+        }else{
+            grade[catmatch].push(grade_fp[gmatch]);
+        }
+    }
+    console.log(grade);
+    let percent = 0;
+    for(var cat in grade){
+        let sum = 0;
+        for(var i = 0; i < grade[cat].length; i++) sum += grade[cat][i];
+        percent += sum / grade[cat].length * catmap[cat];
+    }
+    return percent;
+}
+
+/**
  * Return Assignment instances for the given class page.
  * @param {Element} node Root node element of the class page.
  * @returns {Assignment[]} Assignments in this course
@@ -223,6 +274,7 @@ export {
     gradeToGPA,
     calculate_gpa,
     extractFinalPercent,
+    extractGradeCategories,
     assignments,
     calculate_credit_hours,
     getSavedGrades,

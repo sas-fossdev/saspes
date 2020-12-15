@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "webpack:build:chromium",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: webpack:build:chromium",
+			"detail": "npx webpack --progress --config webpack.chromium.js"
+		}
+	]
+}

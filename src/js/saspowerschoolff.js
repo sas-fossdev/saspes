@@ -33,6 +33,7 @@ import {
     assignments,
     calculate_gpa,
     extractFinalPercent,
+    extractGradeCategories,
     gradeToGPA,
     saveGradesLocally,
     getSavedGrades,
@@ -103,6 +104,8 @@ function main_page () {
 function class_page () {
     // Show final percent
     const number = extractFinalPercent($("table.linkDescList").html());
+    const categories = extractGradeCategories($("div.box-round").html());
+    console.log(categories);
     if (!number) {
         return;
     }

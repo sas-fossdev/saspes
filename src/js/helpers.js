@@ -174,7 +174,6 @@ function extractGradeCategories(html){
     while(match = reg.exec(html)){
         cat.push(match[1]);
     }
-    console.log(calcPercentFromWeighting(html, {"formative ": 0.05, "HW": 0, "oral": 0.35, "writing": 0.15, "listening": 0.15, "reading": 0.2, "LB": 0, "speaking": 0.1}));
     return cat;
 }
 

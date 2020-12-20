@@ -312,8 +312,23 @@ async function getSavedGrades (username) {
  * @param {Course[]} courses list of course objects to save
  */
 async function saveGradesLocally (username, courses) {
-    const data = {};
-    const user_data = {};
+    const data = await getLocalConfig() || {};
+
+    if (data.opted_in === undefined) {
+        data.opted_in = {
+            value: true,
+            changed: false,
+        };
+    }
+
+    if (data.showExtensionInfo === undefined) {
+        data.showExtensionInfo = {
+            value: true,
+            changed: false,
+        };
+    }
+
+    const user_data = await browser.storage.local.get("user_data") || {};
     const course_list = [];
     for (let i = 0; i < courses.length; i++) {
         course_list.push(courses[i].toObject());
@@ -321,17 +336,29 @@ async function saveGradesLocally (username, courses) {
     user_data["USERDATA_" + username] = { "courses": course_list };
 
     data.user_data = user_data;
-    data.opted_in = {
-        value: true,
-        changed: false,
-    };
-    data.showExtensionInfo = {
-        value: true,
-        changed: false,
-    };
     data.most_recent_user = username;
 
     browser.storage.local.set(data);
+}
+
+/**
+ * Retrieves the config from the browser's local storage
+ * @async
+ * @returns {Config} an object representing the user's config from the browser's local storage
+ */
+async function getLocalConfig () {
+    const data = await browser.storage.local.get(null);
+    return data;
+}
+
+/**
+ * Send Analytics ping
+ * @param {String} action_input the action being taken
+ * @param {String} [url] Url to report. Defaults to the current page in the browser
+ */
+async function analytics_message (action_input, url) {
+    const href = url || window.location.href.split("?")[0];
+    browser.runtime.sendMessage({ action: "analytics_send", args: { url: href, action: action_input } });
 }
 
 export {

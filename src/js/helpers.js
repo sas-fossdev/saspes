@@ -27,6 +27,7 @@
 'use strict';
 
 import Assignment from "./models/Assignment";
+import ClassAssignment from "./models/ClassAssignment";
 import Course from './models/Course';
 import browser from 'webextension-polyfill';
 
@@ -199,7 +200,6 @@ function calcPercentFromWeighting(html, catmap){
             grade[catmatch].push(grade_fp[gmatch]);
         }
     }
-    console.log(grade);
     let percent = 0;
     for(var cat in grade){
         let sum = 0;
@@ -207,6 +207,21 @@ function calcPercentFromWeighting(html, catmap){
         percent += sum / grade[cat].length * catmap[cat];
     }
     return percent;
+}
+
+function extractAssignmentList(){
+    let table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
+    //let newHeader = document.createElement("th");
+   // newHeader.innerHTML = "Exmp";
+    //table.querySelector("tr:nth-child(1)").appendChild(newHeader);
+    let assignments = [];
+    [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
+        const curr = e.querySelectorAll('td');
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, curr[3].hasChildNodes(), curr[4].hasChildNodes(), curr[5].hasChildNodes(), curr[6].hasChildNodes(), curr[7].hasChildNodes(), curr[8].querySelector("span").innerHTML, curr[10].innerHTML));
+        //if(assignments[i].excluded || assignments[i].exempt) e.innerHTML += "<td align='center'><input type='checkbox' checked></td>";
+        //else e.innerHTML += "<td align='center'><input type='checkbox'></td>";
+    });
+    return assignments;
 }
 
 /**
@@ -274,6 +289,7 @@ export {
     calculate_gpa,
     extractFinalPercent,
     extractGradeCategories,
+    extractAssignmentList,
     assignments,
     calculate_credit_hours,
     getSavedGrades,

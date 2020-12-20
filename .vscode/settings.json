@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "random": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "iostream": "cpp",
+        "initializer_list": "cpp",
+        "set": "cpp"
+    },
+    "git.ignoreLimitWarning": true
+}

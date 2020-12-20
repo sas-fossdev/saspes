@@ -321,9 +321,15 @@ async function saveGradesLocally (username, courses) {
     user_data["USERDATA_" + username] = { "courses": course_list };
 
     data.user_data = user_data;
-    data.opted_in = true;
+    data.opted_in = {
+        value: true,
+        changed: false,
+    };
+    data.showExtensionInfo = {
+        value: true,
+        changed: false,
+    };
     data.most_recent_user = username;
-    data.showExtensionInfo = true;
 
     browser.storage.local.set(data);
 }

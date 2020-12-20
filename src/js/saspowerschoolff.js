@@ -122,7 +122,7 @@ async function login_page () {
     browser.storage.local.get("showExtensionInfo").then(output => {
         new (Vue.extend(ExtensionInfo))({
             data: {
-                showInfo: output.showExtensionInfo,
+                showInfo: output.showExtensionInfo.value,
             },
         }).$mount('#saspes-info');
     });
@@ -132,7 +132,7 @@ async function login_page () {
     LastGradesDiv.id = "saspes-last-grades";
     document.body.appendChild(LastGradesDiv);
 
-    if ((await browser.storage.local.get("opted_in")).opted_in) {
+    if ((await browser.storage.local.get("opted_in")).opted_in.value) {
         (browser.storage.local.get("most_recent_user")).then(output => {
             const most_recent_user = output.most_recent_user;
             if (most_recent_user !== undefined) {

@@ -1,8 +1,10 @@
 <!--
  - @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
+ - @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  -
  - @author Gary Kim <gary@garykim.dev>
- -
+ - @author Advay Ratan <advayratan@gmail.com>
+ - 
  - @license GNU AGPL version 3 only
  -
  - SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
@@ -21,63 +23,84 @@
  -->
 
 <template>
-    <div id="saspes-hypo-assignment">
-        <h3>Hypothetical Assignment</h3>
-        <label for="saspes-assignment-effect">Effect of new assignment (currently):</label>
-        <input
-            id="saspes-assignment-effect"
-            v-model.number="assignment.weight"
-            type="number"
-            min="0"
-            max="100"
-            value="0"
-        >%
-        <label for="hypo-grade-select">Grade of new assignment: </label>
-        <select
-            id="hypo-grade-select"
-            v-model="assignment.grade"
-        >
-            <option
-                v-for="grade in gradeOptions"
-                :key="grade"
-                :value="grade"
-            >
-                {{ grade }}
-            </option>
-        </select>
-        <br>
-        <h4>Your grade with the selected assignment would be {{ hypo.grade }} with a final percent of {{ hypo.fp }}.</h4>
-    </div>
+<div>
+    <table border="0" cellpadding="0" cellspacing="0" align="center" width="99%"><tbody>
+        <tr>
+            <th>Due Date</th>
+            <th>Category</th>
+            <th>Assignment</th>
+            <th class="center" colspan="5">Flags</th>
+            <th class="center">Score</th>
+            <th class="center"></th>
+            <th class="center">Grd</th>
+            <th>Exmp</th>
+        </tr>
+        <GradeRow
+            v-for="assignment in assignments"
+            v-bind:key="assignment.id"
+            v-bind:assignment="assignment"
+            v-bind:color="'#FFF'"
+        ></GradeRow>
+        <tr>
+            <td colspan="11" align="center">
+                <img src="/images/icon_check.gif" alt="Collected"> - Collected,
+                <img src="/images/icon_late.gif" alt="Late"> - Late,
+                <img src="/images/icon_missing.gif" alt="Missing"> - Missing,
+                <img src="/images/icon_exempt.gif" alt="Exempt"> - Score is exempt from final grade,
+                <img src="/images/icon_excluded.gif" alt="Excluded"> - Assignment is not included in final grade
+            </td>
+        </tr>
+    </tbody></table>
+    <button v-on:click="addAssignment();">Add Assignment</button>
+</div>
 </template>
 <script>
-import { avaliableGrades, fpToGrade, gradeToFP } from '../helpers';
+import Vue from 'vue';
+import GradeRow from './GradeRow.vue';
+import { avaliableGrades, extractAssignmentList, fpToGrade, gradeToFP } from '../helpers';
+import ClassAssignment from '../models/ClassAssignment';
 const getInRange = require('get-in-range');
 
 export default {
     name: 'HypoAssignment',
     props: {
-        currentFP: {
-            type: Number,
+        categories: {
+            type: Array,
             required: true,
         },
+        assignments: {
+            type: Array,
+            required: true,
+        }
     },
     data: () => ({
-        assignment: {
-            weight: 0,
-            grade: 'B',
-        },
         gradeOptions: avaliableGrades,
     }),
-    computed: {
-        hypo () {
-            const weight = getInRange(this.assignment.weight, 0, 100, true) || 0;
-            const new_fp = weight * 0.01 * gradeToFP(this.assignment.grade) + ((100 - weight) * 0.01 * this.currentFP);
-            return {
-                fp: new_fp.toFixed(2),
-                grade: fpToGrade(new_fp),
-            };
+    methods: {
+        addAssignment() {
+            this.assignments.push(new ClassAssignment(this.assignments[this.assignments.length-1].id+1, "today", "select", "New Assignment", false, false, false, false, false, "--/9", "B", true));
         },
+        calculateGrades(catmap){
+            let grade = {};
+            for(var i = 0; i < this.assignments.length; i++){
+                if(grade[this.assignments[i].category] == null){
+                    grade[this.assignments[i].category] = [gradeToFP(this.assignments[i].grade)];
+                }else{
+                    grade[this.assignments[i].category].push(gradeToFP(this.assignments[i].grade));
+                }
+            }
+            let percent = 0;
+            for(var cat in grade){
+                let sum = 0;
+                for(var i = 0; i < grade[cat].length; i++) sum += grade[cat][i];
+                percent += sum / grade[cat].length * catmap[cat];
+            }
+            return percent;
+        }
     },
+    components: {
+        GradeRow
+    }
 };
 </script>
 <style lang="less" scoped>

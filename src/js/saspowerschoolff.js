@@ -37,6 +37,7 @@ import {
     gradeToGPA,
     saveGradesLocally,
     getSavedGrades,
+    extractAssignmentList,
 } from './helpers';
 
 // Vue Components
@@ -50,6 +51,7 @@ import LastSeenGrades from './components/LastGrades.vue';
 // Used models
 import Course from './models/Course';
 import CumulativeGPA from "./components/CumulativeGPA";
+import Assignment from './models/Assignment';
 
 main();
 function main () {
@@ -104,14 +106,12 @@ function main_page () {
 function class_page () {
     // Show final percent
     const number = extractFinalPercent($("table.linkDescList").html());
-    const categories = extractGradeCategories($("div.box-round").html());
-    console.log(categories);
     if (!number) {
         return;
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
-    addHypoAssignment(number);
+    addVueGrades();
 }
 
 async function login_page () {
@@ -360,11 +360,32 @@ function addHypoGradeCalc (courses) {
  * Add a hypothetical assignment calculator widget.
  * @param number The current final percent of the student.
  */
-function addHypoAssignment (number) {
-    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
+function addVueGrades () {
+    let assignments = extractAssignmentList();
+    let cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
+    //document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
     new (Vue.extend(HypoAssignment))({
         propsData: {
-            currentFP: number,
+            categories: cat,
+            assignments: assignments,
         },
-    }).$mount('#saspes-hypo-assignment');
+    }).$mount('#content-main > div.box-round > table:nth-child(4)');
+}
+
+function extract(){
+    let table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
+    let newHeader = document.createElement("th");
+    newHeader.innerHTML = "Exmp";
+    table.querySelector("tr:nth-child(1)").appendChild(newHeader);
+    let row = 2;
+    let tr = table.querySelector("tr:nth-child("+row+")");
+    while(!tr.innerHTML.includes("Score is exempt from final grade,")){
+        if(tr.innerHTML.includes("images/icon_excluded.gif") || tr.innerHTML.includes("images/icon_exempt.gif")){
+            tr.innerHTML += "<td align='center'><input type='checkbox' checked></td>";
+        }else{
+            tr.innerHTML += "<td align='center'><input type='checkbox'></td>";
+        }
+        row++;
+        tr = table.querySelector("tr:nth-child("+row+")");
+    }
 }

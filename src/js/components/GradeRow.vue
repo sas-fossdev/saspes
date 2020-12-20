@@ -1,16 +1,16 @@
 <template>
     <tr :bgcolor="(assignment.id % 2 == 0) ? '#edf3fe' : '#fff'">
-        <td>{{ assignment.date }}</td>
-        <td>{{ assignment.category }}</td>
-        <td>{{ assignment.name }}</td>
+        <td v-html="assignment.date"></td>
+        <td v-html="assignment.category"></td>
+        <td v-html="assignment.name"></td>
         <td width="14"><img src="/images/icon_check.gif" alt="Collected" v-if="assignment.collected"></td>
         <td width="14"><img src="/images/icon_late.gif" alt="Late" v-if="assignment.late"></td>
         <td width="14"><img src="/images/icon_missing.gif" alt="Missing" v-if="assignment.missing"></td>
         <td width="14"><img src="/images/icon_exempt.gif" alt="Exempt" v-if="assignment.exempt"></td>
         <td width="19"><img src="/images/icon_excluded.gif" alt="Excluded" v-if="assignment.excluded"></td>
-        <td align="center"><span class="bold-underline">{{ assignment.score }}</span></td>
+        <td align="center"><span class="bold-underline" v-html="assignment.score"></span></td>
         <td align="center">&nbsp;</td>
-        <td v-if="!assignment.hypo" align="center">{{ assignment.grade }}</td>
+        <td v-if="!assignment.hypo" align="center" v-html="assignment.grade"></td>
         <td v-else align="center">
             <select v-model="assignment.grade">
                 <option

@@ -67,6 +67,7 @@ const grade_fp = {
     'D+': 30,
     'D': 20,
     'F': 10,
+    'INC': 0,
 };
 
 /**
@@ -81,7 +82,7 @@ function gradeToFP (grade) {
     return -1;
 }
 
-const avaliableGrades = ["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F"];
+const avaliableGrades = ["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F", "INC"];
 
 const fprange = {
     '85-90': 'A+',
@@ -243,6 +244,26 @@ function assignments (node) {
     return tr;
 }
 
+function extractCourseTitle () {
+    return document.getElementsByTagName('h2')[0].innerHTML;
+}
+
+async function getSavedCategoryWeighting() {
+    let courseName = extractCourseTitle() + "-catmap";
+    let catmap = await browser.storage.local.get(courseName);
+    console.log(catmap);
+    if(catmap == undefined || (Object.keys(catmap).length === 0 && catmap.constructor === Object) || catmap[courseName] == undefined) return false;
+    return catmap[courseName];
+}
+
+async function saveCategoryWeighting(catmap){
+    let courseName = extractCourseTitle();
+    let data = {};
+    data[courseName + "-catmap"] = catmap;
+    console.log(data);
+    browser.storage.local.set(data);
+}
+
 /**
  * Return saved grades for specified username.
  * @async
@@ -287,6 +308,8 @@ export {
     fpToGrade,
     gradeToGPA,
     calculate_gpa,
+    getSavedCategoryWeighting,
+    saveCategoryWeighting,
     extractFinalPercent,
     extractGradeCategories,
     extractAssignmentList,

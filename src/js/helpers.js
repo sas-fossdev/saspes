@@ -173,7 +173,7 @@ function extractGradeCategories(html){
     html = html.replace(/(\r\n|\n|\r)/gm, "");
     let reg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)([^<]*)/g;
     while(match = reg.exec(html)){
-        cat.push(match[1]);
+        if(!cat.includes(match[1])) cat.push(match[1]);
     }
     return cat;
 }

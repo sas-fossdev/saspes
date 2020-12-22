@@ -10,7 +10,9 @@
         "vector": "cpp",
         "iostream": "cpp",
         "initializer_list": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "utility": "cpp",
+        "algorithm": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

@@ -33,13 +33,13 @@
             <th class="center">Grd</th>
             <th>Exmp</th>
         </tr>
-        <GradeRow
+        <grade-row
             v-for="assignment in assignments"
             v-bind:key="assignment.id"
             v-bind:assignment="assignment"
             v-bind:categories="categories"
             v-bind:color="'#FFF'"
-        ></GradeRow>
+        ></grade-row>
         <tr>
             <td colspan="11" align="center">
                 <img src="/images/icon_check.gif" alt="Collected"> - Collected,

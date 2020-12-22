@@ -38,8 +38,10 @@
                 <td><input type="number" v-model.number="category.weighting" style="width: 85%;"></td>
             </tr>
         </tbody></table>
+        <button v-on:click="addCategory();">Add Category</button>
         <label v-if="categorySum != 1">Category weightings do not sum to 1</label>
-        <h4>Your grade with these weightings and hypothetical assignemnts would be {{ hypo.grade }} with a final percent of {{ hypo.fp }}.</h4>
+        <button v-else v-on:click="saveCategoryWeightingLocal(categoryMap);">Save Weighting</button>
+        <h4>{{ hypo.grade }} ({{ hypo.fp }})</h4><div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">Since teachers can adjust the weighting of each assignment, this number is not necessarily accurate</span></div>
         <!--
         <label for="hypo-grade-select">Grade of new assignment: </label>
         <select
@@ -60,7 +62,7 @@
     </div>
 </template>
 <script>
-import { avaliableGrades, fpToGrade, gradeToFP } from '../helpers';
+import { getSavedCategoryWeighting, saveCategoryWeighting, avaliableGrades, fpToGrade, gradeToFP } from '../helpers';
 import GradeTable from './GradeTable.vue';
 const getInRange = require('get-in-range');
 export default {
@@ -75,13 +77,32 @@ export default {
             required: true,
         }
     },
-    data: function () {
-        let categoryMap = {};
+    data() {
+        let catmap = {};
         this.categories.forEach((e,i) => {
-            categoryMap[e] = {weighting: 0, category: e};
+            catmap[e] = {weighting: 0, category: e};
         });
         return {
-            categoryMap: categoryMap,
+            categoryMap: catmap,
+            newCategories: 0,
+        }
+    },
+    created() {
+        this.getCatmap()
+    },
+    methods: {
+        async getCatmap(){
+            let catmap = await getSavedCategoryWeighting();
+            if(catmap !== false) this.categoryMap = catmap;
+        },
+        saveCategoryWeightingLocal(catmap){
+            saveCategoryWeighting(catmap);
+        },
+        addCategory(){
+            this.newCategories++;
+            let nc = "Category " + this.newCategories;
+            this.categoryMap[nc] = 0;
+            this.categories.push(nc);
         }
     },
     computed: {

@@ -44,7 +44,8 @@ import {
 import Vue from 'vue';
 import ClassGrade from './components/ClassGrade';
 import ExtensionInfo from './components/ExtensionInfo.vue';
-import HypoAssignment from './components/HypoAssignment.vue';
+import GradeTable from './components/GradeTable.vue';
+import CategoryWeighting from './components/CategoryWeighting.vue';
 import HypoGrades from './components/HypoGrades';
 import LastSeenGrades from './components/LastGrades.vue';
 
@@ -363,13 +364,19 @@ function addHypoGradeCalc (courses) {
 function addVueGrades () {
     let assignments = extractAssignmentList();
     let cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
-    //document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
-    new (Vue.extend(HypoAssignment))({
+    let gt = new (Vue.extend(GradeTable))({
         propsData: {
             categories: cat,
             assignments: assignments,
         },
     }).$mount('#content-main > div.box-round > table:nth-child(4)');
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-categories"></div>`);
+    new (Vue.extend(CategoryWeighting))({
+        propsData: {
+            categories: cat,
+            gradetable: gt,
+        }
+    }).$mount("#saspes-categories");
 }
 
 function extract(){

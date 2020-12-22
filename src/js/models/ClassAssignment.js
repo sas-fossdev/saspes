@@ -37,5 +37,6 @@ export default class ClassAssignment {
         this.score = score;
         this.grade = (grade == "&nbsp;") ? " " : grade;
         this.hypo = hypo;
+        this.userExempt = this.exempt || this.excluded;
     }
 }

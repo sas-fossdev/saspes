@@ -59,7 +59,7 @@
 import { avaliableGrades } from '../helpers';
 export default {
     name: 'GradeRow',
-    props: ['assignment', 'color', 'categories'],
+    props: ['assignment', 'categories'],
     data: () => ({
         gradeOptions: avaliableGrades,
     }),

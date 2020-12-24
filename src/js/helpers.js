@@ -244,10 +244,18 @@ function assignments (node) {
     return tr;
 }
 
+/**
+ * Return course title of active class page
+ * @returns {String} Course title
+ */
 function extractCourseTitle () {
     return document.getElementsByTagName('h2')[0].innerHTML;
 }
 
+/**
+ * Retrieve category weighting for class from local storage
+ * @returns {Map<String, Object>} Map of weighting assigned to each category for course
+ */
 async function getSavedCategoryWeighting() {
     let courseName = extractCourseTitle() + "-catmap";
     let catmap = await browser.storage.local.get(courseName);
@@ -256,6 +264,10 @@ async function getSavedCategoryWeighting() {
     return catmap[courseName];
 }
 
+/**
+ * Save category weighting for class to local storage
+ * @param {Map<String, Object>} catmap Map of weighting assigned to each category for course
+ */
 async function saveCategoryWeighting(catmap){
     let courseName = extractCourseTitle();
     let data = {};

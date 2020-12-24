@@ -38,7 +38,6 @@
             v-bind:key="assignment.id"
             v-bind:assignment="assignment"
             v-bind:categories="categories"
-            v-bind:color="'#FFF'"
         ></grade-row>
         <tr>
             <td colspan="11" align="center">
@@ -78,7 +77,6 @@ export default {
     methods: {
         addAssignment() {
             this.assignments.push(new ClassAssignment(this.assignments[this.assignments.length-1].id+1, "today", this.categories[0], "New Assignment", false, false, false, false, false, "--/9", "B", true));
-            console.log(this.assignments);
         },
         calculateGrades(catmap){
             let grade = {};
@@ -91,7 +89,7 @@ export default {
                 }
             }
             let missing = 0;
-            for(var cat in grade) if(grade[cat].length == 0) missing += catmap[cat].weighting;
+            for(var cat in catmap) if(grade[cat] == null) missing += catmap[cat].weighting;
             let percent = 0;
             for(var cat in grade){
                 let sum = 0;

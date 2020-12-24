@@ -113,25 +113,28 @@ function class_page () {
 
 async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    browser.storage.local.get({ showExtensionInfo: true }).then(result => {
+    browser.storage.local.get("showExtensionInfo").then(output => {
         new (Vue.extend(ExtensionInfo))({
             data: {
-                showInfo: result.showExtensionInfo,
+                showInfo: output.showExtensionInfo.value,
             },
         }).$mount('#saspes-info');
     });
+
     const LastGradesDiv = document.createElement('div');
     LastGradesDiv.classList.add("last-grade-div-fixed");
     LastGradesDiv.id = "saspes-last-grades";
     document.body.appendChild(LastGradesDiv);
-    if ((await browser.storage.local.get({ save_last_grades: true })).save_last_grades) {
+
+    if ((await browser.storage.local.get("opted_in")).opted_in.value) {
         (browser.storage.local.get("most_recent_user")).then(output => {
-            if (output.most_recent_user !== undefined) {
+            const most_recent_user = output.most_recent_user;
+            if (most_recent_user !== undefined) {
                 (async () => {
-                    const courses = await getSavedGrades(output.most_recent_user);
+                    const courses = await getSavedGrades(most_recent_user);
                     new (Vue.extend(LastSeenGrades))({
                         propsData: {
-                            username: output.most_recent_user,
+                            username: most_recent_user,
                             initialCourses: courses,
                         },
                     }).$mount(".last-grade-div-fixed");

@@ -1,8 +1,6 @@
 <!--
- - @copyright Copyright (c) 2018-2019 Gary Kim <gary@garykim.dev>
  - @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  -
- - @author Gary Kim <gary@garykim.dev>
  - @author Advay Ratan <advayratan@gmail.com>
  - 
  - @license GNU AGPL version 3 only
@@ -33,32 +31,16 @@
                 <th>Category</th>
                 <th>Weighting</th>
             </tr>
-            <tr v-for="category in categoryMap" v-bind:key="category.category">
+            <tr v-for="(category, index) in renderWeights" :key="index" :bgcolor="(index % 2 == 0) ? '#edf3fe' : '#fff'">
                 <td v-html="category.category"></td>
                 <td><input type="number" v-model.number="category.weighting" style="width: 85%;"></td>
             </tr>
         </tbody></table>
         <button v-on:click="addCategory();">Add Category</button>
         <label v-if="categorySum != 1">Category weightings do not sum to 1</label>
-        <button v-else v-on:click="saveCategoryWeightingLocal(categoryMap);">Save Weighting</button>
-        <h4>{{ hypo.grade }} ({{ hypo.fp }})</h4><div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">Since teachers can adjust the weighting of each assignment, this number is not necessarily accurate</span></div>
-        <!--
-        <label for="hypo-grade-select">Grade of new assignment: </label>
-        <select
-            id="hypo-grade-select"
-            v-model="assignment.grade"
-        >
-            <option
-                v-for="grade in gradeOptions"
-                :key="grade"
-                :value="grade"
-            >
-                {{ grade }}
-            </option>
-        </select>
-        <br>
-        <h4>Your grade with the selected assignment would be {{ hypo.grade }} with a final percent of {{ hypo.fp }}.</h4>
-        -->
+        <button v-else v-on:click="saveCategoryWeightingLocal();">Save Weighting</button>
+        <h2>{{ hypo.grade }} ({{ hypo.fp }})</h2>
+        <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate</p>
     </div>
 </template>
 <script>
@@ -78,12 +60,8 @@ export default {
         }
     },
     data() {
-        let catmap = {};
-        this.categories.forEach((e,i) => {
-            catmap[e] = {weighting: 0, category: e};
-        });
         return {
-            categoryMap: catmap,
+            renderWeights: [],
             newCategories: 0,
         }
     },
@@ -93,28 +71,46 @@ export default {
     methods: {
         async getCatmap(){
             let catmap = await getSavedCategoryWeighting();
-            if(catmap !== false) this.categoryMap = catmap;
+            if(catmap === false){
+                catmap = {};
+                this.categories.forEach((e,i) => {
+                    catmap[e] = {weighting: 0, category: e};
+                });
+            }
+            for(var cat in catmap){
+                this.renderWeights.push(catmap[cat]);
+            }
         },
-        saveCategoryWeightingLocal(catmap){
-            saveCategoryWeighting(catmap);
+        saveCategoryWeightingLocal(){
+            saveCategoryWeighting(this.getCategoryMap());
         },
         addCategory(){
             this.newCategories++;
             let nc = "Category " + this.newCategories;
-            this.categoryMap[nc] = 0;
             this.categories.push(nc);
+            this.renderWeights.push({weighting: 0, category: nc});
+        },
+        getCategoryMap() {
+            let catmap = {};
+            this.renderWeights.forEach((e,i) => {
+                catmap[e.category] = e;
+            });
+            return catmap;
         }
     },
     computed: {
         categorySum () {
+            if(this.renderWeights.length == 0) return 0;
             let sum = 0;
-            for(const [key, value] of Object.entries(this.categoryMap)){
+            let cm = this.getCategoryMap();
+            for(const [key, value] of Object.entries(cm)){
                 sum += value.weighting;
             };
             return Math.round(sum*100)/100;
         },
         hypo () {
-            let percent = this.gradetable.calculateGrades(this.categoryMap);
+            if(this.renderWeights.length == 0) return {grade: "F", fp: 0};
+            let percent = this.gradetable.calculateGrades(this.getCategoryMap());
             return {
                 grade: fpToGrade(percent),
                 fp: percent.toFixed(2),

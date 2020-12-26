@@ -259,7 +259,6 @@ function extractCourseTitle () {
 async function getSavedCategoryWeighting() {
     let courseName = extractCourseTitle() + "-catmap";
     let catmap = await browser.storage.local.get(courseName);
-    console.log(catmap);
     if(catmap == undefined || (Object.keys(catmap).length === 0 && catmap.constructor === Object) || catmap[courseName] == undefined) return false;
     return catmap[courseName];
 }
@@ -272,7 +271,6 @@ async function saveCategoryWeighting(catmap){
     let courseName = extractCourseTitle();
     let data = {};
     data[courseName + "-catmap"] = catmap;
-    console.log(data);
     browser.storage.local.set(data);
 }
 

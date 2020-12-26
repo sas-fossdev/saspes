@@ -284,14 +284,24 @@ async function saveCategoryWeighting(catmap){
  */
 async function getSavedGrades (username) {
     const courses = [];
-    const output = await browser.storage.local.get("USERDATA_" + username);
-    if (output !== undefined && output["USERDATA_" + username] !== undefined) {
-        const course_list = output["USERDATA_" + username].courses || [];
-        for (let i = 0; i < course_list.length; i++) {
-            const course = course_list[i];
-            courses.push(new Course(course.name, course.link, course.grade, course.finalPercent, course.assignments));
+    const user_data = (await browser.storage.local.get("user_data")).user_data;
+    if (user_data !== undefined) {
+        const user = user_data["USERDATA_" + username];
+        if (user !== undefined) {
+            const course_list = user.courses || [];
+            for (let ind = 0; ind < course_list.length; ind++) {
+                const course = course_list[ind];
+                courses.push(new Course(
+                    course.name,
+                    course.link,
+                    course.grade,
+                    course.finalPercent,
+                    course.assignments,
+                ));
+            }
+
+            return courses;
         }
-        return courses;
     }
 }
 
@@ -302,14 +312,43 @@ async function getSavedGrades (username) {
  * @param {Course[]} courses list of course objects to save
  */
 async function saveGradesLocally (username, courses) {
-    const user_data = {};
+    const data = await getLocalConfig() || {};
+
+    if (data.opted_in === undefined) {
+        data.opted_in = {
+            value: true,
+            changed: false,
+        };
+    }
+
+    if (data.showExtensionInfo === undefined) {
+        data.showExtensionInfo = {
+            value: true,
+            changed: false,
+        };
+    }
+
+    const user_data = await browser.storage.local.get("user_data") || {};
     const course_list = [];
     for (let i = 0; i < courses.length; i++) {
         course_list.push(courses[i].toObject());
     }
     user_data["USERDATA_" + username] = { "courses": course_list };
-    user_data.most_recent_user = username;
-    browser.storage.local.set(user_data);
+
+    data.user_data = user_data;
+    data.most_recent_user = username;
+
+    browser.storage.local.set(data);
+}
+
+/**
+ * Retrieves the config from the browser's local storage
+ * @async
+ * @returns {Config} an object representing the user's config from the browser's local storage
+ */
+async function getLocalConfig () {
+    const data = await browser.storage.local.get(null);
+    return data;
 }
 
 export {

@@ -5,6 +5,7 @@ artifacts/
 dist/
 src/web_accessible_resources/libraries.txt
 .DS_Store
+.vscode
 
 # Node
 node_modules/

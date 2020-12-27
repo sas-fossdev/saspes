@@ -23,7 +23,6 @@
  */
 
 export default class ClassAssignment {
-
     constructor (id, date, category, name, collected, late, missing, exempt, excluded, score, grade, hypo = false) {
         this.id = id;
         this.date = date;
@@ -35,7 +34,7 @@ export default class ClassAssignment {
         this.exempt = exempt;
         this.excluded = excluded;
         this.score = score;
-        this.grade = (grade == "&nbsp;") ? " " : grade;
+        this.grade = (grade === "&nbsp;") ? " " : grade;
         this.hypo = hypo;
         this.userExempt = this.exempt || this.excluded;
     }

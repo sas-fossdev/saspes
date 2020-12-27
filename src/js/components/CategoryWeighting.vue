@@ -2,7 +2,7 @@
  - @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  -
  - @author Advay Ratan <advayratan@gmail.com>
- - 
+ -
  - @license GNU AGPL version 3 only
  -
  - SAS Powerschool Enhancement Suite - A browser extension to improve the experience of SAS Powerschool.
@@ -20,33 +20,56 @@
  - along with this program.  If not, see <https://www.gnu.org/licenses/>.
  -->
 
- <template>
+<template>
     <div id="saspes-categories">
         <h3>Category Weighting</h3>
-        <table border="0" cellpadding="0" cellspacing="0" align="center" style="width: 40%;">
-        <col>
-        <col style="width: 20%;">
-        <tbody>
-            <tr>
-                <th>Category</th>
-                <th>Weighting</th>
-            </tr>
-            <tr v-for="(category, index) in renderWeights" :key="index" :bgcolor="(index % 2 == 0) ? '#edf3fe' : '#fff'">
-                <td v-html="category.category"></td>
-                <td><input type="number" v-model.number="category.weighting" style="width: 85%;"></td>
-            </tr>
-        </tbody></table>
-        <button v-on:click="addCategory();">Add Category</button>
+        <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            align="center"
+            style="width: 40%;"
+        >
+            <col>
+            <col style="width: 20%;">
+            <tbody>
+                <tr>
+                    <th>Category</th>
+                    <th>Weighting</th>
+                </tr>
+                <tr
+                    v-for="(category, index) in renderWeights"
+                    :key="index"
+                    :bgcolor="(index % 2 == 0) ? '#edf3fe' : '#fff'"
+                >
+                    <td v-html="category.category" />
+                    <td>
+                        <input
+                            v-model.number="category.weighting"
+                            type="number"
+                            style="width: 85%;"
+                        >
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button @click="addCategory();">
+            Add Category
+        </button>
         <label v-if="categorySum != 1">Category weightings do not sum to 1</label>
-        <button v-else v-on:click="saveCategoryWeightingLocal();">Save Weighting</button>
+        <button
+            v-else
+            @click="saveCategoryWeightingLocal();"
+        >
+            Save Weighting
+        </button>
         <h2>{{ hypo.grade }} ({{ hypo.fp }})</h2>
         <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate</p>
     </div>
 </template>
 <script>
-import { getSavedCategoryWeighting, saveCategoryWeighting, avaliableGrades, fpToGrade, gradeToFP } from '../helpers';
+import { getSavedCategoryWeighting, saveCategoryWeighting, fpToGrade } from '../helpers';
 import GradeTable from './GradeTable.vue';
-const getInRange = require('get-in-range');
 export default {
     name: 'CategoryWeighting',
     props: {
@@ -55,67 +78,67 @@ export default {
             required: true,
         },
         gradetable: {
-            type: GradeTable,
+            type: Object,
             required: true,
-        }
+        },
     },
-    data() {
+    data () {
         return {
             renderWeights: [],
             newCategories: 0,
-        }
-    },
-    created() {
-        this.getCatmap()
-    },
-    methods: {
-        async getCatmap(){
-            let catmap = await getSavedCategoryWeighting();
-            if(catmap === false){
-                catmap = {};
-                this.categories.forEach((e,i) => {
-                    catmap[e] = {weighting: 0, category: e};
-                });
-            }
-            for(var cat in catmap){
-                this.renderWeights.push(catmap[cat]);
-            }
-        },
-        saveCategoryWeightingLocal(){
-            saveCategoryWeighting(this.getCategoryMap());
-        },
-        addCategory(){
-            this.newCategories++;
-            let nc = "Category " + this.newCategories;
-            this.categories.push(nc);
-            this.renderWeights.push({weighting: 0, category: nc});
-        },
-        getCategoryMap() {
-            let catmap = {};
-            this.renderWeights.forEach((e,i) => {
-                catmap[e.category] = e;
-            });
-            return catmap;
-        }
+        };
     },
     computed: {
         categorySum () {
-            if(this.renderWeights.length == 0) return 0;
+            if (this.renderWeights.length === 0) return 0;
             let sum = 0;
-            let cm = this.getCategoryMap();
-            for(const [key, value] of Object.entries(cm)){
-                sum += value.weighting;
-            };
-            return Math.round(sum*100)/100;
+            const cm = this.getCategoryMap();
+            for (const [key,val] of Object.entries(cm)) {
+                sum += val.weighting;
+            }
+            return Math.round(sum * 100) / 100;
         },
         hypo () {
-            if(this.renderWeights.length == 0) return {grade: "F", fp: 0};
-            let percent = this.gradetable.calculateGrades(this.getCategoryMap());
+            if (this.renderWeights.length === 0) return { grade: "F", fp: 0 };
+            const percent = this.gradetable.calculateGrades(this.getCategoryMap());
             return {
                 grade: fpToGrade(percent),
                 fp: percent.toFixed(2),
+            };
+        },
+    },
+    created () {
+        this.getCatmap();
+    },
+    methods: {
+        async getCatmap () {
+            let catmap = await getSavedCategoryWeighting();
+            if (catmap === false) {
+                catmap = {};
+                this.categories.forEach((e, i) => {
+                    catmap[e] = { weighting: 0, category: e };
+                });
             }
-        }
+            for (var cat in catmap) {
+                this.renderWeights.push(catmap[cat]);
+            }
+        },
+        saveCategoryWeightingLocal () {
+            saveCategoryWeighting(this.getCategoryMap());
+        },
+        addCategory () {
+            this.newCategories++;
+            const nc = "Category " + this.newCategories;
+            this.categories.push(nc);
+            this.renderWeights.push({ weighting: 0, category: nc });
+        },
+        getCategoryMap () {
+            const catmap = {};
+            this.renderWeights.forEach((e, i) => {
+                catmap[e.category] = e;
+            });
+            return catmap;
+        },
     },
 };
 </script>

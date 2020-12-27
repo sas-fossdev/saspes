@@ -52,7 +52,6 @@ import LastSeenGrades from './components/LastGrades.vue';
 // Used models
 import Course from './models/Course';
 import CumulativeGPA from "./components/CumulativeGPA";
-import Assignment from './models/Assignment';
 
 main();
 function main () {
@@ -78,7 +77,6 @@ function main () {
 }
 
 function main_page () {
-    const student_name = getStudentName();
     const { sem1_col, sem2_col } = getSemesterCols();
     const second_semester = isSecondSemester();
     const current_term = getCurrentTerm();
@@ -365,9 +363,9 @@ function addHypoGradeCalc (courses) {
  * @param number The current final percent of the student.
  */
 function addVueGrades () {
-    let assignments = extractAssignmentList();
-    let cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
-    let gt = new (Vue.extend(GradeTable))({
+    const assignments = extractAssignmentList();
+    const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
+    const gt = new (Vue.extend(GradeTable))({
         propsData: {
             categories: cat,
             assignments: assignments,
@@ -378,24 +376,6 @@ function addVueGrades () {
         propsData: {
             categories: cat,
             gradetable: gt,
-        }
+        },
     }).$mount("#saspes-categories");
-}
-
-function extract(){
-    let table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
-    let newHeader = document.createElement("th");
-    newHeader.innerHTML = "Exmp";
-    table.querySelector("tr:nth-child(1)").appendChild(newHeader);
-    let row = 2;
-    let tr = table.querySelector("tr:nth-child("+row+")");
-    while(!tr.innerHTML.includes("Score is exempt from final grade,")){
-        if(tr.innerHTML.includes("images/icon_excluded.gif") || tr.innerHTML.includes("images/icon_exempt.gif")){
-            tr.innerHTML += "<td align='center'><input type='checkbox' checked></td>";
-        }else{
-            tr.innerHTML += "<td align='center'><input type='checkbox'></td>";
-        }
-        row++;
-        tr = table.querySelector("tr:nth-child("+row+")");
-    }
 }

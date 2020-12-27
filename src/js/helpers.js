@@ -168,59 +168,29 @@ function extractFinalPercent (html) {
  * @param {String} html course page html
  * @returns {String[]} List of all categories
  */
-function extractGradeCategories(html){
-    let cat = [];
+function extractGradeCategories (html) {
+    const cat = [];
     let match;
     html = html.replace(/(\r\n|\n|\r)/gm, "");
-    let reg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)([^<]*)/g;
-    while(match = reg.exec(html)){
-        if(!cat.includes(match[1])) cat.push(match[1]);
+    const reg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)(.+?(?=<\/td>))/g;
+    match = reg.exec(html);
+    while (match !== null) {
+        if (!cat.includes(match[1])) cat.push(match[1]);
+        match = reg.exec(html);
     }
     return cat;
 }
 
 /**
- * Given user weightings, calculate final percent from the course page html.
- * @param {String} html course page html
- * @param {Map<String, int>} catmap user weightings for each category
- * @returns {int} final percent
+ * Extract all assignments from a class.
+ * @returns {ClassAssignment[]} List of all assignments
  */
-function calcPercentFromWeighting(html, catmap){
-    html = html.replace(/(\r\n|\n|\r)/gm, "");
-    let catreg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)([^<]*)/g;
-    let gradereg = /(?:<td align=\"center\">)(A\+|A|B\+|B|C\+|C|D\+|D|F|INC|\&nbsp\;)(?:<\/td> *<\/tr>)/g;
-    let grade = {};
-    let catmatch, gmatch;
-    while(catmatch = catreg.exec(html)){ // NOTE: EXEMPTIONS ALSO WEIGHTED AS OF NOW
-        catmatch = catmatch[1];
-        gmatch = gradereg.exec(html)[1];
-        if(gmatch == "\&nbsp\;") continue;
-        if(grade[catmatch] == null){
-            grade[catmatch] = [grade_fp[gmatch]];
-        }else{
-            grade[catmatch].push(grade_fp[gmatch]);
-        }
-    }
-    let percent = 0;
-    for(var cat in grade){
-        let sum = 0;
-        for(var i = 0; i < grade[cat].length; i++) sum += grade[cat][i];
-        percent += sum / grade[cat].length * catmap[cat];
-    }
-    return percent;
-}
-
-function extractAssignmentList(){
-    let table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
-    //let newHeader = document.createElement("th");
-   // newHeader.innerHTML = "Exmp";
-    //table.querySelector("tr:nth-child(1)").appendChild(newHeader);
-    let assignments = [];
+function extractAssignmentList () {
+    const table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
+    const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
         assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, curr[3].hasChildNodes(), curr[4].hasChildNodes(), curr[5].hasChildNodes(), curr[6].hasChildNodes(), curr[7].hasChildNodes(), curr[8].innerHTML, curr[10].innerHTML));
-        //if(assignments[i].excluded || assignments[i].exempt) e.innerHTML += "<td align='center'><input type='checkbox' checked></td>";
-        //else e.innerHTML += "<td align='center'><input type='checkbox'></td>";
     });
     return assignments;
 }
@@ -256,10 +226,10 @@ function extractCourseTitle () {
  * Retrieve category weighting for class from local storage
  * @returns {Map<String, Object>} Map of weighting assigned to each category for course
  */
-async function getSavedCategoryWeighting() {
-    let courseName = extractCourseTitle() + "-catmap";
-    let catmap = await browser.storage.local.get(courseName);
-    if(catmap == undefined || (Object.keys(catmap).length === 0 && catmap.constructor === Object) || catmap[courseName] == undefined) return false;
+async function getSavedCategoryWeighting () {
+    const courseName = extractCourseTitle() + "-catmap";
+    const catmap = await browser.storage.local.get(courseName);
+    if (catmap === undefined || (Object.keys(catmap).length === 0 && catmap.constructor === Object) || catmap[courseName] === undefined) return false;
     return catmap[courseName];
 }
 
@@ -267,9 +237,9 @@ async function getSavedCategoryWeighting() {
  * Save category weighting for class to local storage
  * @param {Map<String, Object>} catmap Map of weighting assigned to each category for course
  */
-async function saveCategoryWeighting(catmap){
-    let courseName = extractCourseTitle();
-    let data = {};
+async function saveCategoryWeighting (catmap) {
+    const courseName = extractCourseTitle();
+    const data = {};
     data[courseName + "-catmap"] = catmap;
     browser.storage.local.set(data);
 }
@@ -347,16 +317,6 @@ async function saveGradesLocally (username, courses) {
 async function getLocalConfig () {
     const data = await browser.storage.local.get(null);
     return data;
-}
-
-/**
- * Send Analytics ping
- * @param {String} action_input the action being taken
- * @param {String} [url] Url to report. Defaults to the current page in the browser
- */
-async function analytics_message (action_input, url) {
-    const href = url || window.location.href.split("?")[0];
-    browser.runtime.sendMessage({ action: "analytics_send", args: { url: href, action: action_input } });
 }
 
 export {

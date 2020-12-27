@@ -46,6 +46,7 @@ import ClassGrade from './components/ClassGrade';
 import ExtensionInfo from './components/ExtensionInfo.vue';
 import GradeTable from './components/GradeTable.vue';
 import CategoryWeighting from './components/CategoryWeighting.vue';
+import HypoAssignment from './components/HypoAssignment.vue';
 import HypoGrades from './components/HypoGrades';
 import LastSeenGrades from './components/LastGrades.vue';
 
@@ -110,6 +111,7 @@ function class_page () {
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
+    addHypoAssignment(number);
     addVueGrades();
 }
 
@@ -359,23 +361,35 @@ function addHypoGradeCalc (courses) {
 }
 
 /**
- * Add a hypothetical assignment calculator widget.
- * @param number The current final percent of the student.
+ * Add a category weighting widget.
  */
 function addVueGrades () {
     const assignments = extractAssignmentList();
     const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
-    const gt = new (Vue.extend(GradeTable))({
+    const gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
         propsData: {
             categories: cat,
             assignments: assignments,
         },
     }).$mount('#content-main > div.box-round > table:nth-child(4)');
     document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-categories"></div>`);
-    new (Vue.extend(CategoryWeighting))({
+    new (Vue.extend(CategoryWeighting))({ // category weighting widget
         propsData: {
             categories: cat,
             gradetable: gt,
         },
     }).$mount("#saspes-categories");
+}
+
+/**
+ * Add a hypothetical assignment calculator widget.
+ * @param number The current final percent of the student.
+ */
+function addHypoAssignment (number) {
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-hypo-assignment"></div>`);
+    new (Vue.extend(HypoAssignment))({
+        propsData: {
+            currentFP: number,
+        },
+    }).$mount('#saspes-hypo-assignment');
 }

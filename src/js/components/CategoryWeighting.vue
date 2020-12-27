@@ -22,7 +22,7 @@
 
 <template>
     <div id="saspes-categories">
-        <h3>Category Weighting</h3>
+        <h3>Category Weighting (From Table Above)</h3>
         <table
             border="0"
             cellpadding="0"
@@ -69,7 +69,6 @@
 </template>
 <script>
 import { getSavedCategoryWeighting, saveCategoryWeighting, fpToGrade } from '../helpers';
-import GradeTable from './GradeTable.vue';
 export default {
     name: 'CategoryWeighting',
     props: {
@@ -93,7 +92,7 @@ export default {
             if (this.renderWeights.length === 0) return 0;
             let sum = 0;
             const cm = this.getCategoryMap();
-            for (const [key,val] of Object.entries(cm)) {
+            for (const [key, val] of Object.entries(cm)) {
                 sum += val.weighting;
             }
             return Math.round(sum * 100) / 100;

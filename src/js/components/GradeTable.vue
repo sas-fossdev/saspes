@@ -117,24 +117,47 @@ export default {
             this.assignments.push(new ClassAssignment(this.assignments[this.assignments.length - 1].id + 1, "today", this.categories[0], "New Assignment", false, false, false, false, false, "--/9", "B", true));
         },
         calculateGrades (catmap) {
-            const grade = {};
-            for (var i = 0; i < this.assignments.length; i++) {
-                if (this.assignments[i].userExempt || this.assignments[i].grade === " ") continue;
-                if (grade[this.assignments[i].category] == null) {
-                    grade[this.assignments[i].category] = [gradeToFP(this.assignments[i].grade)];
+            try {
+                const grade = {};
+                for (var i = 0; i < this.assignments.length; i++) {
+                    if (this.assignments[i].userExempt || this.assignments[i].grade === " ") continue;
+                    if (grade[this.assignments[i].category] == null) {
+                        grade[this.assignments[i].category] = [gradeToFP(this.assignments[i].grade)];
+                    } else {
+                        grade[this.assignments[i].category].push(gradeToFP(this.assignments[i].grade));
+                    }
+                }
+                let missing = 0;
+                for (var cat in catmap) if (grade[cat] == null) missing += catmap[cat].weighting;
+                let percent = 0;
+                for (cat in grade) {
+                    let sum = 0;
+                    for (i = 0; i < grade[cat].length; i++) sum += grade[cat][i];
+                    percent += sum / grade[cat].length * catmap[cat].weighting;
+                }
+                if (missing === 1) {
+                    return 0;
                 } else {
-                    grade[this.assignments[i].category].push(gradeToFP(this.assignments[i].grade));
+                    return percent / (1 - missing);
+                }
+            } catch (err) {
+                return 0;
+            }
+        },
+        delCategory (c) {
+            for (var i = 0; i < this.assignments.length; i++) {
+                if (this.assignments[i].category === this.categories[c]) {
+                    this.assignments.splice(i, 1);
+                    i--;
                 }
             }
-            let missing = 0;
-            for (var cat in catmap) if (grade[cat] == null) missing += catmap[cat].weighting;
-            let percent = 0;
-            for (cat in grade) {
-                let sum = 0;
-                for (i = 0; i < grade[cat].length; i++) sum += grade[cat][i];
-                percent += sum / grade[cat].length * catmap[cat].weighting;
+        },
+        changeCategory (oc, nc) {
+            for (var i = 0; i < this.assignments.length; i++) {
+                if (this.assignments[i].category === oc) {
+                    this.assignments[i].category = nc;
+                }
             }
-            return percent / (1 - missing);
         },
     },
 };

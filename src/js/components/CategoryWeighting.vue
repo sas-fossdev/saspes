@@ -22,7 +22,8 @@
 
 <template>
     <div id="saspes-categories">
-        <h3>Category Weighting (From Table Above)</h3>
+        <h3>Category Weighting</h3>
+        <p>Enter the decimal weighting of each category (from your course syllabus) and use exemptions and add assignment on the table above to add multiple hypothetical grades.</p>
         <table
             border="0"
             cellpadding="0"
@@ -42,7 +43,11 @@
                     :key="index"
                     :bgcolor="(index % 2 == 0) ? '#edf3fe' : '#fff'"
                 >
-                    <td v-html="category.category" />
+                    <td v-if="category.newc">
+                        <input v-model="category.category" @change="changeCategory(index, category.category)">
+                        <button @click="delCategory(index)">Del</button>
+                    </td>
+                    <td v-else v-html="category.category" />
                     <td>
                         <input
                             v-model.number="category.weighting"
@@ -129,7 +134,7 @@ export default {
             this.newCategories++;
             const nc = "Category " + this.newCategories;
             this.categories.push(nc);
-            this.renderWeights.push({ weighting: 0, category: nc });
+            this.renderWeights.push({ weighting: 0, category: nc, newc: true });
         },
         getCategoryMap () {
             const catmap = {};
@@ -137,6 +142,15 @@ export default {
                 catmap[e.category] = e;
             });
             return catmap;
+        },
+        delCategory (i) {
+            this.gradetable.delCategory(i);
+            this.renderWeights.splice(i, 1);
+            this.categories.splice(i, 1);
+        },
+        changeCategory (c, nc) {
+            this.gradetable.changeCategory(this.categories[c], nc);
+            this.categories[c] = nc;
         },
     },
 };

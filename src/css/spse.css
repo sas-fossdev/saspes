@@ -19,3 +19,6 @@
     position: relative;
     display: inline-block !important;
 }
+#saspes-categories, #saspes-hypo-assignment{
+    display: none;
+}

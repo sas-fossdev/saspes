@@ -103,7 +103,7 @@
             </select>
         </td>
         <td
-            v-if="assignment.userExempt"
+            v-if="assignment.userExempt && categoryWeighting"
             align="center"
         >
             <input
@@ -113,7 +113,7 @@
             >
         </td>
         <td
-            v-else
+            v-else-if="categoryWeighting"
             align="center"
         >
             <input
@@ -135,6 +135,10 @@ export default {
         },
         categories: {
             type: Array,
+            required: true,
+        },
+        categoryWeighting: {
+            type: Boolean,
             required: true,
         },
     },

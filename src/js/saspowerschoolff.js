@@ -54,6 +54,8 @@ import LastSeenGrades from './components/LastGrades.vue';
 import Course from './models/Course';
 import CumulativeGPA from "./components/CumulativeGPA";
 
+var gt;
+
 main();
 function main () {
     // Button on options page
@@ -111,9 +113,27 @@ function class_page () {
     }
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
-    // document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<select id='hypo-select'><option value='none'>Hypothetical Ass</option></select>`);
     addHypoAssignment(number);
     addVueGrades();
+
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<select id='hypo-select'><option value='none'>Hypothetical Assigment Mode</option><option value='single'>Add Single Assignment</option><option value='category'>Category Weighting (beta)</option></select>`);
+
+    document.getElementById('hypo-select').onchange = function () {
+        const opt = document.getElementById('hypo-select').value;
+        if (opt === "none") {
+            document.getElementById('saspes-hypo-assignment').style.display = "none";
+            document.getElementById('saspes-categories').style.display = "none";
+            gt.setCategoryWeighting(false);
+        } else if (opt === "single") {
+            document.getElementById('saspes-hypo-assignment').style.display = "block";
+            document.getElementById('saspes-categories').style.display = "none";
+            gt.setCategoryWeighting(false);
+        } else {
+            document.getElementById('saspes-hypo-assignment').style.display = "none";
+            document.getElementById('saspes-categories').style.display = "block";
+            gt.setCategoryWeighting(true);
+        }
+    };
 }
 
 async function login_page () {
@@ -367,7 +387,7 @@ function addHypoGradeCalc (courses) {
 function addVueGrades () {
     const assignments = extractAssignmentList();
     const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
-    const gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
+    gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
         propsData: {
             categories: cat,
             assignments: assignments,

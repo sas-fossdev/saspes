@@ -47,13 +47,14 @@
                     <th class="center">
                         Grd
                     </th>
-                    <th>Exmp</th>
+                    <th v-if="categoryWeighting">Exmp</th>
                 </tr>
                 <grade-row
                     v-for="assignment in assignments"
                     :key="assignment.id"
                     :assignment="assignment"
                     :categories="categories"
+                    :categoryWeighting="categoryWeighting"
                 />
                 <tr>
                     <td
@@ -84,7 +85,7 @@
                 </tr>
             </tbody>
         </table>
-        <button @click="addAssignment();">
+        <button v-if="categoryWeighting" @click="addAssignment();">
             Add Assignment
         </button>
     </div>
@@ -111,6 +112,7 @@ export default {
     },
     data: () => ({
         gradeOptions: avaliableGrades,
+        categoryWeighting: false,
     }),
     methods: {
         addAssignment () {
@@ -158,6 +160,9 @@ export default {
                     this.assignments[i].category = nc;
                 }
             }
+        },
+        setCategoryWeighting (b) {
+            this.categoryWeighting = b;
         },
     },
 };

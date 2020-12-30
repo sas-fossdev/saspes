@@ -22,3 +22,7 @@
 #saspes-categories, #saspes-hypo-assignment{
     display: none;
 }
+#hypo-select{
+    display: block;
+    margin: 0 auto 20px auto;
+}

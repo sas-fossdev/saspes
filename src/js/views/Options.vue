@@ -16,9 +16,18 @@
         <br>
         <footer>
             <br>
-            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a href="https://github.com/sas-fossdev/saspes" target="_blank">GitHub page</a> if you'd like to participate as well.<br>
+            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a
+                href="https://github.com/sas-fossdev/saspes"
+                target="_blank"
+            >GitHub page</a> if you'd like to participate as well.<br>
             <br>
-            If you believe you have encountered a bug in the extension, or have any other inquiries, please create an issue on <a href="https://github.com/sas-fossdev/saspes/issues" target="_blank"> the repository</a> or email <a href="mailto:contact@suhas.net" target="_blank">contact@suhas.net</a><br>
+            If you believe you have encountered a bug in the extension, or have any other inquiries, please create an issue on <a
+                href="https://github.com/sas-fossdev/saspes/issues"
+                target="_blank"
+            > the repository</a> or email <a
+                href="mailto:contact@suhas.net"
+                target="_blank"
+            >contact@suhas.net</a><br>
             <br>
             Credits: <br>
             Special thanks to Alan Chang for the idea. <br>

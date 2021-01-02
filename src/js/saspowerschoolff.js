@@ -33,15 +33,21 @@ import {
     assignments,
     calculate_gpa,
     extractFinalPercent,
+    extractGradeCategories,
     gradeToGPA,
     saveGradesLocally,
     getSavedGrades,
+    extractAssignmentList,
+    getLocalConfig,
+    getDefaultConfig,
 } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
 import ClassGrade from './components/ClassGrade';
 import ExtensionInfo from './components/ExtensionInfo.vue';
+import GradeTable from './components/GradeTable.vue';
+import CategoryWeighting from './components/CategoryWeighting.vue';
 import HypoAssignment from './components/HypoAssignment.vue';
 import HypoGrades from './components/HypoGrades';
 import LastSeenGrades from './components/LastGrades.vue';
@@ -49,6 +55,8 @@ import LastSeenGrades from './components/LastGrades.vue';
 // Used models
 import Course from './models/Course';
 import CumulativeGPA from "./components/CumulativeGPA";
+
+var gt;
 
 main();
 function main () {
@@ -74,7 +82,6 @@ function main () {
 }
 
 function main_page () {
-    const student_name = getStudentName();
     const { sem1_col, sem2_col } = getSemesterCols();
     const second_semester = isSecondSemester();
     const current_term = getCurrentTerm();
@@ -109,24 +116,54 @@ function class_page () {
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
     addHypoAssignment(number);
+    addVueGrades();
+
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<select id='hypo-select'><option value='none'>Hypothetical Assigment Mode</option><option value='single'>Add Single Assignment</option><option value='category'>Category Weighting (beta)</option></select>`);
+
+    document.getElementById('hypo-select').onchange = function () {
+        const opt = document.getElementById('hypo-select').value;
+        if (opt === "none") {
+            document.getElementById('saspes-hypo-assignment').style.display = "none";
+            document.getElementById('saspes-categories').style.display = "none";
+            gt.setCategoryWeighting(false);
+        } else if (opt === "single") {
+            document.getElementById('saspes-hypo-assignment').style.display = "block";
+            document.getElementById('saspes-categories').style.display = "none";
+            gt.setCategoryWeighting(false);
+        } else {
+            document.getElementById('saspes-hypo-assignment').style.display = "none";
+            document.getElementById('saspes-categories').style.display = "block";
+            gt.setCategoryWeighting(true);
+        }
+    };
 }
 
 async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    browser.storage.local.get("showExtensionInfo").then(output => {
-        new (Vue.extend(ExtensionInfo))({
-            data: {
-                showInfo: output.showExtensionInfo.value,
-            },
-        }).$mount('#saspes-info');
-    });
-
+    new (Vue.extend(ExtensionInfo))({
+        data: {
+            showInfo: true,
+        },
+    }).$mount('#saspes-info');
     const LastGradesDiv = document.createElement('div');
     LastGradesDiv.classList.add("last-grade-div-fixed");
     LastGradesDiv.id = "saspes-last-grades";
     document.body.appendChild(LastGradesDiv);
+    let current_config = await getLocalConfig();
+    // disables last seen grades temporarily for anyone who has it enabled, until a proper opt in can be added.
 
-    if ((await browser.storage.local.get("opted_in")).opted_in.value) {
+    if (current_config.opted_in === undefined) {
+        current_config = getDefaultConfig();
+    } else if (current_config.opted_in.value === undefined) {
+        current_config = getDefaultConfig();
+    } else if (current_config.opted_in.changed !== undefined && current_config.opted_in.changed === false) {
+        current_config.opted_in = {
+            value: false,
+            changed: false,
+        };
+    }
+    await browser.storage.local.set(current_config);
+    if ((await browser.storage.local.get("opted_in"))?.opted_in?.value || false) {
         (browser.storage.local.get("most_recent_user")).then(output => {
             const most_recent_user = output.most_recent_user;
             if (most_recent_user !== undefined) {
@@ -354,6 +391,27 @@ function addHypoGradeCalc (courses) {
             initialCourses: courses,
         },
     }).$mount(".hypo-grade-div-fixed");
+}
+
+/**
+ * Add a category weighting widget.
+ */
+function addVueGrades () {
+    const assignments = extractAssignmentList();
+    const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
+    gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
+        propsData: {
+            categories: cat,
+            assignments: assignments,
+        },
+    }).$mount('#content-main > div.box-round > table:nth-child(4)');
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-categories"></div>`);
+    new (Vue.extend(CategoryWeighting))({ // category weighting widget
+        propsData: {
+            categories: cat,
+            gradetable: gt,
+        },
+    }).$mount("#saspes-categories");
 }
 
 /**

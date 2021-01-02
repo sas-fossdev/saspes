@@ -158,6 +158,7 @@ export default {
                         current_term_history = undefined;
                     }
                     const tabs = el.getElementsByClassName("tabs")[0].getElementsByTagName("li");
+                    let most_recent_term;
                     // Iterate until the end of tabs or until no longer at a high school semester
                     for (let i = 0; i < tabs.length && /HS$/.test(tabs[i].innerText); i++) {
                         fetches.push(
@@ -171,11 +172,14 @@ export default {
                                     element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
                                     for (let t = 2; t < element_list.length; t++) {
                                         if (element_list[t].innerText.trim() === ("S2")) {
+                                            most_recent_term = "S2";
                                             all_courses.push(courses);
                                             if (i === 0) {
                                                 current_term_grades.push(courses);
                                             }
                                             courses = [];
+                                        } else {
+                                            most_recent_term = "S1";
                                         }
                                         if (element_list[t].getElementsByTagName("th").length > 0) {
                                             continue;
@@ -205,7 +209,8 @@ export default {
                         } else {
                             current_semester = "S1";
                         }
-                        if (current_term === current_semester) {
+                        // checks the most recent term and compares it to current semester, only includes additional courses if they are different.
+                        if (most_recent_term === current_semester) {
                             include_current_semester = false;
                         } else {
                             include_current_semester = true;

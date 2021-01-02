@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  * @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  * @author Gary Kim <gary@garykim.dev>
- * @author Advay Ratan <advayratan@gmail.com>
  *
  * @license GNU AGPL version 3 only
  *

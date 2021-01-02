@@ -115,13 +115,11 @@ function class_page () {
 
 async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    browser.storage.local.get("showExtensionInfo").then(output => {
-        new (Vue.extend(ExtensionInfo))({
-            data: {
-                showInfo: output.showExtensionInfo.value,
-            },
-        }).$mount('#saspes-info');
-    });
+    new (Vue.extend(ExtensionInfo))({
+        data: {
+            showInfo: true,
+        },
+    }).$mount('#saspes-info');
 
     const LastGradesDiv = document.createElement('div');
     LastGradesDiv.classList.add("last-grade-div-fixed");

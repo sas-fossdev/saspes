@@ -253,6 +253,15 @@ async function getLocalConfig () {
     return data;
 }
 
+/**
+ * Retrieves the default extension config for new users.
+ * @returns {Config} an object representing the default config.
+ */
+function getDefaultConfig () {
+    const data = { opted_in: { changed: false, value: false }, percent_main_page: { changed: false, value: true } };
+    return data;
+}
+
 export {
     gradeToFP,
     grade_fp,
@@ -266,4 +275,6 @@ export {
     calculate_credit_hours,
     getSavedGrades,
     saveGradesLocally,
+    getLocalConfig,
+    getDefaultConfig,
 };

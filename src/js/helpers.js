@@ -2,7 +2,9 @@
  *
  * @copyright Copyright (c) 2018-2020 Gary Kim <gary@garykim.dev>
  * @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
+ * @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  * @author Gary Kim <gary@garykim.dev>
+ * @author Advay Ratan <advayratan@gmail.com>
  *
  * @license GNU AGPL version 3 only
  *
@@ -25,6 +27,7 @@
 'use strict';
 
 import Assignment from "./models/Assignment";
+import ClassAssignment from "./models/ClassAssignment";
 import Course from './models/Course';
 import browser from 'webextension-polyfill';
 
@@ -64,6 +67,7 @@ const grade_fp = {
     'D+': 30,
     'D': 20,
     'F': 10,
+    'INC': 0,
 };
 
 /**
@@ -78,7 +82,7 @@ function gradeToFP (grade) {
     return -1;
 }
 
-const avaliableGrades = ["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F"];
+const avaliableGrades = ["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F", "INC"];
 
 const fprange = {
     '85-90': 'A+',
@@ -160,6 +164,38 @@ function extractFinalPercent (html) {
 }
 
 /**
+ * Extract all grade categories from the course page html.
+ * @param {String} html course page html
+ * @returns {String[]} List of all categories
+ */
+function extractGradeCategories (html) {
+    const cat = [];
+    let match;
+    html = html.replace(/(\r\n|\n|\r)/gm, "");
+    const reg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)(.+?(?=<\/td>))/g;
+    match = reg.exec(html);
+    while (match !== null) {
+        if (!cat.includes(match[1])) cat.push(match[1]);
+        match = reg.exec(html);
+    }
+    return cat;
+}
+
+/**
+ * Extract all assignments from a class.
+ * @returns {ClassAssignment[]} List of all assignments
+ */
+function extractAssignmentList () {
+    const table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
+    const assignments = [];
+    [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
+        const curr = e.querySelectorAll('td');
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, curr[3].hasChildNodes(), curr[4].hasChildNodes(), curr[5].hasChildNodes(), curr[6].hasChildNodes(), curr[7].hasChildNodes(), curr[8].innerHTML, curr[10].innerHTML));
+    });
+    return assignments;
+}
+
+/**
  * Return Assignment instances for the given class page.
  * @param {Element} node Root node element of the class page.
  * @returns {Assignment[]} Assignments in this course
@@ -176,6 +212,36 @@ function assignments (node) {
         tr.push(assignment);
     });
     return tr;
+}
+
+/**
+ * Return course title of active class page
+ * @returns {String} Course title
+ */
+function extractCourseTitle () {
+    return document.getElementsByTagName('h2')[0].innerHTML;
+}
+
+/**
+ * Retrieve category weighting for class from local storage
+ * @returns {Map<String, Object>} Map of weighting assigned to each category for course
+ */
+async function getSavedCategoryWeighting () {
+    const courseName = extractCourseTitle() + "-catmap";
+    const catmap = await browser.storage.local.get(courseName);
+    if (catmap === undefined || (Object.keys(catmap).length === 0 && catmap.constructor === Object) || catmap[courseName] === undefined) return false;
+    return catmap[courseName];
+}
+
+/**
+ * Save category weighting for class to local storage
+ * @param {Map<String, Object>} catmap Map of weighting assigned to each category for course
+ */
+async function saveCategoryWeighting (catmap) {
+    const courseName = extractCourseTitle();
+    const data = {};
+    data[courseName + "-catmap"] = catmap;
+    browser.storage.local.set(data);
 }
 
 /**
@@ -253,6 +319,15 @@ async function getLocalConfig () {
     return data;
 }
 
+/**
+ * Retrieves the default extension config for new users.
+ * @returns {Config} an object representing the default config.
+ */
+function getDefaultConfig () {
+    const data = { opted_in: { changed: false, value: false }, percent_main_page: { changed: false, value: true } };
+    return data;
+}
+
 export {
     gradeToFP,
     grade_fp,
@@ -261,9 +336,15 @@ export {
     fpToGrade,
     gradeToGPA,
     calculate_gpa,
+    getSavedCategoryWeighting,
+    saveCategoryWeighting,
     extractFinalPercent,
+    extractGradeCategories,
+    extractAssignmentList,
     assignments,
     calculate_credit_hours,
     getSavedGrades,
     saveGradesLocally,
+    getLocalConfig,
+    getDefaultConfig,
 };

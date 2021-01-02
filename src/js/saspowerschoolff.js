@@ -38,6 +38,8 @@ import {
     saveGradesLocally,
     getSavedGrades,
     extractAssignmentList,
+    getLocalConfig,
+    getDefaultConfig,
 } from './helpers';
 
 // Vue Components
@@ -138,20 +140,32 @@ function class_page () {
 
 async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    browser.storage.local.get("showExtensionInfo").then(output => {
-        new (Vue.extend(ExtensionInfo))({
-            data: {
-                showInfo: output.showExtensionInfo.value,
-            },
-        }).$mount('#saspes-info');
-    });
-
+    new (Vue.extend(ExtensionInfo))({
+        data: {
+            showInfo: true,
+        },
+    }).$mount('#saspes-info');
     const LastGradesDiv = document.createElement('div');
     LastGradesDiv.classList.add("last-grade-div-fixed");
     LastGradesDiv.id = "saspes-last-grades";
     document.body.appendChild(LastGradesDiv);
+    let current_config = await getLocalConfig();
+    // disables last seen grades temporarily for anyone who has it enabled, until a proper opt in can be added.
 
-    if ((await browser.storage.local.get("opted_in")).opted_in.value) {
+    if (current_config.opted_in === undefined) {
+        current_config = getDefaultConfig();
+    } else if (current_config.opted_in.value === undefined) {
+        current_config = getDefaultConfig();
+    } else if (current_config.opted_in.changed !== undefined && current_config.opted_in.changed === false) {
+        current_config.opted_in = {
+            value: false,
+            changed: false,
+        };
+    }
+    await browser.storage.local.set(current_config);
+
+    console.log();
+    if ((await browser.storage.local.get("opted_in"))?.opted_in?.value || false) {
         (browser.storage.local.get("most_recent_user")).then(output => {
             const most_recent_user = output.most_recent_user;
             if (most_recent_user !== undefined) {

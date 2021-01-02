@@ -44,10 +44,18 @@
                     :bgcolor="(index % 2 == 0) ? '#edf3fe' : '#fff'"
                 >
                     <td v-if="category.newc">
-                        <input v-model="category.category" @change="changeCategory(index, category.category)">
-                        <button @click="delCategory(index)">Del</button>
+                        <input
+                            v-model="category.category"
+                            @change="changeCategory(index, category.category)"
+                        >
+                        <button @click="delCategory(index)">
+                            Del
+                        </button>
                     </td>
-                    <td v-else v-html="category.category" />
+                    <td
+                        v-else
+                        v-html="category.category"
+                    />
                     <td>
                         <input
                             v-model.number="category.weighting"

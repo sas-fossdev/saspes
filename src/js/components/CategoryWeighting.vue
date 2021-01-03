@@ -23,7 +23,7 @@
 <template>
     <div id="saspes-categories">
         <h3>Category Weighting</h3>
-        <p>Enter the decimal weighting of each category (from your course syllabus) and use exemptions and add assignment on the table above to add multiple hypothetical grades.</p>
+        <p>Enter the decimal weighting of each category (from your course syllabus) and use the exemptions and add assignment button on the table above to add multiple hypothetical grades. This will calculate a hypothetical grade assuming that all assignments in each category are weighed equally (which is not the case in several courses).</p>
         <table
             border="0"
             cellpadding="0"

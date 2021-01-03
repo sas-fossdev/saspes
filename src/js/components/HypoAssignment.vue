@@ -52,7 +52,6 @@
 <script>
 import { avaliableGrades, fpToGrade, gradeToFP } from '../helpers';
 const getInRange = require('get-in-range');
-
 export default {
     name: 'HypoAssignment',
     props: {
@@ -86,7 +85,6 @@ export default {
     border-radius: 4px;
     margin: 10px 20px;
     padding: 0;
-
     & h3 {
         font-size: 110%;
         margin: 0 10px 10px 10px;
@@ -94,21 +92,17 @@ export default {
         border-top-right-radius: 3px;
         border-top-left-radius: 3px;
     }
-
     & select {
         margin: 0 auto 0 auto;
         border-radius: 5px 5px 5px 5px;
     }
-
     & label {
         vertical-align: initial;
         padding-left: 20px;
     }
-
     & input {
         border-radius: 5px 5px 5px 5px;
         padding: 5px;
     }
 }
-
 </style>

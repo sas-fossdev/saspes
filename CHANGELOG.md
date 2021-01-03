@@ -1,19 +1,5 @@
 # Changelog
 
-## [v0.23.0](https://github.com/sas-fossdev/saspes/tree/v0.23.0) (2021-01-02)
-
-[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.22.2...v0.23.0)
-
-### Changed
-
-- Fix options page and remove extension info option [\#252](https://github.com/sas-fossdev/saspes/pull/252) ([Suhas-13](https://github.com/Suhas-13))
-- removed analytics code, as it is not being used, modified extension options page [\#245](https://github.com/sas-fossdev/saspes/pull/245) ([Suhas-13](https://github.com/Suhas-13))
-- refactor: change browser.storage.local structure [\#243](https://github.com/sas-fossdev/saspes/pull/243) ([priime0](https://github.com/priime0))
-
-### Fixed
-
-- fixed cumulative gpa calculation [\#253](https://github.com/sas-fossdev/saspes/pull/253) ([Suhas-13](https://github.com/Suhas-13))
-
 ## [v0.22.2](https://github.com/sas-fossdev/saspes/tree/v0.22.2) (2020-12-12)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.22.1...v0.22.2)

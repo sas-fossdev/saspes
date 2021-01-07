@@ -276,7 +276,7 @@ function getCourses (second_semester, sem1_col, sem2_col) {
                             if (gradeToGPA($first_grade.text()) !== -1) {
                                 new (Vue.extend(ClassGrade))({
                                     propsData: {
-                                        course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), finalPercent)
+                                        course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), finalPercent),
                                     },
                                 }).$mount($first_grade.get(0));
                             }

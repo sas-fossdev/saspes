@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.23.1](https://github.com/sas-fossdev/saspes/tree/v0.23.1) (2021-01-10)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.23.0...v0.23.1)
+
+### Fixed
+
+- Fix second semester detection [\#258](https://github.com/sas-fossdev/saspes/pull/258) ([Suhas-13](https://github.com/Suhas-13))
 ## [v0.23.0](https://github.com/sas-fossdev/saspes/tree/v0.23.0) (2021-01-02)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.22.2...v0.23.0)

@@ -116,7 +116,6 @@ function class_page () {
 async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
     browser.storage.local.get("showExtensionInfo").then(output => {
-        console.log(output.showExtensionInfo);
         let showInfoOpt = output?.showExtensionInfo;
         if (showInfoOpt === undefined) {
             showInfoOpt = true;

@@ -1,12 +1,5 @@
 # Changelog
 
-## [v0.24.0](https://github.com/sas-fossdev/saspes/tree/weighting4) (2021-01-12)
-
-### Added
-
-- Weight courses by category to get hypothetical class grade rather than just single hypothetical assignments ([ARtheboss](https://github.com/ARtheboss))
-- Add/exempt courses based on category weighting ([ARtheboss](https://github.com/ARtheboss))
-
 ## [v0.23.1](https://github.com/sas-fossdev/saspes/tree/v0.23.1) (2021-01-10)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.23.0...v0.23.1)

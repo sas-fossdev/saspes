@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.24.0](https://github.com/sas-fossdev/saspes/tree/v0.23.0) (2021-01-02)
+
+## [v0.23.0](https://github.com/sas-fossdev/saspes/tree/v0.23.0) (2021-01-02)
+
 ## [v0.22.2](https://github.com/sas-fossdev/saspes/tree/v0.22.2) (2020-12-12)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.22.1...v0.22.2)

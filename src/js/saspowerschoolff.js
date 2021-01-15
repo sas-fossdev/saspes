@@ -115,11 +115,17 @@ function class_page () {
 
 async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
-    new (Vue.extend(ExtensionInfo))({
-        data: {
-            showInfo: true,
-        },
-    }).$mount('#saspes-info');
+    browser.storage.local.get("showExtensionInfo").then(output => {
+        let showInfoOpt = output?.showExtensionInfo;
+        if (showInfoOpt === undefined) {
+            showInfoOpt = true;
+        }
+        new (Vue.extend(ExtensionInfo))({
+            data: {
+                showInfo: showInfoOpt,
+            },
+        }).$mount('#saspes-info');
+    });
 
     const LastGradesDiv = document.createElement('div');
     LastGradesDiv.classList.add("last-grade-div-fixed");

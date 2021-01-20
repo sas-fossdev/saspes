@@ -144,6 +144,13 @@ async function login_page () {
         new (Vue.extend(ExtensionInfo))({
             data: {
                 showInfo: output.showExtensionInfo.value,
+        let showInfoOpt = output?.showExtensionInfo;
+        if (showInfoOpt === undefined) {
+            showInfoOpt = true;
+        }
+        new (Vue.extend(ExtensionInfo))({
+            data: {
+                showInfo: showInfoOpt,
             },
         }).$mount('#saspes-info');
     });

@@ -4,6 +4,8 @@
  *
  * @copyright Copyright (c) 2020 Suhas Hariharan <contact@suhas.net>
  *
+ * @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
+ *
  * @author Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 only
@@ -33,17 +35,19 @@ import {
     assignments,
     calculate_gpa,
     extractFinalPercent,
+    extractGradeCategories,
     gradeToGPA,
     saveGradesLocally,
     getSavedGrades,
-    getLocalConfig,
-    getDefaultConfig,
+    extractAssignmentList,
 } from './helpers';
 
 // Vue Components
 import Vue from 'vue';
 import ClassGrade from './components/ClassGrade';
 import ExtensionInfo from './components/ExtensionInfo.vue';
+import GradeTable from './components/GradeTable.vue';
+import CategoryWeighting from './components/CategoryWeighting.vue';
 import HypoAssignment from './components/HypoAssignment.vue';
 import HypoGrades from './components/HypoGrades';
 import LastSeenGrades from './components/LastGrades.vue';
@@ -51,6 +55,8 @@ import LastSeenGrades from './components/LastGrades.vue';
 // Used models
 import Course from './models/Course';
 import CumulativeGPA from "./components/CumulativeGPA";
+
+var gt;
 
 main();
 function main () {
@@ -76,9 +82,8 @@ function main () {
 }
 
 function main_page () {
-    const student_name = getStudentName();
     const { sem1_col, sem2_col } = getSemesterCols();
-    const second_semester = isSecondSemester(sem2_col);
+    const second_semester = isSecondSemester();
     const current_term = getCurrentTerm();
     const { courses, promises_grade_calc_list } = getCourses(second_semester, sem1_col, sem2_col);
 
@@ -111,18 +116,34 @@ function class_page () {
     document.querySelector("table.linkDescList").append(html2node(`<tr><td><strong>Final Percent: </strong></td><td>` + number.toFixed(2) + ` <div class="tooltip saspes">&#9432;<span class="tooltiptext saspes">85: A+ | 75: A <br />65: B+ | 55: B <br />45: C+ | 35: C <br/>25: D+ | 15: D</span></div></td></tr>`));
 
     addHypoAssignment(number);
+    addVueGrades();
+
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<select id='hypo-select'><option value='none'>Hypothetical Assigment Mode</option><option value='single'>Add Single Assignment</option><option value='category'>Category Weighting (beta)</option></select>`);
+
+    document.getElementById('hypo-select').onchange = function () {
+        const opt = document.getElementById('hypo-select').value;
+        if (opt === "none") {
+            document.getElementById('saspes-hypo-assignment').style.display = "none";
+            document.getElementById('saspes-categories').style.display = "none";
+            gt.setCategoryWeighting(false);
+        } else if (opt === "single") {
+            document.getElementById('saspes-hypo-assignment').style.display = "block";
+            document.getElementById('saspes-categories').style.display = "none";
+            gt.setCategoryWeighting(false);
+        } else {
+            document.getElementById('saspes-hypo-assignment').style.display = "none";
+            document.getElementById('saspes-categories').style.display = "block";
+            gt.setCategoryWeighting(true);
+        }
+    };
 }
 
 async function login_page () {
     $('<div id="saspes-info"></div>').insertAfter('div#content');
     browser.storage.local.get("showExtensionInfo").then(output => {
-        let showInfoOpt = output?.showExtensionInfo;
-        if (showInfoOpt === undefined) {
-            showInfoOpt = true;
-        }
         new (Vue.extend(ExtensionInfo))({
             data: {
-                showInfo: showInfoOpt,
+                showInfo: output.showExtensionInfo.value,
             },
         }).$mount('#saspes-info');
     });
@@ -132,21 +153,7 @@ async function login_page () {
     LastGradesDiv.id = "saspes-last-grades";
     document.body.appendChild(LastGradesDiv);
 
-    let current_config = await getLocalConfig();
-    // disables last seen grades temporarily for anyone who has it enabled, until a proper opt in can be added.
-
-    if (current_config.opted_in === undefined) {
-        current_config = getDefaultConfig();
-    } else if (current_config.opted_in.value === undefined) {
-        current_config = getDefaultConfig();
-    } else if (current_config.opted_in.changed !== undefined && current_config.opted_in.changed === false) {
-        current_config.opted_in = {
-            value: false,
-            changed: false,
-        };
-    }
-    await browser.storage.local.set(current_config);
-    if ((await browser.storage.local.get("opted_in"))?.opted_in?.value || false) {
+    if ((await browser.storage.local.get("opted_in")).opted_in.value) {
         (browser.storage.local.get("most_recent_user")).then(output => {
             const most_recent_user = output.most_recent_user;
             if (most_recent_user !== undefined) {
@@ -219,7 +226,7 @@ function isSecondSemester (sem2_col) {
     const $grade_rows = $('#quickLookup table.grid').find('tr');
     if ($grade_rows.eq(1).html().match("S2") != null) {
         for (let t = 0; t < $grade_rows.length; t++) {
-            if (gradeToGPA($grade_rows.eq(t).find('td').get(sem2_col)?.innerText) !== -1) {
+            if (gradeToGPA($grade_rows.eq(t).find('td').get(sem2_col)) !== -1) {
                 return true;
             }
         }
@@ -279,14 +286,11 @@ function getCourses (second_semester, sem1_col, sem2_col) {
                             const page = document.implementation.createHTMLDocument();
                             page.documentElement.innerHTML = response;
                             const finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
-                            if (gradeToGPA($first_grade.text()) !== -1) {
-                                new (Vue.extend(ClassGrade))({
-                                    propsData: {
-                                        course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), finalPercent),
-                                    },
-                                }).$mount($first_grade.get(0));
-                            }
-                            resolve("Success");
+                            new (Vue.extend(ClassGrade))({
+                                propsData: {
+                                    course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), finalPercent), showMissing: false,
+                                },
+                            }).$mount($first_grade.get(0));
                         });
                     }));
                 }
@@ -296,25 +300,23 @@ function getCourses (second_semester, sem1_col, sem2_col) {
         }
         if ($course.length === 1) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
-            if (gradeToGPA($course.text()) !== -1) {
-                promises_grade_calc_list.push(new Promise((resolve, reject) => {
-                    fetch(`https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
-                        const page = document.implementation.createHTMLDocument();
-                        page.documentElement.innerHTML = response;
-                        const finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
-                        const assignment_list = assignments(page.querySelector('body'));
-                        courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), finalPercent, assignment_list));
-                        if (gradeToGPA($course.text()) !== -1) {
-                            new (Vue.extend(ClassGrade))({
-                                propsData: {
-                                    course: courses[courses.length - 1],
-                                },
-                            }).$mount($course.get(0));
-                        }
-                        resolve("Success");
-                    });
-                }));
-            }
+            promises_grade_calc_list.push(new Promise((resolve, reject) => {
+                fetch(`https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
+                    const page = document.implementation.createHTMLDocument();
+                    page.documentElement.innerHTML = response;
+                    const finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
+                    const assignment_list = assignments(page.querySelector('body'));
+                    courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), finalPercent, assignment_list));
+                    if (gradeToGPA($course.text()) !== -1) {
+                        new (Vue.extend(ClassGrade))({
+                            propsData: {
+                                course: courses[courses.length - 1],
+                            },
+                        }).$mount($course.get(0));
+                    }
+                    resolve("Success");
+                });
+            }));
         }
     }
 
@@ -379,6 +381,27 @@ function addHypoGradeCalc (courses) {
             initialCourses: courses,
         },
     }).$mount(".hypo-grade-div-fixed");
+}
+
+/**
+ * Add a category weighting widget.
+ */
+function addVueGrades () {
+    const assignments = extractAssignmentList();
+    const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
+    gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
+        propsData: {
+            categories: cat,
+            assignments: assignments,
+        },
+    }).$mount('#content-main > div.box-round > table:nth-child(4)');
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-categories"></div>`);
+    new (Vue.extend(CategoryWeighting))({ // category weighting widget
+        propsData: {
+            categories: cat,
+            gradetable: gt,
+        },
+    }).$mount("#saspes-categories");
 }
 
 /**

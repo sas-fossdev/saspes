@@ -71,7 +71,6 @@
 import Course from "../models/Course";
 
 import { VPopover } from 'v-tooltip';
-import browser from 'webextension-polyfill';
 
 export default {
     name: "ClassGrade",

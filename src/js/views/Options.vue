@@ -16,18 +16,9 @@
         <br>
         <footer>
             <br>
-            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a
-                href="https://github.com/sas-fossdev/saspes"
-                target="_blank"
-            >GitHub page</a> if you'd like to participate as well.<br>
+            SAS Powerschool Enhancement Suite is the collective work of many different people working together publicly. Visit our <a href="https://github.com/sas-fossdev/saspes" target="_blank">GitHub page</a> if you'd like to participate as well.<br>
             <br>
-            If you believe you have encountered a bug in the extension, or have any other inquiries, please create an issue on <a
-                href="https://github.com/sas-fossdev/saspes/issues"
-                target="_blank"
-            > the repository</a> or email <a
-                href="mailto:contact@suhas.net"
-                target="_blank"
-            >contact@suhas.net</a><br>
+            If you believe you have encountered a bug in the extension, or have any other inquiries, please create an issue on <a href="https://github.com/sas-fossdev/saspes/issues" target="_blank"> the repository</a> or email <a href="mailto:contact@suhas.net" target="_blank">contact@suhas.net</a><br>
             <br>
             Credits: <br>
             Special thanks to Alan Chang for the idea. <br>
@@ -45,9 +36,8 @@ import browser from 'webextension-polyfill';
 function defaultOptions () {
     return {
         id: "Not set yet",
-        ignoreNextReset: false,
         percent_main_page: true,
-        save_last_grades: false,
+        save_last_grades: true,
     };
 }
 
@@ -56,6 +46,7 @@ export default {
     data () {
         return {
             options: defaultOptions(),
+            ignoreNextReset: false,
             copiedRecently: false,
             thirdPartyLibraries: browser.extension.getURL('web_accessible_resources/libraries.txt'),
             version: SASPES_VERSION_NAME,
@@ -64,12 +55,12 @@ export default {
     watch: {
         options: {
             deep: true,
-            async handler (val) {
+            handler (val) {
                 if (this.ignoreNextReset) {
                     this.ignoreNextReset = false;
                     return;
                 }
-                await browser.storage.local.set({ "percent_main_page": { changed: true, value: val.percent_main_page }, "opted_in": { changed: true, value: val.save_last_grades } });
+                browser.storage.local.set(JSON.parse(JSON.stringify(val)));
             },
         },
     },
@@ -79,9 +70,14 @@ export default {
     },
     methods: {
         async resetData () {
-            const stored_options = await browser.storage.local.get(null);
+            const options = await browser.storage.local.get(defaultOptions());
             this.ignoreNextReset = true;
-            this.options = { "percent_main_page": stored_options?.percent_main_page?.value || this.options.percent_main_page, "save_last_grades": stored_options?.opted_in?.value || this.options.save_last_grades };
+            this.options = Object.assign({}, this.options, options);
+        },
+        copyId () {
+            this.copiedRecently = true;
+            navigator.clipboard.writeText(this.options.id);
+            setTimeout(() => { this.copiedRecently = false; }, 1500);
         },
     },
 };

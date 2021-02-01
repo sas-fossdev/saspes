@@ -160,7 +160,6 @@ function extractFinalPercent (html) {
     return number;
 }
 
-
 /**
  * Extract all grade categories from the course page html.
  * @param {String} html course page html
@@ -219,7 +218,6 @@ function assignments (node) {
 function extractCourseTitle () {
     return document.getElementsByTagName('h2')[0].innerHTML;
 }
-
 
 /**
  * Retrieve category weighting for class from local storage

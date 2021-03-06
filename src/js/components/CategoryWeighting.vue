@@ -53,6 +53,7 @@
                             v-model.number="category.weighting"
                             type="number"
                             style="width: 85%;"
+                            step="0.1"
                         >
                     </td>
                 </tr>

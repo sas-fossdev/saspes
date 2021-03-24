@@ -145,7 +145,7 @@ export default {
                     }
                     if (catmap[cat].weighting !== "") {
                         percent += sum / grade[cat].length * catmap[cat].weighting;
-                    }  
+                    }
                 }
                 if (missing === 100) {
                     return 0;

@@ -100,12 +100,10 @@ export default {
             const cm = this.getCategoryMap();
             for (const [key, val] of Object.entries(cm)) {
                 if (val.weighting === "") {
-                    sum+=0
-                }
-                else {
+                    sum += 0;
+                } else {
                     sum += val.weighting;
                 }
-                
             }
             return Math.round(sum * 100) / 100;
         },

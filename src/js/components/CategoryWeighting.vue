@@ -99,6 +99,9 @@ export default {
             let sum = 0;
             const cm = this.getCategoryMap();
             for (const [key, val] of Object.entries(cm)) {
+                if (val.weighting === "") {
+                    val.weighting = 0;
+                }
                 sum += val.weighting;
             }
             return Math.round(sum * 1000) / 1000;

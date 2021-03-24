@@ -23,7 +23,7 @@
 <template>
     <div id="saspes-categories">
         <h3>Category Weighting</h3>
-        <p>Enter the decimal weighting of each category (from your course syllabus) and use exemptions and add assignment on the table above to add multiple hypothetical grades.</p>
+        <p>Enter the decimal weighting of each category (from your course syllabus) and use exemptions and add assignment on the table above to add multiple hypothetical grades. Please only use this if you are familiar with how category weighting works. Use the add single assignment option for the standard view.</p>
         <table
             border="0"
             cellpadding="0"
@@ -70,7 +70,7 @@
             Save Weighting
         </button>
         <h2 v-if="categorySum==1">{{ hypo.grade }} ({{ hypo.fp }})</h2>
-        <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate</p>
+        <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate. Additionally early in the year some categories(i.e the exam category) may contain no grades and the percentages need to be adjusted accordingly.</p>
     </div>
 </template>
 <script>

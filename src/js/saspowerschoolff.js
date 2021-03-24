@@ -122,7 +122,9 @@ function class_page () {
     addVueGrades();
 
     document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<select id='hypo-select'><option value='none'>Hypothetical Assigment Mode</option><option value='single'>Add Single Assignment</option><option value='category'>Category Weighting (beta)</option></select>`);
-
+    gt.setCategoryWeighting(false);
+    document.getElementById('saspes-hypo-assignment').style.display = "none";
+    document.getElementById('saspes-categories').style.display = "none";
     document.getElementById('hypo-select').onchange = function () {
         const opt = document.getElementById('hypo-select').value;
         if (opt === "none") {

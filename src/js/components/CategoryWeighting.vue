@@ -36,7 +36,7 @@
             <tbody>
                 <tr>
                     <th>Category</th>
-                    <th>Weighting</th>
+                    <th>Weighting %</th>
                 </tr>
                 <tr
                     v-for="(category, index) in renderWeights"
@@ -62,14 +62,14 @@
         <button @click="addCategory();">
             Add Category
         </button>
-        <label v-if="categorySum != 1">Category weightings do not sum to 1</label>
+        <label v-if="categorySum != 100">Category weightings do not sum to 100%</label>
         <button
             v-else
             @click="saveCategoryWeightingLocal();"
         >
             Save Weighting
         </button>
-        <h2 v-if="categorySum==1">{{ hypo.grade }} ({{ hypo.fp }})</h2>
+        <h2 v-if="categorySum==100">{{ hypo.grade }} ({{ hypo.fp }})</h2>
         <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate. In addition, early in the year some categories(i.e the exam category) may contain no grades and the percentages would need to be adjusted accordingly.</p>
     </div>
 </template>
@@ -100,11 +100,14 @@ export default {
             const cm = this.getCategoryMap();
             for (const [key, val] of Object.entries(cm)) {
                 if (val.weighting === "") {
-                    val.weighting = 0;
+                    sum+=0
                 }
-                sum += val.weighting;
+                else {
+                    sum += val.weighting;
+                }
+                
             }
-            return Math.round(sum * 1000) / 1000;
+            return Math.round(sum * 100) / 100;
         },
         hypo () {
             if (this.renderWeights.length === 0) return { grade: "F", fp: 0 };

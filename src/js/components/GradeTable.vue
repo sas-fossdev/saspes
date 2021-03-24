@@ -130,17 +130,27 @@ export default {
                     }
                 }
                 let missing = 0;
-                for (var cat in catmap) if (grade[cat] == null) missing += catmap[cat].weighting;
+                for (var cat in catmap) {
+                    if (grade[cat] == null) {
+                        if (catmap[cat].weighting !== "") {
+                            missing += catmap[cat].weighting;
+                        }
+                    }
+                }
                 let percent = 0;
                 for (cat in grade) {
                     let sum = 0;
-                    for (i = 0; i < grade[cat].length; i++) sum += grade[cat][i];
-                    percent += sum / grade[cat].length * catmap[cat].weighting;
+                    for (i = 0; i < grade[cat].length; i++) {
+                        sum += grade[cat][i];
+                    }
+                    if (catmap[cat].weighting !== "") {
+                        percent += sum / grade[cat].length * catmap[cat].weighting;
+                    }  
                 }
-                if (missing === 1) {
+                if (missing === 100) {
                     return 0;
                 } else {
-                    return percent / (1 - missing);
+                    return percent / (100 - missing);
                 }
             } catch (err) {
                 return 0;

@@ -69,7 +69,7 @@
         >
             Save Weighting
         </button>
-        <h2>{{ hypo.grade }} ({{ hypo.fp }})</h2>
+        <h2 v-if="categorySum==1">{{ hypo.grade }} ({{ hypo.fp }})</h2>
         <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate</p>
     </div>
 </template>

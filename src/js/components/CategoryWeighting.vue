@@ -70,7 +70,7 @@
             Save Weighting
         </button>
         <h2 v-if="categorySum==1">{{ hypo.grade }} ({{ hypo.fp }})</h2>
-        <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate. Additionally early in the year some categories(i.e the exam category) may contain no grades and the percentages need to be adjusted accordingly.</p>
+        <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate. In addition, early in the year some categories(i.e the exam category) may contain no grades and the percentages would need to be adjusted accordingly.</p>
     </div>
 </template>
 <script>
@@ -101,7 +101,7 @@ export default {
             for (const [key, val] of Object.entries(cm)) {
                 sum += val.weighting;
             }
-            return Math.round(sum * 100) / 100;
+            return Math.round(sum * 1000) / 1000;
         },
         hypo () {
             if (this.renderWeights.length === 0) return { grade: "F", fp: 0 };

@@ -45,7 +45,7 @@
                 >
                     <td v-if="category.newc">
                         <input v-model="category.category" @change="changeCategory(index, category.category)">
-                        <button @click="delCategory(index)">Del</button>
+                        <button @click="delCategory(index)">Delete</button>
                     </td>
                     <td v-else v-html="category.category" />
                     <td>

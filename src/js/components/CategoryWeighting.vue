@@ -123,6 +123,7 @@ export default {
             let catmap = await getSavedCategoryWeighting();
             if (catmap === false) {
                 catmap = {};
+                this.categories.sort();
                 this.categories.forEach((e, i) => {
                     catmap[e] = { weighting: 0, category: e };
                 });

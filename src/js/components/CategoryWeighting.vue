@@ -61,7 +61,7 @@
                 </tr>
             </tbody>
         </table>
-        <button style="margin-left: 1.6%" @click="addCategory();">
+        <button style="margin-left: 20px" @click="addCategory();">
             Add Category
         </button>
         <label v-if="categorySum != 100">Category weightings do not sum to 100%</label>
@@ -71,8 +71,8 @@
         >
             Save Weighting
         </button>
-        <h2 v-if="categorySum==100">{{ hypo.grade }} ({{ hypo.fp }})</h2>
-        <br><br>
+        <h2 v-if="categorySum==100">{{ hypo.grade }} ({{ hypo.fp }})<br></h2>
+        <div v-if="categorySum!=100"><br></div>
         <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate. In addition, early in the year some categories(i.e the exam category) may contain no grades and the percentages would need to be adjusted accordingly.</p>
     </div>
 </template>

@@ -1,4 +1,22 @@
-# Changelog
+# SAS Powerschool Enhancement Suite Changelog
+
+## [v0.24.0](https://github.com/sas-fossdev/saspes/tree/v0.24.0) (2021-04-05)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.23.1...v0.24.0)
+
+### Changed
+
+- fixed css for category weighting [\#270](https://github.com/sas-fossdev/saspes/pull/270) ([Suhas-13](https://github.com/Suhas-13))
+- Switch to GitHub Workflows [\#264](https://github.com/sas-fossdev/saspes/pull/264) ([gary-kim](https://github.com/gary-kim))
+- Remove FUNDING.yml [\#263](https://github.com/sas-fossdev/saspes/pull/263) ([gary-kim](https://github.com/gary-kim))
+
+### Fixed
+
+- Re-added info closed option [\#261](https://github.com/sas-fossdev/saspes/pull/261) ([Suhas-13](https://github.com/Suhas-13))
+
+### Added
+
+- Weighting branch changes [\#267](https://github.com/sas-fossdev/saspes/pull/267) ([ARtheboss](https://github.com/ARtheboss))
 
 ## [v0.23.1](https://github.com/sas-fossdev/saspes/tree/v0.23.1) (2021-01-10)
 

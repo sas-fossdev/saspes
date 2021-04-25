@@ -187,7 +187,7 @@ function extractAssignmentList () {
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, curr[3].hasChildNodes(), curr[4].hasChildNodes(), curr[5].hasChildNodes(), curr[6].hasChildNodes(), curr[7].hasChildNodes(), curr[8].innerHTML, curr[10].innerHTML));
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, curr[3].hasChildNodes() && curr[3].childNodes[0].style.display !== 'none', curr[4].hasChildNodes() && curr[4].childNodes[0].style.display !== 'none', curr[5].hasChildNodes() && curr[5].childNodes[0].style.display !== 'none', curr[6].hasChildNodes() && curr[6].childNodes[0].style.display !== 'none', curr[7].hasChildNodes() && curr[7].childNodes[0].style.display !== 'none', curr[8].innerHTML, curr[10].innerHTML));
     });
     return assignments;
 }
@@ -203,7 +203,8 @@ function assignments (node) {
     [...node.querySelector('table[align=center').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
         const assignment = new Assignment(curr[2]?.innerText || "", curr[curr.length - 1]?.innerText || "", i);
-        if (e.querySelector('img[src="/images/icon_missing.gif"]')) {
+        const missingIcon = e.querySelector('img[src="/images/icon_missing.gif"]');
+        if (missingIcon && missingIcon.style.display !== 'none') {
             assignment.addStatus(Assignment.statuses.MISSING);
         }
         tr.push(assignment);

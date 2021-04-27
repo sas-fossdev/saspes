@@ -196,8 +196,8 @@ function extractAssignmentList () {
  * @param {Element} node Node representing individual row of each assignment
  * @returns {boolean} boolean representing whether input has child nodes and are set to visible.
  */
-function isIndicatorPresent(node) {
-	return node.hasChildNodes() && node.childNodes[0].style.display !== 'none'
+function isIndicatorPresent (node) {
+    return node.hasChildNodes() && node.childNodes[0].style.display !== 'none';
 }
 /**
  * Return Assignment instances for the given class page.

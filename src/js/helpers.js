@@ -187,11 +187,18 @@ function extractAssignmentList () {
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, curr[3].hasChildNodes() && curr[3].childNodes[0].style.display !== 'none', curr[4].hasChildNodes() && curr[4].childNodes[0].style.display !== 'none', curr[5].hasChildNodes() && curr[5].childNodes[0].style.display !== 'none', curr[6].hasChildNodes() && curr[6].childNodes[0].style.display !== 'none', curr[7].hasChildNodes() && curr[7].childNodes[0].style.display !== 'none', curr[8].innerHTML, curr[10].innerHTML));
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[8].innerHTML, curr[10].innerHTML));
     });
     return assignments;
 }
-
+/**
+ * Return whether the given row contains an indicator of any kind(i.e missing, late)
+ * @param {Element} node Node representing individual row of each assignment
+ * @returns {boolean} boolean representing whether input has child nodes and are set to visible.
+ */
+function isIndicatorPresent(node) {
+	return node.hasChildNodes() && node.childNodes[0].style.display !== 'none'
+}
 /**
  * Return Assignment instances for the given class page.
  * @param {Element} node Root node element of the class page.
@@ -204,7 +211,7 @@ function assignments (node) {
         const curr = e.querySelectorAll('td');
         const assignment = new Assignment(curr[2]?.innerText || "", curr[curr.length - 1]?.innerText || "", i);
         const missingIcon = e.querySelector('img[src="/images/icon_missing.gif"]');
-        if (missingIcon && missingIcon.style.display !== 'none') {
+        if (missingIcon && missingIcon?.style.display !== 'none') {
             assignment.addStatus(Assignment.statuses.MISSING);
         }
         tr.push(assignment);

@@ -1,5 +1,13 @@
 # SAS Powerschool Enhancement Suite Changelog
 
+## [v0.24.1](https://github.com/sas-fossdev/saspes/tree/v0.24.1) (2021-04-28)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.24.0...v0.24.1)
+
+### Fixed
+
+- fixes powerschool showing icons next to every assignment [\#276](https://github.com/sas-fossdev/saspes/pull/276) ([Suhas-13](https://github.com/Suhas-13))
+
 ## [v0.24.0](https://github.com/sas-fossdev/saspes/tree/v0.24.0) (2021-04-05)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.23.1...v0.24.0)

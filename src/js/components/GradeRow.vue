@@ -1,6 +1,8 @@
 <!--
  - @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  -
+ - @copyright Copyright (c) 2021 Suhas Hariharan <contact@suhas.net>
+ -
  - @author Advay Ratan <advayratan@gmail.com>
  -
  - @license GNU AGPL version 3 only
@@ -67,6 +69,7 @@
                 alt="Exempt"
             >
         </td>
+      
         <td width="19">
             <img
                 v-if="assignment.excluded"
@@ -87,7 +90,7 @@
             v-if="!assignment.hypo"
             align="center"
             v-html="assignment.grade"
-        />
+/>
         <td
             v-else
             align="center"
@@ -101,6 +104,17 @@
                     {{ grade }}
                 </option>
             </select>
+        </td>
+        <td
+            v-if="categoryWeighting"
+            align="center"
+        >
+            <input
+                            type="number"
+                            style="width: 35%;"
+                            min=0
+                            max=100
+                        >
         </td>
         <td
             v-if="assignment.userExempt && categoryWeighting"

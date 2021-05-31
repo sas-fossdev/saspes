@@ -49,7 +49,11 @@
                     <th class="center">
                         Grd
                     </th>
-                    <th v-if="categoryWeighting">Exmp</th>
+                    
+                    <th class="center" v-if="categoryWeighting">Weighting(% in category)</th>
+                    <th class="center" v-if="categoryWeighting">Exmp</th>
+                    
+                    
                 </tr>
                 <grade-row
                     v-for="assignment in assignments"

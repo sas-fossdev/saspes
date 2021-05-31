@@ -23,7 +23,7 @@
  */
 
 export default class ClassAssignment {
-    constructor (id, date, category, name, collected, late, missing, exempt, excluded, score, grade, hypo = false) {
+    constructor (id, date, category, name, collected, late, missing, exempt, excluded, score, grade, hypo = false, weightInCategory) {
         this.id = id;
         this.date = date;
         this.category = category;
@@ -37,5 +37,6 @@ export default class ClassAssignment {
         this.grade = (grade === "&nbsp;") ? " " : grade;
         this.hypo = hypo;
         this.userExempt = this.exempt || this.excluded;
+        this.weightInCategory = weightInCategory;
     }
 }

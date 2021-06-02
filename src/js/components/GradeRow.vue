@@ -69,7 +69,7 @@
                 alt="Exempt"
             >
         </td>
-      
+
         <td width="19">
             <img
                 v-if="assignment.excluded"
@@ -90,7 +90,7 @@
             v-if="!assignment.hypo"
             align="center"
             v-html="assignment.grade"
-/>
+        />
         <td
             v-else
             align="center"
@@ -110,12 +110,12 @@
             align="center"
         >
             <input
-                            v-model="assignment.weightInCategory"
-                            type="number"
-                            style="width: 30%;"
-                            min=0
-                            max=100
-                        >
+                v-model="assignment.weightInCategory"
+                type="number"
+                style="width: 30%;"
+                min="0"
+                max="100"
+            >
         </td>
         <td
             v-if="assignment.userExempt && categoryWeighting"

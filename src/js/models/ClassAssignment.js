@@ -24,11 +24,9 @@
  *
  */
 
-export default class ClassAssignment {  
-
-
-    #id; 
-    #date; 
+export default class ClassAssignment {
+    #id;
+    #date;
     #category;
     #name;
     #collected;
@@ -42,7 +40,7 @@ export default class ClassAssignment {
     #userExempt;
     #weightInCategory;
 
-    constructor(id, date, category, name, collected, late, missing, exempt, excluded, score, grade, weightInCategory, hypo = false) {
+    constructor (id, date, category, name, collected, late, missing, exempt, excluded, score, grade, weightInCategory, hypo = false) {
         this.#id = id;
         this.#date = date;
         this.#category = category;
@@ -59,68 +57,67 @@ export default class ClassAssignment {
         this.#weightInCategory = weightInCategory;
     }
 
-    get id() {
+    get id () {
         return this.#id;
     }
 
-    get date() {
+    get date () {
         return this.#date;
     }
 
-    get category() {
+    get category () {
         return this.#category;
     }
 
-    get name() {
+    get name () {
         return this.#name;
     }
 
-    get collected() {
+    get collected () {
         return this.#collected;
     }
 
-    get late() {
+    get late () {
         return this.#late;
     }
 
-    get missing() {
+    get missing () {
         return this.#missing;
     }
 
-    get exempt() {
+    get exempt () {
         return this.#exempt;
     }
 
-    get excluded() {
+    get excluded () {
         return this.#excluded;
     }
 
-    get score() {
+    get score () {
         return this.#score;
     }
 
-    get grade() {
+    get grade () {
         return this.#grade;
     }
 
-    get hypo() {
+    get hypo () {
         return this.#hypo;
     }
 
-    get userExempt() {
+    get userExempt () {
         return this.#userExempt;
     }
 
-    get weightInCategory() {
+    get weightInCategory () {
         return this.#weightInCategory;
     }
 
-    set weightInCategory(w) {
+    set weightInCategory (w) {
         this.#weightInCategory = w;
     }
 
-    set id(i) {
+    set id (i) {
         this.#id = i;
     }
-
 }

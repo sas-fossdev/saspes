@@ -46,10 +46,18 @@
                     :bgcolor="(index % 2 == 0) ? '#edf3fe' : '#fff'"
                 >
                     <td v-if="category.newc">
-                        <input v-model="category.category" @change="changeCategory(index, category.category)">
-                        <button @click="delCategory(index)">Delete</button>
+                        <input
+                            v-model="category.category"
+                            @change="changeCategory(index, category.category)"
+                        >
+                        <button @click="delCategory(index)">
+                            Delete
+                        </button>
                     </td>
-                    <td v-else v-html="category.category" />
+                    <td
+                        v-else
+                        v-html="category.category"
+                    />
                     <td>
                         <input
                             v-model.number="category.weighting"
@@ -61,7 +69,10 @@
                 </tr>
             </tbody>
         </table>
-        <button style="margin-left: 20px" @click="addCategory();">
+        <button
+            style="margin-left: 20px"
+            @click="addCategory();"
+        >
             Add Category
         </button>
         <label v-if="categorySum != 100">Category weightings do not sum to 100%</label>
@@ -71,8 +82,12 @@
         >
             Save Weighting
         </button>
-        <h2 v-if="categorySum==100">{{ hypo.grade }} ({{ hypo.fp }})<br></h2>
-        <div v-if="categorySum!=100"><br></div>
+        <h2 v-if="categorySum==100">
+            {{ hypo.grade }} ({{ hypo.fp }})<br>
+        </h2>
+        <div v-if="categorySum!=100">
+            <br>
+        </div>
         <p>Note: Since teachers can adjust the weighting of each assignment as well, this number is not necessarily accurate. In addition, early in the year some categories(i.e the exam category) may contain no grades and the percentages would need to be adjusted accordingly.</p>
     </div>
 </template>

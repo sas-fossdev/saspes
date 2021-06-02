@@ -49,18 +49,27 @@
                     <th class="center">
                         Grd
                     </th>
-                    
-                    <th class="center" style = "width:10%" v-if="categoryWeighting">Weighting(% in category)</th>
-                    <th class="center" v-if="categoryWeighting">Exmp</th>
-                    
-                    
+
+                    <th
+                        v-if="categoryWeighting"
+                        class="center"
+                        style="width:10%"
+                    >
+                        Weighting(% in category)
+                    </th>
+                    <th
+                        v-if="categoryWeighting"
+                        class="center"
+                    >
+                        Exmp
+                    </th>
                 </tr>
                 <grade-row
                     v-for="assignment in assignments"
                     :key="assignment.id"
                     :assignment="assignment"
                     :categories="categories"
-                    :categoryWeighting="categoryWeighting"
+                    :category-weighting="categoryWeighting"
                 />
                 <tr>
                     <td
@@ -91,7 +100,10 @@
                 </tr>
             </tbody>
         </table>
-        <button v-if="categoryWeighting" @click="addAssignment();">
+        <button
+            v-if="categoryWeighting"
+            @click="addAssignment();"
+        >
             Add Assignment
         </button>
     </div>

@@ -187,7 +187,7 @@ function extractAssignmentList () {
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[8].innerHTML, curr[10].innerHTML));
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[8].innerHTML, curr[10].innerHTML, 0));
     });
     return assignments;
 }

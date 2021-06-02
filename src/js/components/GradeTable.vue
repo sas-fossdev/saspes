@@ -50,7 +50,7 @@
                         Grd
                     </th>
                     
-                    <th class="center" v-if="categoryWeighting">Weighting(% in category)</th>
+                    <th class="center" style = "width:10%" v-if="categoryWeighting">Weighting(% in category)</th>
                     <th class="center" v-if="categoryWeighting">Exmp</th>
                     
                     
@@ -122,7 +122,7 @@ export default {
     }),
     methods: {
         addAssignment () {
-            this.assignments.push(new ClassAssignment(this.assignments[this.assignments.length - 1].id + 1, "today", this.categories[0], "New Assignment", false, false, false, false, false, "--/9", "B", true));
+            this.assignments.push(new ClassAssignment(this.assignments[this.assignments.length - 1].id + 1, "today", this.categories[0], "New Assignment", false, false, false, false, false, "--/9", "B", true, 0));
         },
         calculateGrades (catmap) {
             try {

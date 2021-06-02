@@ -2,6 +2,8 @@
  *
  * @copyright Copyright (c) 2020 Advay Ratan <advayratan@gmail.com>
  *
+ * @copyright Copyright (c) 2021 Suhas Hariharan <contact@suhas.net>
+
  * @author Advay Ratan <advayratan@gmail.com>
  *
  * @license GNU AGPL version 3 only
@@ -22,21 +24,103 @@
  *
  */
 
-export default class ClassAssignment {
-    constructor (id, date, category, name, collected, late, missing, exempt, excluded, score, grade, hypo = false, weightInCategory) {
-        this.id = id;
-        this.date = date;
-        this.category = category;
-        this.name = name;
-        this.collected = collected;
-        this.late = late;
-        this.missing = missing;
-        this.exempt = exempt;
-        this.excluded = excluded;
-        this.score = score;
-        this.grade = (grade === "&nbsp;") ? " " : grade;
-        this.hypo = hypo;
-        this.userExempt = this.exempt || this.excluded;
-        this.weightInCategory = weightInCategory;
+export default class ClassAssignment {  
+
+
+    #id; 
+    #date; 
+    #category;
+    #name;
+    #collected;
+    #late;
+    #missing;
+    #exempt;
+    #excluded;
+    #score;
+    #grade;
+    #hypo;
+    #userExempt;
+    #weightInCategory;
+
+    constructor(id, date, category, name, collected, late, missing, exempt, excluded, score, grade, weightInCategory, hypo = false) {
+        this.#id = id;
+        this.#date = date;
+        this.#category = category;
+        this.#name = name;
+        this.#collected = collected;
+        this.#late = late;
+        this.#missing = missing;
+        this.#exempt = exempt;
+        this.#excluded = excluded;
+        this.#score = score;
+        this.#grade = (grade === "&nbsp;") ? " " : grade;
+        this.#hypo = hypo;
+        this.#userExempt = this.#exempt || this.#excluded;
+        this.#weightInCategory = weightInCategory;
     }
+
+    get id() {
+        return this.#id;
+    }
+
+    get date() {
+        return this.#date;
+    }
+
+    get category() {
+        return this.#category;
+    }
+
+    get name() {
+        return this.#name;
+    }
+
+    get collected() {
+        return this.#collected;
+    }
+
+    get late() {
+        return this.#late;
+    }
+
+    get missing() {
+        return this.#missing;
+    }
+
+    get exempt() {
+        return this.#exempt;
+    }
+
+    get excluded() {
+        return this.#excluded;
+    }
+
+    get score() {
+        return this.#score;
+    }
+
+    get grade() {
+        return this.#grade;
+    }
+
+    get hypo() {
+        return this.#hypo;
+    }
+
+    get userExempt() {
+        return this.#userExempt;
+    }
+
+    get weightInCategory() {
+        return this.#weightInCategory;
+    }
+
+    set weightInCategory(w) {
+        this.#weightInCategory = w;
+    }
+
+    set id(i) {
+        this.#id = i;
+    }
+
 }

@@ -110,8 +110,9 @@
             align="center"
         >
             <input
+                            v-model="assignment.weightInCategory"
                             type="number"
-                            style="width: 35%;"
+                            style="width: 30%;"
                             min=0
                             max=100
                         >

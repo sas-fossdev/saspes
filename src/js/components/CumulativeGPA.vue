@@ -178,7 +178,7 @@ export default {
                                                 current_term_grades.push(courses);
                                             }
                                             courses = [];
-                                        } else {
+                                        } else if (element_list[t].innerText.trim() === ("S1")) {
                                             most_recent_term = "S1";
                                         }
                                         if (element_list[t].getElementsByTagName("th").length > 0) {

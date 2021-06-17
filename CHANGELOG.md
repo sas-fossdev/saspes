@@ -1,5 +1,13 @@
 # SAS Powerschool Enhancement Suite Changelog
 
+## [v0.24.2](https://github.com/sas-fossdev/saspes/tree/v0.24.2) (2021-06-17)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.24.1...v0.24.2)
+
+### Fixed
+
+- fixed cumulative calculation [\#283](https://github.com/sas-fossdev/saspes/pull/283) ([Suhas-13](https://github.com/Suhas-13))
+
 ## [v0.24.1](https://github.com/sas-fossdev/saspes/tree/v0.24.1) (2021-04-28)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.24.0...v0.24.1)

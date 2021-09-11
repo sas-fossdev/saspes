@@ -74,11 +74,11 @@ function main () {
     });
 
     const page_url = window.location.href.split('#')[0];
-    if (page_url === "https://powerschool.sas.edu.sg/guardian/homeHS.html") {
+    if (page_url === "https://powerschool.sas.edu.sg/guardian/home.html") {
         main_page();
     } else if (page_url.match("https://powerschool.sas.edu.sg/guardian/scores") != null) {
         class_page();
-    } else if (page_url === "https://powerschool.sas.edu.sg/guardian/home.html" || page_url === "https://powerschool.sas.edu.sg/public/" || page_url === "https://powerschool.sas.edu.sg/public/home.html") {
+    } else if (page_url === "https://powerschool.sas.edu.sg/public/" || page_url === "https://powerschool.sas.edu.sg/public/home.html") {
         login_page();
     }
 }
@@ -300,8 +300,8 @@ function getCourses (second_semester, sem1_col, sem2_col) {
         let $course;
         if (second_semester) {
             const $cells = $grade_rows.eq(i).find('td');
-            $course = $cells.eq(sem2_col).find('a[href^="scores.html"]');
-            const $first_grade = $cells.eq(sem1_col).find('a[href^="scores.html"]');
+            $course = $cells.eq(sem2_col).find('a[href*="scores.html"]');
+            const $first_grade = $cells.eq(sem1_col).find('a[href*="scores.html"]');
             if ($first_grade.length === 1) {
                 if (gradeToGPA($first_grade.text()) !== -1) {
                     promises_grade_calc_list.push(new Promise((resolve, reject) => {
@@ -322,7 +322,7 @@ function getCourses (second_semester, sem1_col, sem2_col) {
                 }
             }
         } else {
-            $course = $grade_rows.eq(i).find('td a[href^="scores.html"]').eq(0);
+            $course = $grade_rows.eq(i).find('td a[href*="scores.html"]').eq(0);
         }
         if ($course.length === 1) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];

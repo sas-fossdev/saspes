@@ -34,7 +34,7 @@ const browser = require('webextension-polyfill');
 import {
     assignments,
     calculate_gpa,
-    extractFinalPercent,
+    getFinalPercent,
     extractGradeCategories,
     gradeToGPA,
     saveGradesLocally,
@@ -83,13 +83,12 @@ function main () {
     }
 }
 
-function main_page () {
+async function main_page () {
     const student_name = getStudentName();
     const { sem1_col, sem2_col } = getSemesterCols();
     const second_semester = isSecondSemester(sem2_col);
     const current_term = getCurrentTerm();
-    const { courses, promises_grade_calc_list } = getCourses(second_semester, sem1_col, sem2_col);
-
+    const { courses, promises_grade_calc_list } = await getCourses(second_semester, sem1_col, sem2_col);
     showCurrentGPA(second_semester, courses, promises_grade_calc_list);
 
     if (second_semester) {
@@ -110,9 +109,10 @@ function main_page () {
     });
 }
 
-function class_page () {
+async function class_page () {
     // Show final percent
-    const number = extractFinalPercent($("table.linkDescList").html());
+    const currentUrl = new URL(document.location.href);
+    const number = await getFinalPercent(currentUrl.searchParams.get("frn"), currentUrl.searchParams.get("fg")) || "";
     if (!number) {
         return;
     }
@@ -291,7 +291,7 @@ function getCurrentTerm () {
  * @param sem2_col The column of the second semester
  * @returns {Course[]} array of Course objects representing the Courses of the user
  */
-function getCourses (second_semester, sem1_col, sem2_col) {
+async function getCourses (second_semester, sem1_col, sem2_col) {
     const $grade_rows = $('#quickLookup table.grid').find('tr');
     const courses = [];
     const promises_grade_calc_list = [];
@@ -305,18 +305,22 @@ function getCourses (second_semester, sem1_col, sem2_col) {
             if ($first_grade.length === 1) {
                 if (gradeToGPA($first_grade.text()) !== -1) {
                     promises_grade_calc_list.push(new Promise((resolve, reject) => {
-                        fetch(`https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
-                            const page = document.implementation.createHTMLDocument();
-                            page.documentElement.innerHTML = response;
-                            const finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
-                            if (gradeToGPA($first_grade.text()) !== -1) {
-                                new (Vue.extend(ClassGrade))({
-                                    propsData: {
-                                        course: new Course("", `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`, $first_grade.text(), finalPercent),
-                                    },
-                                }).$mount($first_grade.get(0));
+                        const currentUrlString = `https://powerschool.sas.edu.sg/guardian/${$first_grade.attr('href')}`;
+                        const currentUrl = new URL(currentUrlString);
+                        getFinalPercent(currentUrl.searchParams.get("frn"), currentUrl.searchParams.get("fg")).then(finalPercent => {
+                            if (!finalPercent) {
+                                finalPercent = "";
                             }
-                            resolve("Success");
+                            fetch(currentUrlString, { credentials: "same-origin" }).then(response => response.text()).then(response => {
+                                if (gradeToGPA($first_grade.text()) !== -1) {
+                                    new (Vue.extend(ClassGrade))({
+                                        propsData: {
+                                            course: new Course("", currentUrlString, $first_grade.text(), finalPercent),
+                                        },
+                                    }).$mount($first_grade.get(0));
+                                }
+                                resolve("Success");
+                            });
                         });
                     }));
                 }
@@ -328,20 +332,26 @@ function getCourses (second_semester, sem1_col, sem2_col) {
             const temp = $course.parents().eq(1).children("td[align=left]").text().match(".*(?=Details)")[0];
             if (gradeToGPA($course.text()) !== -1) {
                 promises_grade_calc_list.push(new Promise((resolve, reject) => {
-                    fetch(`https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
-                        const page = document.implementation.createHTMLDocument();
-                        page.documentElement.innerHTML = response;
-                        const finalPercent = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML) || "";
-                        const assignment_list = assignments(page.querySelector('body'));
-                        courses.push(new Course(temp.trim(), `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`, $course.text(), finalPercent, assignment_list));
-                        if (gradeToGPA($course.text()) !== -1) {
-                            new (Vue.extend(ClassGrade))({
-                                propsData: {
-                                    course: courses[courses.length - 1],
-                                },
-                            }).$mount($course.get(0));
+                    const currentUrlString = `https://powerschool.sas.edu.sg/guardian/${$course.attr('href')}`;
+                    const currentUrl = new URL(currentUrlString);
+                    getFinalPercent(currentUrl.searchParams.get("frn"), currentUrl.searchParams.get("fg")).then(finalPercent => {
+                        if (!finalPercent) {
+                            finalPercent = "";
                         }
-                        resolve("Success");
+                        fetch(currentUrlString, { credentials: "same-origin" }).then(response => response.text()).then(response => {
+                            const page = document.implementation.createHTMLDocument();
+                            page.documentElement.innerHTML = response;
+                            const assignment_list = assignments(page.querySelector('body'));
+                            courses.push(new Course(temp.trim(), currentUrlString, $course.text(), finalPercent, assignment_list));
+                            if (gradeToGPA($course.text()) !== -1) {
+                                new (Vue.extend(ClassGrade))({
+                                    propsData: {
+                                        course: courses[courses.length - 1],
+                                    },
+                                }).$mount($course.get(0));
+                            }
+                            resolve("Success");
+                        });
                     });
                 }));
             }

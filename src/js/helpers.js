@@ -150,11 +150,34 @@ function extractFinalPercent (html) {
         let current_string = html.match(/(?=document\.write).*/g)[1];
         current_string = /\[.*\]/g.exec(current_string)[0].slice(1, -1);
         const temp = current_string.split(";");
-        number = Math.max(isNaN(temp[temp.length - 2]) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(temp[temp.length - 1]) ? -Infinity : parseFloat(temp[temp.length - 1]));
+        number = Math.max(isNaN(temp[temp.length - 2]) || temp[temp.length - 2] ? parseFloat(temp[temp.length - 2]) : -Infinity, isNaN(temp[temp.length - 1]) || temp[temp.length - 1] ? parseFloat(temp[temp.length - 1]) : -Infinity);
     } catch (e) {
         return;
     }
     if (number === -Infinity) {
+        return;
+    }
+    return number;
+}
+
+/**
+ * Extract the final percent from the course page html.
+ * @param {Number} frn course id used to get course percent
+ * @param {String} semester string representing semester that the request is for
+ * @returns {Number|undefined} The final percent
+ */
+async function getFinalPercent (frn, semester) {
+    let number;
+    try {
+        await fetch(`https://powerschool.sas.edu.sg/guardian/scores_ms_guardian.html?frn=${frn}&fg=${semester}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
+            const page = document.implementation.createHTMLDocument();
+            page.documentElement.innerHTML = response;
+            number = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML);
+        });
+    } catch (e) {
+        return;
+    }
+    if (number === null) {
         return;
     }
     return number;
@@ -344,6 +367,7 @@ export {
     getSavedCategoryWeighting,
     saveCategoryWeighting,
     extractFinalPercent,
+    getFinalPercent,
     extractGradeCategories,
     extractAssignmentList,
     assignments,

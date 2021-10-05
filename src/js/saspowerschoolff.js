@@ -74,7 +74,7 @@ function main () {
     });
 
     const page_url = window.location.href.split('#')[0];
-    if (page_url === "https://powerschool.sas.edu.sg/guardian/home.html") {
+    if (page_url === "https://powerschool.sas.edu.sg/guardian/home.html" || page_url === "https://powerschool.sas.edu.sg/guardian/homeHS.html") {
         main_page();
     } else if (page_url.match("https://powerschool.sas.edu.sg/guardian/scores") != null) {
         class_page();

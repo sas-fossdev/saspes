@@ -138,20 +138,27 @@ export default {
                 }
                 let missing = 0;
                 for (var cat in catmap) {
-                    if (grade[cat] == null) {
+                    if (grade[cat] == null || grade[cat].every((element) => {return element == -1})) {
+                        console.log(cat);
                         if (catmap[cat].weighting !== "") {
                             missing += catmap[cat].weighting;
                         }
                     }
                 }
+                console.log(grade);
+                console.log(catmap);
                 let percent = 0;
                 for (cat in grade) {
                     let sum = 0;
+                    let grade_count = 0;
                     for (i = 0; i < grade[cat].length; i++) {
-                        sum += grade[cat][i];
+                        if (grade[cat][i] != -1) {
+                            sum += grade[cat][i];
+                            grade_count++;
+                        }
                     }
                     if (catmap[cat].weighting !== "") {
-                        percent += sum / grade[cat].length * catmap[cat].weighting;
+                        percent += (sum / grade_count) * catmap[cat].weighting;
                     }
                 }
                 if (missing === 100) {

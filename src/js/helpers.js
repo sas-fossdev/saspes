@@ -185,20 +185,17 @@ async function getFinalPercent (frn, semester) {
 
 /**
  * Extract all grade categories from the course page html.
- * @param {String} html course page html
+ * @param {Node} table node representing table
  * @returns {String[]} List of all categories
  */
-function extractGradeCategories (html) {
-    const cat = [];
-    let match;
-    html = html.replace(/(\r\n|\n|\r)/gm, "");
-    const reg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)(.+?(?=<\/td>))/g;
-    match = reg.exec(html);
-    while (match !== null) {
-        if (!cat.includes(match[1])) cat.push(match[1]);
-        match = reg.exec(html);
+function extractGradeCategories (table) {
+    const table_rows = table.getElementsByTagName("tr");
+    const category_set = new Set();
+    for (let i=1; i<table_rows.length - 1; i++) {
+        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("a")[0].innerText)
     }
-    return cat;
+    
+    return Array.from(category_set);
 }
 
 /**

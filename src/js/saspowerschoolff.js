@@ -425,7 +425,7 @@ function addHypoGradeCalc (courses) {
  */
 function addVueGrades () {
     const assignments = extractAssignmentList();
-    const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody").innerHTML);
+    const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody"));
     gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
         propsData: {
             categories: cat,

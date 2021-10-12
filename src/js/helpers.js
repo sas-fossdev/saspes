@@ -191,8 +191,8 @@ async function getFinalPercent (frn, semester) {
 function extractGradeCategories (table) {
     const table_rows = table.getElementsByTagName("tr");
     const category_set = new Set();
-    for (let i=1; i<table_rows.length - 1; i++) {
-        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("a")[0].innerText)
+    for (let i = 1; i < table_rows.length - 1; i++) {
+        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("a")[0].innerText);
     }
     return Array.from(category_set);
 }

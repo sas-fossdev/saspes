@@ -194,7 +194,6 @@ function extractGradeCategories (table) {
     for (let i=1; i<table_rows.length - 1; i++) {
         category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("a")[0].innerText)
     }
-    
     return Array.from(category_set);
 }
 
@@ -207,7 +206,7 @@ function extractAssignmentList () {
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[9].innerHTML, curr[11].innerHTML));
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[9].innerHTML, curr[11].innerHTML));
     });
     return assignments;
 }

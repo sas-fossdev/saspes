@@ -120,7 +120,7 @@ async function class_page () {
 
     addHypoAssignment(number);
     addVueGrades();
-    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<select style="margin-left:20px; text-align-last: center; border-radius: 4px;" id='hypo-select'><option value='none'>Hypothetical Assigment Mode</option><option value='single'>Add Single Assignment</option><option value='category'>Category Weighting (beta)</option></select>`);
+    document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<select style="margin-left:20px; text-align-last: center; border-radius: 4px;" id='hypo-select'><option value='none'>Hypothetical Assigment Mode</option><option value='single'>Add Single Assignment</option><option value='category'>Category Weighting (beta)</option></select><br><br>`);
     gt.setCategoryWeighting(false);
     document.getElementById('saspes-hypo-assignment').style.display = "none";
     document.getElementById('saspes-categories').style.display = "none";

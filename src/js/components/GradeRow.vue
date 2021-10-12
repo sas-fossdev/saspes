@@ -53,14 +53,14 @@
         alt="Missing"
       />
     </td>
-    <td width="14">
+    <td width="35">
       <img
         v-if="assignment.exempt"
         src="/images/icon_exempt.gif"
         alt="Exempt"
       />
     </td>
-    <td width="19">
+    <td width="35">
       <img
         v-if="assignment.excluded"
         src="/images/icon_excluded.gif"

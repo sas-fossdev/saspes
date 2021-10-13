@@ -138,7 +138,7 @@ export default {
                 }
                 let missing = 0;
                 for (var cat in catmap) {
-                    if (grade[cat] === null || grade[cat].every((element) => { return element === -1; })) {
+                    if (grade[cat] === undefined || grade[cat] === null || grade[cat].every((element) => element == -1)) {
                         if (catmap[cat].weighting !== "") {
                             missing += catmap[cat].weighting;
                         }
@@ -154,7 +154,7 @@ export default {
                             grade_count++;
                         }
                     }
-                    if (catmap[cat].weighting !== "") {
+                    if (catmap[cat].weighting !== "" && grade_count != 0) {
                         percent += (sum / grade_count) * catmap[cat].weighting;
                     }
                 }

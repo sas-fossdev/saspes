@@ -147,9 +147,13 @@ export default {
                     catmap[e] = { weighting: 0, category: e };
                 });
             }
+            let category_set = new Set(this.categories);
             for (var cat in catmap) {
+                category_set.add(cat);
                 this.renderWeights.push(catmap[cat]);
             }
+            this.categories = Array.from(category_set);
+            this.gradetable.updateCategories(this.categories);
         },
         saveCategoryWeightingLocal () {
             saveCategoryWeighting(this.getCategoryMap());
@@ -174,7 +178,7 @@ export default {
         },
         changeCategory (c, nc) {
             this.gradetable.changeCategory(this.categories[c], nc);
-            this.categories[c] = nc;
+            this.$set(this.categories, c, nc);
         },
     },
 };

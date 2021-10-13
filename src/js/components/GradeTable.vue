@@ -175,6 +175,9 @@ export default {
                 }
             }
         },
+        updateCategories (categories) {
+            this.categories = categories;
+        },
         changeCategory (oc, nc) {
             for (var i = 0; i < this.assignments.length; i++) {
                 if (this.assignments[i].category === oc) {

@@ -1,5 +1,13 @@
 # SAS Powerschool Enhancement Suite Changelog
 
+## [v0.25.0](https://github.com/sas-fossdev/saspes/tree/v0.25.0) (2021-10-13)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.24.2...v0.25.0)
+
+### Fixed
+
+- Re-adds percentages and fix powerschool changes [\#304](https://github.com/sas-fossdev/saspes/pull/304) ([Suhas-13](https://github.com/Suhas-13))
+
 ## [v0.24.2](https://github.com/sas-fossdev/saspes/tree/v0.24.2) (2021-06-17)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.24.1...v0.24.2)

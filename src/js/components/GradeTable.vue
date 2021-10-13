@@ -139,14 +139,11 @@ export default {
                 let missing = 0;
                 for (var cat in catmap) {
                     if (grade[cat] === null || grade[cat].every((element) => { return element === -1; })) {
-                        console.log(cat);
                         if (catmap[cat].weighting !== "") {
                             missing += catmap[cat].weighting;
                         }
                     }
                 }
-                console.log(grade);
-                console.log(catmap);
                 let percent = 0;
                 for (cat in grade) {
                     let sum = 0;

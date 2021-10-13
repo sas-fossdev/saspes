@@ -21,7 +21,7 @@
  -->
 
 <template>
-    <tr :bgcolor="(assignment.id % 2 == 0) ? '#edf3fe' : '#fff'">
+    <tr :bgcolor="assignment.id % 2 == 0 ? '#edf3fe' : '#fff'">
         <td v-html="assignment.date" />
         <td
             v-if="!assignment.hypo"
@@ -60,14 +60,14 @@
                 alt="Missing"
             >
         </td>
-        <td width="14">
+        <td width="35">
             <img
                 v-if="assignment.exempt"
                 src="/images/icon_exempt.gif"
                 alt="Exempt"
             >
         </td>
-        <td width="19">
+        <td width="35">
             <img
                 v-if="assignment.excluded"
                 src="/images/icon_excluded.gif"
@@ -124,10 +124,10 @@
     </tr>
 </template>
 <script>
-import { avaliableGrades } from '../helpers';
-import ClassAssignment from '../models/ClassAssignment';
+import { avaliableGrades } from "../helpers";
+import ClassAssignment from "../models/ClassAssignment";
 export default {
-    name: 'GradeRow',
+    name: "GradeRow",
     props: {
         assignment: {
             type: ClassAssignment,

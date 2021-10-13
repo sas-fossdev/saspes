@@ -2,6 +2,8 @@
  *
  * @copyright Copyright (c) 2019-2020 Gary Kim <gary@garykim.dev>
  *
+ * @copyright Copyright (c) 2021 Suhas Hariharan <contact@suhas.net>
+ *
  * @author Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 only
@@ -190,84 +192,85 @@ test('Grade to Final Percent', t => {
 test('Extract Final Percent from Class Page', t => {
     const test_cases = [
         {
-            i: "<tbody><tr>\n" +
-                "            \t<td><strong>Final\n" +
-                "                        Letter Grade<sup>1</sup>:</strong></td><td>A</td>\n" +
-                "            </tr>\n" +
-                "\t\t\t<!-- \n" +
-                "            <tr>\n" +
-                "                [if.1=0]<td><strong>\n" +
-                "                        Final Percent:\n" +
-                "                        </strong></td>\n" +
-                "                 <td>\n" +
-                "                        <script type=\"text/javascript\">\n" +
-                "                            if (\"A\" == \"--\") {\n" +
-                "                                document.write(\"&nbsp;\");\n" +
-                "                            }\n" +
-                "                            else {\n" +
-                "                                document.write(\"[decode;004887413;031@;.;81.25] &nbsp;\");\n" +
-                "                            }\n" +
-                "                        </script>\n" +
-                "\t\t\t\t</td>\n" +
-                "\t\t\t\t[/if]\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t-->\t\n" +
-                "                        </tbody>",
-            o: 81.25,
+
+            i: `<tbody>
+                    <tr>
+                        <td><strong>Final
+                                Letter Grade<sup>1</sup>:</strong></td>
+                        <td>A</td>
+                    </tr>
+                    <!--
+                            <tr>
+                                [if.1=0]<td><strong>
+                                        Final Percent:
+                                        </strong></td>
+                                <td>
+                                        <script type="text/javascript">
+                                            if ("A" == "--") {
+                                                document.write("&nbsp;");
+                                            }
+                                            else {
+                                                document.write("[decode;0041052333;031@;;82.5] &nbsp;");
+                                            }
+                                        </script>
+                                </td>
+                                [/if]
+                            </tr>
+                            -->
+                </tbody>`,
+            o: 82.5,
         },
         {
-            i: "<table class=\"linkDescList\">\n" +
-                "            <colgroup><col><col></colgroup>\n" +
-                "            <tbody><tr>\n" +
-                "            \t<td><strong>Final\n" +
-                "                        Letter Grade<sup>1</sup>:</strong></td><td>_</td>\n" +
-                "            </tr>\n" +
-                "\t\t\t<!-- \n" +
-                "            <tr>\n" +
-                "                [if.1=0]<td><strong>\n" +
-                "                        Final Percent:\n" +
-                "                        </strong></td>\n" +
-                "                 <td>\n" +
-                "                        <script type=\"text/javascript\">\n" +
-                "                            if (\"_\" == \"--\") {\n" +
-                "                                document.write(\"&nbsp;\");\n" +
-                "                            }\n" +
-                "                            else {\n" +
-                "                                document.write(\"[decode;004888554;031@;.;_] &nbsp;\");\n" +
-                "                            }\n" +
-                "                        </script>\n" +
-                "\t\t\t\t</td>\n" +
-                "\t\t\t\t[/if]\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t-->\t\n" +
-                "                        </tbody></table>",
+            i: `<tbody><tr>
+                        <td><strong>Final
+                                Letter Grade<sup>1</sup>:</strong></td><td>A</td>
+                    </tr>
+                    <!--
+                    <tr>
+                        [if.1=0]<td><strong>
+                                Final Percent:
+                                </strong></td>
+                        <td>
+                                <script type="text/javascript">
+                                    if ("A" == "--") {
+                                        document.write("&nbsp;");
+                                    }
+                                    else {
+                                        document.write("[decode;004976938;031@;;] &nbsp;");
+                                    }
+                                </script>
+                        </td>
+                        [/if]
+                    </tr>
+                    -->
+                </tbody>`,
             o: undefined,
         },
         {
-            i: "<tbody><tr>\n" +
-                "            \t<td><strong>Final\n" +
-                "                        Letter Grade<sup>1</sup>:</strong></td><td>A</td>\n" +
-                "            </tr>\n" +
-                "\t\t\t<!-- \n" +
-                "            <tr>\n" +
-                "                [if.1=0]<td><strong>\n" +
-                "                        Final Percent:\n" +
-                "                        </strong></td>\n" +
-                "                 <td>\n" +
-                "                        <script type=\"text/javascript\">\n" +
-                "                            if (\"A\" == \"--\") {\n" +
-                "                                document.write(\"&nbsp;\");\n" +
-                "                            }\n" +
-                "                            else {\n" +
-                "                                document.write(\"[decode;004925338;031@;.;75] &nbsp;\");\n" +
-                "                            }\n" +
-                "                        </script>\n" +
-                "\t\t\t\t</td>\n" +
-                "\t\t\t\t[/if]\n" +
-                "\t\t\t</tr>\n" +
-                "\t\t\t-->\t\n" +
-                "                        </tbody>",
-            o: 75,
+            i: `<tbody><tr>
+                        <td><strong>Final
+                                Letter Grade<sup>1</sup>:</strong></td><td>A+</td>
+                    </tr>
+                    <!--
+                    <tr>
+                        [if.1=0]<td><strong>
+                                Final Percent:
+                                </strong></td>
+                        <td>
+                                <script type="text/javascript">
+                                    if ("A+" == "--") {
+                                        document.write("&nbsp;");
+                                    }
+                                    else {
+                                        document.write("[decode;004976943;031@;;90] &nbsp;");
+                                    }
+                                </script>
+                        </td>
+                        [/if]
+                    </tr>
+                    -->
+                </tbody>`,
+            o: 90,
         },
     ];
 

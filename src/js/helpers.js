@@ -150,7 +150,7 @@ function extractFinalPercent (html) {
         let current_string = html.match(/(?=document\.write).*/g)[1];
         current_string = /\[.*\]/g.exec(current_string)[0].slice(1, -1);
         const temp = current_string.split(";");
-        number = Math.max(isNaN(temp[temp.length - 2]) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(temp[temp.length - 1]) ? -Infinity : parseFloat(temp[temp.length - 1]));
+        number = Math.max(isNaN(temp[temp.length - 2]) || temp[temp.length - 2] ? parseFloat(temp[temp.length - 2]) : -Infinity, isNaN(temp[temp.length - 1]) || temp[temp.length - 1] ? parseFloat(temp[temp.length - 1]) : -Infinity);
     } catch (e) {
         return;
     }
@@ -161,21 +161,40 @@ function extractFinalPercent (html) {
 }
 
 /**
+ * Extract the final percent from the course page html.
+ * @param {Number} frn course id used to get course percent
+ * @param {String} semester string representing semester that the request is for
+ * @returns {Number|undefined} The final percent
+ */
+async function getFinalPercent (frn, semester) {
+    let number;
+    try {
+        await fetch(`https://powerschool.sas.edu.sg/guardian/scores_ms_guardian.html?frn=${frn}&fg=${semester}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
+            const page = document.implementation.createHTMLDocument();
+            page.documentElement.innerHTML = response;
+            number = extractFinalPercent(page.querySelector('table.linkDescList').innerHTML);
+        });
+    } catch (e) {
+        return;
+    }
+    if (number === null) {
+        return;
+    }
+    return number;
+}
+
+/**
  * Extract all grade categories from the course page html.
- * @param {String} html course page html
+ * @param {Node} table node representing table
  * @returns {String[]} List of all categories
  */
-function extractGradeCategories (html) {
-    const cat = [];
-    let match;
-    html = html.replace(/(\r\n|\n|\r)/gm, "");
-    const reg = /(?:[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]<\/td> *<td>)(.+?(?=<\/td>))/g;
-    match = reg.exec(html);
-    while (match !== null) {
-        if (!cat.includes(match[1])) cat.push(match[1]);
-        match = reg.exec(html);
+function extractGradeCategories (table) {
+    const table_rows = table.getElementsByTagName("tr");
+    const category_set = new Set();
+    for (let i = 1; i < table_rows.length - 1; i++) {
+        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("a")[0].innerText);
     }
-    return cat;
+    return Array.from(category_set);
 }
 
 /**
@@ -187,7 +206,7 @@ function extractAssignmentList () {
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerHTML, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[8].innerHTML, curr[10].innerHTML));
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[9].innerHTML, curr[11].innerHTML));
     });
     return assignments;
 }
@@ -344,6 +363,7 @@ export {
     getSavedCategoryWeighting,
     saveCategoryWeighting,
     extractFinalPercent,
+    getFinalPercent,
     extractGradeCategories,
     extractAssignmentList,
     assignments,

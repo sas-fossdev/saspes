@@ -49,14 +49,16 @@
                     <th class="center">
                         Grd
                     </th>
-                    <th v-if="categoryWeighting">Exmp</th>
+                    <th v-if="categoryWeighting">
+                        Exmp
+                    </th>
                 </tr>
                 <grade-row
                     v-for="assignment in assignments"
                     :key="assignment.id"
                     :assignment="assignment"
                     :categories="categories"
-                    :categoryWeighting="categoryWeighting"
+                    :category-weighting="categoryWeighting"
                 />
                 <tr>
                     <td
@@ -87,7 +89,10 @@
                 </tr>
             </tbody>
         </table>
-        <button v-if="categoryWeighting" @click="addAssignment();">
+        <button
+            v-if="categoryWeighting"
+            @click="addAssignment();"
+        >
             Add Assignment
         </button>
     </div>
@@ -133,7 +138,7 @@ export default {
                 }
                 let missing = 0;
                 for (var cat in catmap) {
-                    if (grade[cat] == null) {
+                    if (grade[cat] === undefined || grade[cat] === null || grade[cat].every((element) => element === -1)) {
                         if (catmap[cat].weighting !== "") {
                             missing += catmap[cat].weighting;
                         }
@@ -142,11 +147,15 @@ export default {
                 let percent = 0;
                 for (cat in grade) {
                     let sum = 0;
+                    let grade_count = 0;
                     for (i = 0; i < grade[cat].length; i++) {
-                        sum += grade[cat][i];
+                        if (grade[cat][i] !== -1) {
+                            sum += grade[cat][i];
+                            grade_count++;
+                        }
                     }
-                    if (catmap[cat].weighting !== "") {
-                        percent += sum / grade[cat].length * catmap[cat].weighting;
+                    if (catmap[cat].weighting !== "" && grade_count !== 0) {
+                        percent += (sum / grade_count) * catmap[cat].weighting;
                     }
                 }
                 if (missing === 100) {
@@ -165,6 +174,9 @@ export default {
                     i--;
                 }
             }
+        },
+        updateCategories (categories) {
+            this.categories = categories;
         },
         changeCategory (oc, nc) {
             for (var i = 0; i < this.assignments.length; i++) {

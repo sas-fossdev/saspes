@@ -147,7 +147,7 @@ export default {
                     catmap[e] = { weighting: 0, category: e };
                 });
             }
-            let category_set = new Set(this.categories);
+            const category_set = new Set(this.categories);
             for (var cat in catmap) {
                 category_set.add(cat);
                 this.renderWeights.push(catmap[cat]);

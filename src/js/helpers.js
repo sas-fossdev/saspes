@@ -352,7 +352,6 @@ function getDefaultConfig () {
     return data;
 }
 
-
 export {
     gradeToFP,
     grade_fp,

@@ -48,7 +48,7 @@ const grade_gpa = {
  * @param {string} grade The grade to convert.
  * @returns {number} The corresponding grade point average.
  */
-function gradeToGPA (grade) {
+function gradeToGPA(grade) {
     if (grade in grade_gpa) {
         return grade_gpa[grade];
     }
@@ -72,7 +72,7 @@ const grade_fp = {
  * @param {string} grade The grade to convert.
  * @returns {number} The corresponding final percent.
  */
-function gradeToFP (grade) {
+function gradeToFP(grade) {
     if (grade in grade_fp) {
         return grade_fp[grade];
     }
@@ -93,7 +93,7 @@ const fprange = {
     '0-15': 'F',
 };
 
-function fpToGrade (finalPercent) {
+function fpToGrade(finalPercent) {
     return getKeyRange(fprange, parseFloat(parseFloat(finalPercent).toFixed(2)));
 }
 
@@ -102,7 +102,7 @@ function fpToGrade (finalPercent) {
  * @param {Course[]} courses The courses for which the overall grade point average should be calculated.
  * @returns {string} The grade point average to the hundredth place.
  */
-function calculate_gpa (courses) {
+function calculate_gpa(courses) {
     let courses_with_grades = 0;
     let sum = 0;
     for (var i = 0; i < courses.length; i++) {
@@ -117,7 +117,7 @@ function calculate_gpa (courses) {
     }
     return (sum / courses_with_grades).toFixed(2);
 
-    function course_boost (course_name, grade) {
+    function course_boost(course_name, grade) {
         if (gradeToGPA(grade) < 1.8) {
             return 0;
         }
@@ -128,7 +128,7 @@ function calculate_gpa (courses) {
     }
 }
 
-function calculate_credit_hours (course_name) {
+function calculate_credit_hours(course_name) {
     const double_effect_courses = [`English 10/American History`, `English 9/World History`];
     if (double_effect_courses.includes(course_name)) {
         return 2;
@@ -144,7 +144,7 @@ function calculate_credit_hours (course_name) {
  * @param {String} html course page html
  * @returns {Number|undefined} The final percent
  */
-function extractFinalPercent (html) {
+function extractFinalPercent(html) {
     let number;
     try {
         let current_string = html.match(/(?=document\.write).*/g)[1];
@@ -166,7 +166,7 @@ function extractFinalPercent (html) {
  * @param {String} semester string representing semester that the request is for
  * @returns {Number|undefined} The final percent
  */
-async function getFinalPercent (frn, semester) {
+async function getFinalPercent(frn, semester) {
     let number;
     try {
         await fetch(`https://powerschool.sas.edu.sg/guardian/scores_ms_guardian.html?frn=${frn}&fg=${semester}`, { credentials: "same-origin" }).then(response => response.text()).then(response => {
@@ -188,11 +188,11 @@ async function getFinalPercent (frn, semester) {
  * @param {Node} table node representing table
  * @returns {String[]} List of all categories
  */
-function extractGradeCategories (table) {
+function extractGradeCategories(table) {
     const table_rows = table.getElementsByTagName("tr");
     const category_set = new Set();
     for (let i = 1; i < table_rows.length - 1; i++) {
-        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("a")[0].innerText);
+        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("span")[1].innerText);
     }
     return Array.from(category_set);
 }
@@ -201,32 +201,32 @@ function extractGradeCategories (table) {
  * Extract all assignments from a class.
  * @returns {ClassAssignment[]} List of all assignments
  */
-function extractAssignmentList () {
-    const table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
+function extractAssignmentList() {
+    const table = document.querySelector("table.zebra.grid > tbody");
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[9].innerHTML, curr[11].innerHTML));
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), isIndicatorPresent(curr[8]), curr[11].innerHTML, curr[12].innerHTML.trim()));
     });
     return assignments;
 }
 /**
- * Return whether the given row contains an indicator of any kind(i.e missing, late)
+ * Return whether the given row contains an indicator of any kind(i.e missing, late) 
  * @param {Element} node Node representing individual row of each assignment
  * @returns {boolean} boolean representing whether input has child nodes and are set to visible.
  */
-function isIndicatorPresent (node) {
-    return node.hasChildNodes() && node.childNodes[0].style.display !== 'none';
+function isIndicatorPresent(node) {
+    return node.hasChildNodes() && node.querySelector("div.ps-icon");
 }
 /**
  * Return Assignment instances for the given class page.
  * @param {Element} node Root node element of the class page.
  * @returns {Assignment[]} Assignments in this course
  */
-function assignments (node) {
+function assignmentsFromNode(node) {
     const tr = [];
     // Find assignments table, get it's rows, take out the header and legend rows.
-    [...node.querySelector('table[align=center').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
+    [...node.querySelector('table.zebra.grid').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
         const assignment = new Assignment(curr[2]?.innerText || "", curr[curr.length - 1]?.innerText || "", i);
         const missingIcon = e.querySelector('img[src="/images/icon_missing.gif"]');
@@ -239,18 +239,57 @@ function assignments (node) {
 }
 
 /**
+ * Return Assignment instances for the given class page.
+ * @param {String} student_id student id for the current user
+ * @param {String} sectino_id section id for the course being requested
+ * @param {String} start_date start date in YYYY-MM-DD format
+ * @param {String} end_date end date in YYYY-MM-DD format
+ * @returns {Assignment[]} Assignments in this course
+ */
+function assignmentsFromAPI(studentId, sectionId, startDate, endDate) {
+    const assignmentList = [];
+    try {
+        fetch('https://powerschool.sas.edu.sg/ws/xte/assignment/lookup', {
+            method: "POST", headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "student_ids": [studentId],
+                "section_ids": [sectionId],
+                "start_date": startDate,
+                "end_date": endDate
+            }), credentials: "same-origin"
+        }).then(response => response.json()).then(response => {
+            for (let i = 0; i < response.length; i++) {
+                if (response[i]._assignmentsections?.length) {
+                    const assignmentData = response[i]._assignmentsections[0];
+                    const assignment = new Assignment(assignmentData.name, assignmentData._assignmentscores[0]?.actualscoreentered || "", i);
+                    if (assignmentData._assignmentscores[0]?.ismissing || null) {
+                        assignment.addStatus(Assignment.statuses.MISSING);
+                    }
+                    assignmentList.push(assignment);
+                }
+            }
+        });
+    } catch (e) {
+        return [];
+    }
+    return assignmentList;
+}
+
+/**
  * Return course title of active class page
  * @returns {String} Course title
  */
-function extractCourseTitle () {
-    return document.getElementsByTagName('h2')[0].innerHTML;
+function extractCourseTitle() {
+    return document.querySelector("tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1)").innerText
 }
 
 /**
  * Retrieve category weighting for class from local storage
  * @returns {Map<String, Object>} Map of weighting assigned to each category for course
  */
-async function getSavedCategoryWeighting () {
+async function getSavedCategoryWeighting() {
     const courseName = extractCourseTitle() + "-catmap";
     const catmap = await browser.storage.local.get(courseName);
     if (catmap === undefined || (Object.keys(catmap).length === 0 && catmap.constructor === Object) || catmap[courseName] === undefined) return false;
@@ -261,7 +300,7 @@ async function getSavedCategoryWeighting () {
  * Save category weighting for class to local storage
  * @param {Map<String, Object>} catmap Map of weighting assigned to each category for course
  */
-async function saveCategoryWeighting (catmap) {
+async function saveCategoryWeighting(catmap) {
     const courseName = extractCourseTitle();
     const data = {};
     data[courseName + "-catmap"] = catmap;
@@ -274,7 +313,7 @@ async function saveCategoryWeighting (catmap) {
  * @param {String} username users full name
  * @returns {Promise<Course[]>} list of courses objects for that user
  */
-async function getSavedGrades (username) {
+async function getSavedGrades(username) {
     const courses = [];
     const user_data = (await browser.storage.local.get("user_data")).user_data;
     if (user_data !== undefined) {
@@ -303,7 +342,7 @@ async function getSavedGrades (username) {
  * @param {String} username users full name
  * @param {Course[]} courses list of course objects to save
  */
-async function saveGradesLocally (username, courses) {
+async function saveGradesLocally(username, courses) {
     const data = await getLocalConfig() || {};
 
     if (data.opted_in === undefined) {
@@ -338,7 +377,7 @@ async function saveGradesLocally (username, courses) {
  * @async
  * @returns {Config} an object representing the user's config from the browser's local storage
  */
-async function getLocalConfig () {
+async function getLocalConfig() {
     const data = await browser.storage.local.get(null);
     return data;
 }
@@ -347,7 +386,7 @@ async function getLocalConfig () {
  * Retrieves the default extension config for new users.
  * @returns {Config} an object representing the default config.
  */
-function getDefaultConfig () {
+function getDefaultConfig() {
     const data = { opted_in: { changed: false, value: false }, percent_main_page: { changed: false, value: true } };
     return data;
 }
@@ -366,7 +405,8 @@ export {
     getFinalPercent,
     extractGradeCategories,
     extractAssignmentList,
-    assignments,
+    assignmentsFromNode,
+    assignmentsFromAPI,
     calculate_credit_hours,
     getSavedGrades,
     saveGradesLocally,

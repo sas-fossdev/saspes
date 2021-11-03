@@ -32,7 +32,8 @@ import $ from 'jquery';
 const browser = require('webextension-polyfill');
 
 import {
-    assignments,
+    assignmentsFromNode,
+    assignmentsFromAPI,
     calculate_gpa,
     getFinalPercent,
     extractGradeCategories,
@@ -59,6 +60,7 @@ import Course from './models/Course';
 import CumulativeGPA from "./components/CumulativeGPA";
 
 var gt;
+var gt_mounted;
 
 main();
 function main () {
@@ -111,6 +113,7 @@ async function main_page () {
 
 async function class_page () {
     // Show final percent
+    await new Promise(r => setTimeout(r, 750)); // adds delay prior to running to ensure that class page JS is finished running. 
     const currentUrl = new URL(document.location.href);
     const number = await getFinalPercent(currentUrl.searchParams.get("frn"), currentUrl.searchParams.get("fg")) || "";
     if (!number) {
@@ -135,6 +138,10 @@ async function class_page () {
             document.getElementById('saspes-categories').style.display = "none";
             gt.setCategoryWeighting(false);
         } else {
+            if (!gt_mounted) {
+                gt_mounted = true;
+                gt.$mount('table.zebra.grid');
+            }
             document.getElementById('saspes-hypo-assignment').style.display = "none";
             document.getElementById('saspes-categories').style.display = "block";
             gt.setCategoryWeighting(true);
@@ -340,7 +347,13 @@ async function getCourses (second_semester, sem1_col, sem2_col) {
                         fetch(currentUrlString, { credentials: "same-origin" }).then(response => response.text()).then(response => {
                             const page = document.implementation.createHTMLDocument();
                             page.documentElement.innerHTML = response;
-                            const assignment_list = assignments(page.querySelector('body'));
+                            const sectionId = page.querySelector("div[data-pss-student-assignment-scores]").getAttribute("data-sectionid");
+                            let startDate = currentUrl.searchParams.get("begdate");
+                            startDate = startDate.split("/")[2] + "-" + startDate.split("/")[0] + "-" + startDate.split("/")[1];
+                            let endDate = currentUrl.searchParams.get("enddate");
+                            endDate = endDate.split("/")[2] + "-" + endDate.split("/")[0] + "-" + endDate.split("/")[1];
+                            const studentId = page.querySelector("div .xteContentWrapper").getAttribute("data-ng-init").split("\n")[0].split("= '")[1].replace("';","").substring(3);
+                            const assignment_list = assignmentsFromAPI(studentId, sectionId, startDate, endDate);
                             courses.push(new Course(temp.trim(), currentUrlString, $course.text(), finalPercent, assignment_list));
                             if (gradeToGPA($course.text()) !== -1) {
                                 new (Vue.extend(ClassGrade))({
@@ -425,13 +438,13 @@ function addHypoGradeCalc (courses) {
  */
 async function addVueGrades () {
     const assignments = extractAssignmentList();
-    const cat = extractGradeCategories(document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody"));
+    const cat = extractGradeCategories(document.querySelector("table.zebra.grid > tbody"));
     gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
         propsData: {
             categories: cat,
             assignments: assignments,
         },
-    }).$mount('#content-main > div.box-round > table:nth-child(4)');
+    });
     document.querySelector('div.box-round').insertAdjacentHTML('afterend', `<div id="saspes-categories"></div>`);
     new (Vue.extend(CategoryWeighting))({ // category weighting widget
         propsData: {

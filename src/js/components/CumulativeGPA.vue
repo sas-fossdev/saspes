@@ -228,6 +228,7 @@ export default {
                         if (include_current_semester) {
                             all_courses.push(current_courses);
                         }
+                        console.log(all_courses);
                         let total_count = 0;
                         let total_gpa = 0;
                         for (let i = 0; i < all_courses.length; i++) {

@@ -206,7 +206,11 @@ function extractAssignmentList() {
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), isIndicatorPresent(curr[8]), curr[11].innerHTML, curr[12].innerHTML.trim()));
+        let offset = 0;
+        if (curr.length === 14) {
+            offset = 1;
+        }
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3 + offset]), isIndicatorPresent(curr[4 + offset]), isIndicatorPresent(curr[5 + offset]), isIndicatorPresent(curr[6 + offset]), isIndicatorPresent(curr[7 + offset]), curr[10 + offset].innerText, curr[11 + offset].innerText.trim()));
     });
     return assignments;
 }

@@ -140,7 +140,9 @@ export default {
     methods: {
         async getCatmap () {
             let catmap = await getSavedCategoryWeighting();
-            catmap = {};
+            if (!catmap) {
+                catmap = {};
+            }
             this.categories.sort();
             this.categories.forEach((e, i) => {
                 if (catmap[e] === undefined) {

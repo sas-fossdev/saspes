@@ -439,7 +439,6 @@ function addHypoGradeCalc (courses) {
 async function addVueGrades () {
     const assignments = extractAssignmentList();
     const cat = extractGradeCategories(document.querySelector("table.zebra.grid > tbody"));
-    console.log(assignments);
     gt = new (Vue.extend(GradeTable))({ // remake grade table to easily read grades
         propsData: {
             categories: cat,

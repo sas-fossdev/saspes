@@ -113,7 +113,7 @@ async function main_page () {
 
 async function class_page () {
     // Show final percent
-    await new Promise(r => setTimeout(r, 750)); // adds delay prior to running to ensure that class page JS is finished running. 
+    await new Promise((resolve, reject) => setTimeout(resolve, 750)); // adds delay prior to running to ensure that class page JS is finished running.
     const currentUrl = new URL(document.location.href);
     const number = await getFinalPercent(currentUrl.searchParams.get("frn"), currentUrl.searchParams.get("fg")) || "";
     if (!number) {
@@ -352,7 +352,7 @@ async function getCourses (second_semester, sem1_col, sem2_col) {
                             startDate = startDate.split("/")[2] + "-" + startDate.split("/")[0] + "-" + startDate.split("/")[1];
                             let endDate = currentUrl.searchParams.get("enddate");
                             endDate = endDate.split("/")[2] + "-" + endDate.split("/")[0] + "-" + endDate.split("/")[1];
-                            const studentId = page.querySelector("div .xteContentWrapper").getAttribute("data-ng-init").split("\n")[0].split("= '")[1].replace("';","").substring(3);
+                            const studentId = page.querySelector("div .xteContentWrapper").getAttribute("data-ng-init").split("\n")[0].split("= '")[1].replace("';", "").substring(3);
                             const assignment_list = assignmentsFromAPI(studentId, sectionId, startDate, endDate);
                             courses.push(new Course(temp.trim(), currentUrlString, $course.text(), finalPercent, assignment_list));
                             if (gradeToGPA($course.text()) !== -1) {

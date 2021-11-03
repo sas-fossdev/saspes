@@ -220,7 +220,7 @@ function extractAssignmentList () {
  * @returns {boolean} boolean representing whether input has child nodes and are set to visible.
  */
 function isIndicatorPresent (node) {
-    return node.childNodes?.length == 7 || false;
+    return node.childNodes?.length === 7 || false;
 }
 /**
  * Return Assignment instances for the given class page.

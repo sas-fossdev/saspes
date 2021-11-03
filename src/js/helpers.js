@@ -210,7 +210,7 @@ function extractAssignmentList () {
         if (curr.length === 14) {
             offset = 1;
         }
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3 + offset]), isIndicatorPresent(curr[4 + offset]), isIndicatorPresent(curr[5 + offset]), isIndicatorPresent(curr[6 + offset]), isIndicatorPresent(curr[7 + offset]), curr[10 + offset].innerText, curr[11 + offset].innerText.trim()));
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3 + offset]), isIndicatorPresent(curr[4 + offset]), isIndicatorPresent(curr[5 + offset]), isIndicatorPresent(curr[6 + offset]), isIndicatorPresent(curr[7 + offset]), isIndicatorPresent(curr[8 + offset]), isIndicatorPresent(curr[9 + offset]), curr[10 + offset].innerText, curr[11 + offset].innerText.trim()));
     });
     return assignments;
 }
@@ -220,7 +220,7 @@ function extractAssignmentList () {
  * @returns {boolean} boolean representing whether input has child nodes and are set to visible.
  */
 function isIndicatorPresent (node) {
-    return node.hasChildNodes() && node.querySelector("div.ps-icon");
+    return node.childNodes?.length == 7 || false;
 }
 /**
  * Return Assignment instances for the given class page.

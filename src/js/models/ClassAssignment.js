@@ -23,13 +23,15 @@
  */
 
 export default class ClassAssignment {
-    constructor (id, date, category, name, collected, late, missing, exempt, excluded, score, grade, hypo = false) {
+    constructor (id, date, category, name, collected, late, missing, exempt, absent, incomplete, excluded, score, grade, hypo = false) {
         this.id = id;
         this.date = date;
         this.category = category;
         this.name = name;
         this.collected = collected;
         this.late = late;
+        this.absent = absent;
+        this.incomplete = incomplete;
         this.missing = missing;
         this.exempt = exempt;
         this.excluded = excluded;

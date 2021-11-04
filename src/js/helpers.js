@@ -192,7 +192,7 @@ function extractGradeCategories (table) {
     const table_rows = table.getElementsByTagName("tr");
     const category_set = new Set();
     for (let i = 1; i < table_rows.length - 1; i++) {
-        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("a")[0].innerText);
+        category_set.add(table_rows[i].getElementsByTagName("td")[1].getElementsByTagName("span")[1].innerText);
     }
     return Array.from(category_set);
 }
@@ -202,11 +202,15 @@ function extractGradeCategories (table) {
  * @returns {ClassAssignment[]} List of all assignments
  */
 function extractAssignmentList () {
-    const table = document.querySelector("#content-main > div.box-round > table:nth-child(4) > tbody");
+    const table = document.querySelector("table.zebra.grid > tbody");
     const assignments = [];
     [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
-        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3]), isIndicatorPresent(curr[4]), isIndicatorPresent(curr[5]), isIndicatorPresent(curr[6]), isIndicatorPresent(curr[7]), curr[9].innerHTML, curr[11].innerHTML));
+        let offset = 0;
+        if (curr.length === 14) {
+            offset = 1;
+        }
+        assignments.push(new ClassAssignment(i, curr[0].innerHTML, curr[1].innerText, curr[2].innerHTML, isIndicatorPresent(curr[3 + offset]), isIndicatorPresent(curr[4 + offset]), isIndicatorPresent(curr[5 + offset]), isIndicatorPresent(curr[6 + offset]), isIndicatorPresent(curr[7 + offset]), isIndicatorPresent(curr[8 + offset]), isIndicatorPresent(curr[9 + offset]), curr[10 + offset].innerText, curr[11 + offset].innerText.trim()));
     });
     return assignments;
 }
@@ -216,17 +220,17 @@ function extractAssignmentList () {
  * @returns {boolean} boolean representing whether input has child nodes and are set to visible.
  */
 function isIndicatorPresent (node) {
-    return node.hasChildNodes() && node.childNodes[0].style.display !== 'none';
+    return node.childNodes?.length === 7 || false;
 }
 /**
  * Return Assignment instances for the given class page.
  * @param {Element} node Root node element of the class page.
  * @returns {Assignment[]} Assignments in this course
  */
-function assignments (node) {
+function assignmentsFromNode (node) {
     const tr = [];
     // Find assignments table, get it's rows, take out the header and legend rows.
-    [...node.querySelector('table[align=center').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
+    [...node.querySelector('table.zebra.grid').querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
         const assignment = new Assignment(curr[2]?.innerText || "", curr[curr.length - 1]?.innerText || "", i);
         const missingIcon = e.querySelector('img[src="/images/icon_missing.gif"]');
@@ -239,11 +243,52 @@ function assignments (node) {
 }
 
 /**
+ * Return Assignment instances for the given class page.
+ * @param {String} student_id student id for the current user
+ * @param {String} sectino_id section id for the course being requested
+ * @param {String} start_date start date in YYYY-MM-DD format
+ * @param {String} end_date end date in YYYY-MM-DD format
+ * @returns {Assignment[]} Assignments in this course
+ */
+function assignmentsFromAPI (studentId, sectionId, startDate, endDate) {
+    const assignmentList = [];
+    try {
+        fetch('https://powerschool.sas.edu.sg/ws/xte/assignment/lookup', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "student_ids": [studentId],
+                "section_ids": [sectionId],
+                "start_date": startDate,
+                "end_date": endDate,
+            }),
+            credentials: "same-origin",
+        }).then(response => response.json()).then(response => {
+            for (let i = 0; i < response.length; i++) {
+                if (response[i]._assignmentsections?.length) {
+                    const assignmentData = response[i]._assignmentsections[0];
+                    const assignment = new Assignment(assignmentData.name, assignmentData._assignmentscores[0]?.actualscoreentered || "", i);
+                    if (assignmentData._assignmentscores[0]?.ismissing || null) {
+                        assignment.addStatus(Assignment.statuses.MISSING);
+                    }
+                    assignmentList.push(assignment);
+                }
+            }
+        });
+    } catch (e) {
+        return [];
+    }
+    return assignmentList;
+}
+
+/**
  * Return course title of active class page
  * @returns {String} Course title
  */
 function extractCourseTitle () {
-    return document.getElementsByTagName('h2')[0].innerHTML;
+    return document.querySelector("tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1)").innerText;
 }
 
 /**
@@ -366,7 +411,8 @@ export {
     getFinalPercent,
     extractGradeCategories,
     extractAssignmentList,
-    assignments,
+    assignmentsFromNode,
+    assignmentsFromAPI,
     calculate_credit_hours,
     getSavedGrades,
     saveGradesLocally,

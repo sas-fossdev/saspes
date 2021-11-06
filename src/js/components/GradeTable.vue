@@ -23,7 +23,7 @@
  -->
 
 <template>
-    <div>
+    <div style="display: none;" id="gt-container">
         <table
             border="0"
             cellpadding="0"

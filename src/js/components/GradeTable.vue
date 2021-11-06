@@ -123,7 +123,7 @@ export default {
     }),
     methods: {
         addAssignment () {
-            this.assignments.push(new ClassAssignment(this.assignments[this.assignments.length - 1].id + 1, "today", this.categories[0], "New Assignment", false, false, false, false, false, "--/9", "B", true));
+            this.assignments.push(new ClassAssignment(this.assignments[this.assignments.length - 1].id + 1, "Today", this.categories[0], "New Assignment", false, false, false, false, false, false, false, "--/9", "B", true));
         },
         calculateGrades (catmap) {
             try {

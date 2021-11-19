@@ -128,27 +128,27 @@ async function class_page () {
     document.getElementById('saspes-hypo-assignment').style.display = "none";
     document.getElementById('saspes-categories').style.display = "none";
     const gtContainer = document.createElement("div");
-    document.getElementById("scoreTable").parentElement.appendChild(gtContainer);
+    document.getElementById('scoreTable').parentElement.appendChild(gtContainer);
     gt.$mount(gtContainer);
     document.getElementById('hypo-select').onchange = function () {
         const opt = document.getElementById('hypo-select').value;
         if (opt === "none") {
             document.getElementById('saspes-hypo-assignment').style.display = "none";
             document.getElementById('saspes-categories').style.display = "none";
-            document.getElementById("gt-container").style.display = "none";
-            document.getElementById("scoreTable").style.display = "block";
+            document.getElementById('gt-container').style.display = "none";
+            document.getElementById('scoreTable').style.display = "block";
             gt.setCategoryWeighting(false);
         } else if (opt === "single") {
             document.getElementById('saspes-hypo-assignment').style.display = "block";
             document.getElementById('saspes-categories').style.display = "none";
-            document.getElementById("gt-container").style.display = "none";
-            document.getElementById("scoreTable").style.display = "block";
+            document.getElementById('gt-container').style.display = "none";
+            document.getElementById('scoreTable').style.display = "block";
             gt.setCategoryWeighting(false);
         } else {
             document.getElementById('saspes-hypo-assignment').style.display = "none";
             document.getElementById('saspes-categories').style.display = "block";
-            document.getElementById("gt-container").style.display = "block";
-            document.getElementById("scoreTable").style.display = "none";
+            document.getElementById('gt-container').style.display = "block";
+            document.getElementById('scoreTable').style.display = "none";
             gt.setCategoryWeighting(true);
         }
     };

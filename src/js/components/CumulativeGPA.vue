@@ -170,16 +170,18 @@ export default {
                                     semester.innerHTML = data2;
                                     element_list = semester.getElementsByClassName("box-round")[0].getElementsByTagName("table")[0];
                                     element_list = element_list.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-                                    for (let t = 2; t < element_list.length; t++) {
+                                    for (let t = 0; t < element_list.length; t++) {
                                         if (element_list[t].innerText.trim() === ("S2")) {
-                                            most_recent_term = "S2";
                                             all_courses.push(courses);
                                             if (i === 0) {
+                                                most_recent_term = "S2";
                                                 current_term_grades.push(courses);
                                             }
                                             courses = [];
                                         } else if (element_list[t].innerText.trim() === ("S1")) {
-                                            most_recent_term = "S1";
+                                            if (i === 0) {
+                                                most_recent_term = "S1";
+                                            }
                                         }
                                         if (element_list[t].getElementsByTagName("th").length > 0) {
                                             continue;

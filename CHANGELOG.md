@@ -1,5 +1,13 @@
 # SAS Powerschool Enhancement Suite Changelog
 
+## [v0.27.0](https://github.com/sas-fossdev/saspes/tree/v0.27.0) (2021-12-19)
+
+[Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.26.0...v0.27.0)
+
+### Fixed
+
+- Fix percentages not showing and cumulative GPA double including finished semester  [\#313](https://github.com/sas-fossdev/saspes/pull/313) ([Suhas-13](https://github.com/Suhas-13))
+
 ## [v0.26.0](https://github.com/sas-fossdev/saspes/tree/v0.26.0) (2021-11-05)
 
 [Full Changelog](https://github.com/sas-fossdev/saspes/compare/v0.25.0...v0.26.0)

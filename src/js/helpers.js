@@ -204,7 +204,7 @@ function extractGradeCategories (table) {
 function extractAssignmentList () {
     const table = document.querySelector("table.zebra.grid > tbody");
     const assignments = [];
-    [...table.querySelectorAll('tr')].slice(1, -1).forEach((e, i) => {
+    [...table.querySelectorAll('tr')].slice(0, -1).forEach((e, i) => {
         const curr = e.querySelectorAll('td');
         let offset = 0;
         if (curr.length === 14) {

@@ -150,7 +150,7 @@ function extractFinalPercent (html) {
         let current_string = html.match(/(?=document\.write).*/g)[1];
         current_string = /\[.*\]/g.exec(current_string)[0].slice(1, -1);
         const temp = current_string.split(";");
-        number = Math.max(isNaN(temp[temp.length - 2]) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(temp[temp.length - 1]) ? -Infinity : parseFloat(temp[temp.length - 1]));
+        number = Math.max(isNaN(parseFloat(temp[temp.length - 2])) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(parseFloat(temp[temp.length - 1])) ? -Infinity : parseFloat(temp[temp.length - 1]));
     } catch (e) {
         return;
     }

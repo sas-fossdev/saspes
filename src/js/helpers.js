@@ -150,7 +150,8 @@ function extractFinalPercent (html) {
         let current_string = html.match(/(?=document\.write).*/g)[1];
         current_string = /\[.*\]/g.exec(current_string)[0].slice(1, -1);
         const temp = current_string.split(";");
-        number = Math.max(isNaN(temp[temp.length - 2]) || temp[temp.length - 2] ? parseFloat(temp[temp.length - 2]) : -Infinity, isNaN(temp[temp.length - 1]) || temp[temp.length - 1] ? parseFloat(temp[temp.length - 1]) : -Infinity);
+        console.log(temp);
+        number = Math.max(isNaN(temp[temp.length - 2]) ? -Infinity : parseFloat(temp[temp.length - 2]), isNaN(temp[temp.length - 1]) ? -Infinity : parseFloat(temp[temp.length - 1]));
     } catch (e) {
         return;
     }
@@ -244,13 +245,12 @@ function assignmentsFromNode (node) {
 
 /**
  * Return Assignment instances for the given class page.
- * @param {String} student_id student id for the current user
- * @param {String} sectino_id section id for the course being requested
- * @param {String} start_date start date in YYYY-MM-DD format
- * @param {String} end_date end date in YYYY-MM-DD format
+ * @param {String} studentId student id for the current user
+ * @param {String} sectionId section id for the course being requested
+ * @param {String} currentSemester the current semester (either S1 or S2)
  * @returns {Assignment[]} Assignments in this course
  */
-function assignmentsFromAPI (studentId, sectionId, startDate, endDate) {
+function assignmentsFromAPI (studentId, sectionId, currentSemester) {
     const assignmentList = [];
     try {
         fetch('https://powerschool.sas.edu.sg/ws/xte/assignment/lookup', {
@@ -261,8 +261,7 @@ function assignmentsFromAPI (studentId, sectionId, startDate, endDate) {
             body: JSON.stringify({
                 "student_ids": [studentId],
                 "section_ids": [sectionId],
-                "start_date": startDate,
-                "end_date": endDate,
+                "store_codes": [currentSemester],
             }),
             credentials: "same-origin",
         }).then(response => response.json()).then(response => {

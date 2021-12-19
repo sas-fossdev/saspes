@@ -348,12 +348,14 @@ async function getCourses (second_semester, sem1_col, sem2_col) {
                             const page = document.implementation.createHTMLDocument();
                             page.documentElement.innerHTML = response;
                             const sectionId = page.querySelector("div[data-pss-student-assignment-scores]").getAttribute("data-sectionid");
-                            let startDate = currentUrl.searchParams.get("begdate");
-                            startDate = startDate.split("/")[2] + "-" + startDate.split("/")[0] + "-" + startDate.split("/")[1];
-                            let endDate = currentUrl.searchParams.get("enddate");
-                            endDate = endDate.split("/")[2] + "-" + endDate.split("/")[0] + "-" + endDate.split("/")[1];
                             const studentId = page.querySelector("div .xteContentWrapper").getAttribute("data-ng-init").split("\n")[0].split("= '")[1].replace("';", "").substring(3);
-                            const assignment_list = assignmentsFromAPI(studentId, sectionId, startDate, endDate);
+                            let currentSemester;
+                            if (second_semester) {
+                                currentSemester = "S2";
+                            } else {
+                                currentSemester = "S1";
+                            }
+                            const assignment_list = assignmentsFromAPI(studentId, sectionId, currentSemester);
                             courses.push(new Course(temp.trim(), currentUrlString, $course.text(), finalPercent, assignment_list));
                             if (gradeToGPA($course.text()) !== -1) {
                                 new (Vue.extend(ClassGrade))({

@@ -23,6 +23,8 @@
  */
 
 import FinalPercent from "./FinalPercent.svelte";
+import ScoreTools from "./ScoreTools.svelte";
+import "../../app.css"
 
 async function getFinalPercent(): Promise<number | null> {
   let finalGrade: number | null = null;
@@ -51,7 +53,7 @@ async function getFinalPercent(): Promise<number | null> {
 }
 
 console.log("rendering");
-const target = document.createElement("div");
+let target = document.createElement("div");
 document
   .querySelector(".box-round")!
   .insertBefore(target, document.querySelector(".box-round > p"));
@@ -59,3 +61,10 @@ new FinalPercent({
   target: target as Element,
   props: { finalGrade: getFinalPercent() },
 });
+
+target = document.createElement("div");
+document.querySelector(".box-round")?.insertBefore(target, document.querySelector(".box-round > h2"))
+
+new ScoreTools({
+  target: target as Element,
+})

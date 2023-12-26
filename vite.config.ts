@@ -34,14 +34,6 @@ export default defineConfig({
       manifest: manifest()
     }),
   ],
-  server: {
-    port: 5173,
-    strictPort: true,
-    hmr: {
-      port: 5173,
-      clientPort: 5173,
-    },
-  },
   define: {
     SAS_PES_VERSION: `"${pkg.version}"`,
   },

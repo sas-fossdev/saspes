@@ -22,9 +22,13 @@
  *
  */
 
+import { Assignment, Category, GradeManager, listOfGrades, type Grade, gradeToPercent } from "../../models/grades";
 import FinalPercent from "./FinalPercent.svelte";
 import ScoreTools from "./ScoreTools.svelte";
-import "../../app.css"
+
+export enum Tools {
+  CATEGORY_WEIGHTING = "CATEGORY_WEIGHTING",
+}
 
 async function getFinalPercent(): Promise<number | null> {
   let finalGrade: number | null = null;
@@ -52,19 +56,80 @@ async function getFinalPercent(): Promise<number | null> {
   return null;
 }
 
+let gradeManagerO = new GradeManager([], [], 100);
+
+setTimeout(() => {
+  const gradeManager = new GradeManager([], [], 100);
+  const rowEles = document.querySelectorAll("tr.ng-scope");
+
+  for (let i = 0; i < rowEles.length; i++) {
+    let rowEle = rowEles[i];
+    if (rowEle.querySelector("td.codeCol > div.tt-exempt") != null || rowEle.querySelector("td.codeCol > div.tt-excluded") != null) {
+      console.log(rowEle); continue;
+    };
+
+    let gradeEle = rowEle.querySelector("td.ng-binding.ng-scope");
+    let categoryEle = rowEle.querySelector("td.categorycol");
+    let assignmentEle = rowEle.querySelector("td.assignmentcol");
+    let scoreEle = rowEle.querySelector("td.score") as HTMLTableCellElement;
+    if (gradeEle && categoryEle && assignmentEle && gradeEle.textContent && categoryEle.textContent && assignmentEle.textContent && scoreEle) {
+      let validGrade = false;
+      let grade: Grade = "A+";
+      for (let i = 0; i < listOfGrades.length; i++) {
+        if (listOfGrades[i] == gradeEle.textContent.trim()) {
+          validGrade = true;
+          grade = listOfGrades[i];
+        }
+      }
+      if (!validGrade) {
+        console.log(rowEle); continue;
+      }
+      let category = gradeManager.getCategoryByName(categoryEle.textContent.trim());
+      if (!category) {
+        category = new Category(categoryEle.textContent.trim(), 0);
+        gradeManager.addCategory(category);
+      }
+
+      let weighting = 100;
+      if (scoreEle.classList.contains("hasWeight") && scoreEle.title) {
+        weighting = Number(scoreEle.title.match(/x ([^ ]*)\. /)![1]) * 100;
+      }
+
+      let assignment = new Assignment(assignmentEle.textContent.trim(), grade, category, weighting);
+      gradeManager.addAssignment(assignment);
+    }
+  }
+
+  // for (let category of gradeManager.categories) {
+  //   let assignments = gradeManager.getAssignmentsByCategory(category);
+
+  //   const sumOfWeights = assignments.reduce((total, assignment) => total + assignment.weight, 0);
+  //   for (let i = 0; i < assignments.length; i++) {
+  //     assignments[i].weight = (assignments[i].weight / sumOfWeights) * 100;
+  //   }
+  // }
+
+  console.log(gradeManager);
+  gradeManagerO = gradeManager;
+  new ScoreTools({
+    target: target as Element,
+    props: { finalPercent, gradeManager: gradeManagerO }
+  })
+}, 750);
+
+
 console.log("rendering");
 let target = document.createElement("div");
 document
   .querySelector(".box-round")!
   .insertBefore(target, document.querySelector(".box-round > p"));
+
+let finalPercent = getFinalPercent();
+
 new FinalPercent({
   target: target as Element,
-  props: { finalGrade: getFinalPercent() },
+  props: { finalPercent },
 });
 
 target = document.createElement("div");
 document.querySelector(".box-round")?.insertBefore(target, document.querySelector(".box-round > h2"))
-
-new ScoreTools({
-  target: target as Element,
-})

@@ -9,5 +9,5 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
-safelist: process.env.NODE_ENV === 'development' ? [{ pattern: /.+/ }] : [],
+// safelist: process.env.NODE_ENV === 'development' ? [{ pattern: /.+/ }] : [],
 };

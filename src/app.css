@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#score-tools h1 {
+  @apply tw-text-2xl tw-m-0;
+}
+
+#score-tools h2 {
+  @apply tw-text-xl tw-m-0 tw-border-b-0;
+}
+#score-tools h3 {
+  @apply tw-text-lg tw-m-0 tw-border-b-0;
+}
+
+#score-tools p {
+  padding: 0;
+  margin: 0;
+}

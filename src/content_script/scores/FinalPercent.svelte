@@ -22,12 +22,12 @@
    * along with this program.  If not, see <https://www.gnu.org/licenses/>.
    *
    */
-  export let finalGrade: Promise<number | null>;
+  export let finalPercent: Promise<number | null>;
 </script>
 
-{#await finalGrade}
+{#await finalPercent}
   <div class="tw-mb-2.5 tw-mx-2.5">
-    <strong>Final Percent:</strong> Loading...
+    <strong>Official Final Percent:</strong> Loading...
   </div>
   <div class="comment">
     <pre>&nbsp;</pre>
@@ -35,7 +35,7 @@
 {:then grade}
   {#if grade != null}
     <div class="tw-mx-2.5">
-      <strong>Final Percent:</strong>
+      <strong>Official Final Percent:</strong>
       {grade.toFixed(2)}%
       <div class="tw-group tw-relative tw-inline-block">
         <button class="tw-ml-0">?</button>

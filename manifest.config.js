@@ -25,7 +25,7 @@ export default defineManifest(async (env) => ({
       "js": ["src/content_script/def/index.ts"]
     },
     {
-      "matches": ["https://powerschool.sas.edu.sg/public/home.html"],
+      "matches": ["https://powerschool.sas.edu.sg/public/*"],
       "js": ["src/content_script/home/index.ts"]
     }
   ],

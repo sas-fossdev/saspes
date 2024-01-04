@@ -195,24 +195,27 @@ export class GradeManager {
   public calculateGradePercentage(): number | SpecialGrade.INC | SpecialGrade.INVALID {
     if (!this.validWeights()) return SpecialGrade.INVALID;
     let totalGrade = 0;
+
     for (let category of this.categories) {
-      if (this.getSeeAssignment()?.category.id == category.id) continue;
-      let categoryGrade = 0;
       let categoryAssignments = this.getAssignmentsByCategory(category);
+      if (this.getSeeAssignment()?.category.id == category.id && categoryAssignments.length == 1) continue;
+      let categoryGrade = 0;
       let categorySumOfWeights = this.sumOfWeightsInCategory(category);
       for (let assignment of categoryAssignments) {
         if (assignment.see) continue;
         if (assignment.grade == "INC") return SpecialGrade.INC;
-        categoryGrade += gradeToPercent[assignment.grade] * (assignment.weight / 100);
+        categoryGrade += gradeToPercent[assignment.grade] * (assignment.weight);
       }
-      if (categoryGrade != 0 && this.calcedTotalWeight != 0) totalGrade += (categoryGrade / categorySumOfWeights) * 100 * (category.weight / this.calcedTotalWeight);
+      if (categoryGrade != 0 && this.calcedTotalWeight != 0) {
+        totalGrade += (categoryGrade / categorySumOfWeights) * (category.weight / this.calcedTotalWeight)
+      };
     }
     return totalGrade;
   }
 
   get calcedTotalWeight(): number {
     let seeAssignment = this.getSeeAssignment();
-    if (seeAssignment) return this.totalWeight - seeAssignment.category.weight;
+    if (seeAssignment && this.getAssignmentsByCategory(seeAssignment.category).length <= 1) return this.totalWeight - seeAssignment.category.weight;
     return this.totalWeight;
   }
 

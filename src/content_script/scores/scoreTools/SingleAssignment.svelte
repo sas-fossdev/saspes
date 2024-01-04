@@ -84,7 +84,6 @@
     curCatId: number = curCategoryId,
     gradeManager: GradeManager,
   ) {
-    console.log("curCalc", hGrade, hWeight, percent, curCatId, gradeManager);
     let grade = 0;
     let curCategory: Category | null = gradeManager.getCategoryById(curCatId);
     let curCategoryId = curCatId;
@@ -122,7 +121,7 @@
       otherWeightSum += category.weight;
       otherGrade += curGrade * category.weight;
     }
-    otherGrade /= otherWeightSum;
+    if (otherWeightSum != 0) otherGrade /= otherWeightSum;
     curCategoryGrade *= curCategoryWeightSum;
 
     grade =
@@ -499,8 +498,10 @@
         Your grade is {convertPercentCutoffToGrade(
           newFinalPercent,
         )}{newFinalPercent !== SpecialGrade.INC
-          ? ` with a percentage of ${newFinalPercent.toFixed(2)}%.`
-          : "."}
+          ? ` with a percentage of ${newFinalPercent.toFixed(2)}%`
+          : ""}{seeAssignment
+          ? " without the 'See all possibilities' assignment"
+          : ""}.
       {/if}
     </div>
   {/if}

@@ -24,6 +24,9 @@
 
 import Home from "./Home.svelte";
 
+
+
+
 console.log("rendering");
 const target = document.createElement("div");
 document

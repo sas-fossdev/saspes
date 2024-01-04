@@ -22,12 +22,41 @@
  *
  */
 
+import { Class, ClassManager } from "../../models/classes";
 import GPA from "./GPA.svelte";
+import { listOfGrades, type Grade } from "../../models/grades";
 
-console.log("WASSUP")
+const classManager = new ClassManager([]);
+
+const rows = document.querySelectorAll(".linkDescList.grid > tbody > tr.center:not(.th2)");
+
+for (const row of rows) {
+  const nameEle = row.querySelector("td:nth-child(2)");
+  const s1GradeEle = row.querySelector("td:nth-child(3)");
+  const s2GradeEle = row.querySelector("td:nth-child(4)");
+
+  if (!nameEle || !s1GradeEle || !s2GradeEle) continue;
+
+  const name = nameEle.firstChild?.textContent?.trim();
+  if (!name) continue;
+
+  let s1Grade: string | null = s1GradeEle.textContent?.trim()!;
+  if (!s1Grade) continue;
+  if (!listOfGrades.includes(s1Grade as Grade)) s1Grade = null;
+
+  let s2Grade: string | null = s2GradeEle.textContent?.trim()!;
+  if (!s2Grade) continue;
+  if (!listOfGrades.includes(s2Grade as Grade)) s2Grade = null;
+
+  if (!s1Grade && !s2Grade) continue;
+  classManager.addClass(new Class(name, { s1: s1Grade as Grade | null, s2: s2Grade as Grade | null }))
+}
+
+
+console.log(classManager);
 const target = document.createElement("div");
 document
   .querySelector("#content-main > .box-round")
   ?.insertBefore(target, document.querySelector("#quickLookup"));
 
-new GPA({ target: target as Element });
+new GPA({ target: target as Element, props: { classManager: classManager } });

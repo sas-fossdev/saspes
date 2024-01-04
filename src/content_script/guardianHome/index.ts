@@ -22,15 +22,12 @@
  *
  */
 
-import "../app.css";
-import Popup from "./Popup.svelte";
+import GPA from "./GPA.svelte";
 
-const target = document.getElementById("app");
+console.log("WASSUP")
+const target = document.createElement("div");
+document
+  .querySelector("#content-main > .box-round")
+  ?.insertBefore(target, document.querySelector("#quickLookup"));
 
-async function render() {
-  const { count } = await chrome.storage.sync.get({ count: 0 });
-
-  new Popup({ target: target as Element });
-}
-
-document.addEventListener("DOMContentLoaded", render);
+new GPA({ target: target as Element });

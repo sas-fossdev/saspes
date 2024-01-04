@@ -27,6 +27,12 @@ export default defineManifest(async (env) => ({
     {
       "matches": ["https://powerschool.sas.edu.sg/public/*"],
       "js": ["src/content_script/home/index.ts"]
+    },
+    {
+      "matches": [
+        "https://powerschool.sas.edu.sg/guardian/home.html*"
+      ],
+      "js": ["src/content_script/guardianHome/index.ts"]
     }
   ],
   "permissions": ["storage"],

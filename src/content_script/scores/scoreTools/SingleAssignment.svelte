@@ -162,6 +162,23 @@
     ) as GradePercentage;
   }
 
+  function saveCategoryWeights() {
+    let weights: Record<string, number> = {};
+    for (let category of gradeManager.categories) {
+      weights[category.name] = category.weight;
+    }
+
+    let key: string =
+      "" +
+      new URL(location.href).searchParams.get("frn") +
+      new URL(location.href).searchParams.get("fg");
+    chrome.storage.local.set({ ["weights" + key]: weights });
+    chrome.storage.local.set({
+      ["totalWeight" + key]: gradeManager.totalWeight,
+    });
+    alert("Saved weights.");
+  }
+
   $: newFinalPercent = gradeManager.calculateGradePercentage();
 
   $: isCatWeightsValid = gradeManager.validWeights();
@@ -258,6 +275,7 @@
       </tbody>
     </table>
     <button on:click={addNewCategory}>Add new category</button>
+    <button on:click={saveCategoryWeights}>Save category weights</button>
     <p class="tw-text-md !tw-mb-2">
       Total weight (what the category weights should add up to, if year is
       incomplete)

@@ -58,7 +58,7 @@ async function getFinalPercent(): Promise<number | null> {
 
 let gradeManagerO = new GradeManager([], [], 100);
 
-setTimeout(() => {
+setTimeout(async () => {
   const gradeManager = new GradeManager([], [], 100);
   const rowEles = document.querySelectorAll("tr.ng-scope");
 
@@ -108,6 +108,27 @@ setTimeout(() => {
   //     assignments[i].weight = (assignments[i].weight / sumOfWeights) * 100;
   //   }
   // }
+  const key = "" + new URL(location.href).searchParams.get(
+    "frn",
+  ) + new URL(location.href).searchParams.get(
+    "fg",
+  );
+
+  const saved = await chrome.storage.local.get("weights" + key);
+
+  saved.weights = saved["weights" + key] || {};
+
+  for (let category of gradeManager.categories) {
+    if (saved.weights[category.name]) {
+      category.weight = Number(saved.weights[category.name]);
+    }
+  }
+
+  let totalWeight = await chrome.storage.local.get("totalWeight" + key);
+  totalWeight = totalWeight["totalWeight" + key] || 0;
+  if (Number(totalWeight) > 0) {
+    gradeManager.totalWeight = Number(totalWeight);
+  }
 
   console.log(gradeManager);
   gradeManagerO = gradeManager;

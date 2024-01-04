@@ -1,6 +1,6 @@
 /**
  *
- * @copyright Copyright (c) 2023 Anvay Mathur <contact@anvaymathur.com>
+ * @copyright Copyright (c) 2023-2024 Anvay Mathur <contact@anvaymathur.com>
  *
  * @author Anvay Mathur <contact@anvaymathur.com>
  *
@@ -24,8 +24,11 @@
 import { crx } from "@crxjs/vite-plugin";
 import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
-import manifest from "./manifest.config.js";
+import manifest, { realVersion } from "./manifest.config.js";
 import pkg from "./package.json";
+import 'dotenv/config'
+
+
 
 export default defineConfig({
   plugins: [
@@ -35,6 +38,6 @@ export default defineConfig({
     }),
   ],
   define: {
-    SAS_PES_VERSION: `"${pkg.version}"`,
+    SAS_PES_VERSION: `"${process.argv[4] === "production" ? pkg.version : `${pkg.version} Development Build ${realVersion}`}"`,
   },
 });

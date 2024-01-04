@@ -1,6 +1,6 @@
 /**
  *
- * @copyright Copyright (c) 2023 Anvay Mathur <contact@anvaymathur.com>
+ * @copyright Copyright (c) 2023-2024 Anvay Mathur <contact@anvaymathur.com>
  *
  * @author Anvay Mathur <contact@anvaymathur.com>
  *
@@ -23,6 +23,9 @@
  */
 
 import Home from "./Home.svelte";
+
+
+
 
 console.log("rendering");
 const target = document.createElement("div");

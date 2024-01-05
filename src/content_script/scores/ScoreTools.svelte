@@ -20,6 +20,7 @@
           <option value={Tools.CATEGORY_WEIGHTING}
             >Category Weighting and Advanced See All Possibilities</option
           >
+          <option value={Tools.NONE}>None</option>
         </select>
       </div>
 

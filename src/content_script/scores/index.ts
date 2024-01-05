@@ -28,6 +28,7 @@ import ScoreTools from "./ScoreTools.svelte";
 
 export enum Tools {
   CATEGORY_WEIGHTING = "CATEGORY_WEIGHTING",
+  NONE = "NONE"
 }
 
 function waitForElm(selector: string): Promise<Element | null> {

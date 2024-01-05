@@ -170,6 +170,9 @@ export class GradeManager {
   }
 
   public validWeights(): boolean {
+    if (this.totalWeight <= 0) return false;
+    if (this.totalWeight > 100) return false;
+
     let curTotalWeight = 0;
     for (let category of this.categories) {
       curTotalWeight += category.weight;

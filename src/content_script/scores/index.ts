@@ -30,6 +30,26 @@ export enum Tools {
   CATEGORY_WEIGHTING = "CATEGORY_WEIGHTING",
 }
 
+function waitForElm(selector: string): Promise<Element | null> {
+  return new Promise(resolve => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
+    }
+
+    const observer = new MutationObserver(mutations => {
+      if (document.querySelector(selector)) {
+        observer.disconnect();
+        resolve(document.querySelector(selector));
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
+}
+
 async function getFinalPercent(): Promise<number | null> {
   let finalGrade: number | null = null;
   const url = new URL(window.location.href);
@@ -58,7 +78,8 @@ async function getFinalPercent(): Promise<number | null> {
 
 let gradeManagerO = new GradeManager([], [], 100);
 
-setTimeout(async () => {
+const doScoreTools = async () => {
+  await waitForElm("#scoreTable");
   const gradeManager = new GradeManager([], [], 100);
   const rowEles = document.querySelectorAll("tr.ng-scope");
 
@@ -100,14 +121,6 @@ setTimeout(async () => {
     }
   }
 
-  // for (let category of gradeManager.categories) {
-  //   let assignments = gradeManager.getAssignmentsByCategory(category);
-
-  //   const sumOfWeights = assignments.reduce((total, assignment) => total + assignment.weight, 0);
-  //   for (let i = 0; i < assignments.length; i++) {
-  //     assignments[i].weight = (assignments[i].weight / sumOfWeights) * 100;
-  //   }
-  // }
   const key = "" + new URL(location.href).searchParams.get(
     "frn",
   ) + new URL(location.href).searchParams.get(
@@ -136,10 +149,11 @@ setTimeout(async () => {
     target: target as Element,
     props: { finalPercent, gradeManager: gradeManagerO }
   })
-}, 750);
+}
+
+doScoreTools();
 
 
-console.log("rendering");
 let target = document.createElement("div");
 document
   .querySelector(".box-round")!

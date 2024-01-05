@@ -59,7 +59,7 @@ export class ClassManager {
       if (c.grade[`s${semester}`] === "INC") {
         continue;
       }
-      if (c.grade[`s${semester}`] !== null) gpa += gradeToGPA[c.grade[`s${semester}`]!] * c.credits + (c.isBoosted ? 0.5 : 0);
+      if (c.grade[`s${semester}`] !== null) gpa += (gradeToGPA[c.grade[`s${semester}`]!] + (c.isBoosted ? 0.5 : 0)) * c.credits;
     }
     return gpa / totalCredits;
   }

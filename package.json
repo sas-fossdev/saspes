@@ -1,7 +1,7 @@
 {
   "name": "saspes",
   "private": true,
-  "version": "2.0.0-alpha",
+  "version": "2.0.0",
   "description": "SAS Powerschool Enhancement Suite",
   "type": "module",
   "scripts": {

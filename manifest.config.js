@@ -50,5 +50,8 @@ export default defineManifest(async (env) => ({
       "matches": ["https://powerschool.sas.edu.sg/*"],
       "resources": ["public/icon.png"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "src/background.ts",
+  }
 }))

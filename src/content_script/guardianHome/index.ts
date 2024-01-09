@@ -25,15 +25,20 @@
 import { Class, ClassManager } from "../../models/classes";
 import GPA from "./GPA.svelte";
 import { listOfGrades, type Grade } from "../../models/grades";
+import { getFinalPercent } from "../scores/scoresUtilities";
 
 const classManager = new ClassManager([]);
 
 const rows = document.querySelectorAll(".linkDescList.grid > tbody > tr.center:not(.th2)");
 
+
+
 for (const row of rows) {
   const nameEle = row.querySelector("td:nth-child(2)");
-  const s1GradeEle = row.querySelector("td:nth-child(3)");
-  const s2GradeEle = row.querySelector("td:nth-child(4)");
+  const s1GradeEle = row.querySelector("td:nth-child(3) > a") as HTMLAnchorElement;
+  const s2GradeEle = row.querySelector("td:nth-child(4) > a");
+
+
 
   if (!nameEle || !s1GradeEle || !s2GradeEle) continue;
 
@@ -49,6 +54,23 @@ for (const row of rows) {
   if (!listOfGrades.includes(s2Grade as Grade)) s2Grade = null;
 
   if (!s1Grade && !s2Grade) continue;
+
+  if (s1Grade !== null && s1Grade !== "INC" && s1GradeEle.href !== null) {
+    const url = new URL(s1GradeEle.href);
+    let finalPercent = getFinalPercent(
+      url.searchParams.get(
+        "frn",
+      )!,
+      url.searchParams.get("fg")!
+    );
+
+    finalPercent.then((f) => {
+      console.log(f, "F");
+      if (f !== null)
+        s1GradeEle.innerHTML += ` (${f.toFixed(2)})`;
+    })
+  }
+
   classManager.addClass(new Class(name, { s1: s1Grade as Grade | null, s2: s2Grade as Grade | null }))
 }
 

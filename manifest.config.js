@@ -37,6 +37,13 @@ export default defineManifest(async (env) => ({
       "js": ["src/content_script/guardianHome/index.ts"]
     }
   ],
+  "options_ui": {
+    "page": "src/options/index.html",
+    "open_in_tab": false
+  },
+  "icons": {
+    "128": "public/icon.png" 
+  },
   "permissions": ["storage"],
   "web_accessible_resources": [
     {

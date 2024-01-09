@@ -190,7 +190,13 @@
     );
   });
 
+  let showSumOfInnerWeights: boolean = false;
+
   onMount(async () => {
+    showSumOfInnerWeights =
+      (await chrome.storage.local.get("showSumOfInnerWeights"))
+        ?.showSumOfInnerWeights ?? false;
+
     const tour = new Shepherd.Tour({
       useModalOverlay: true,
       defaultStepOptions: {
@@ -203,6 +209,27 @@
             behavior: "smooth",
           });
         },
+        buttons: [
+          {
+            text: "Back",
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: "Next",
+            action: () => {
+              tour.next();
+            },
+          },
+          {
+            text: "Cancel",
+            action: () => {
+              tour.complete();
+            },
+          },
+        ],
+        highlightClass: "current-step",
       },
       keyboardNavigation: false,
     });
@@ -215,7 +242,7 @@
           element: "#catw",
           on: "top-start",
         },
-        classes: "",
+        classes: "tw-mt-2",
         buttons: [
           {
             text: "Next",
@@ -229,27 +256,12 @@
       },
       {
         id: "tour-2",
-        text: "This is the category weighting table. You can change the names of the categories (for better organization) and the weights of the categories here.",
+        text: "This is the category weighting table. You can change the names of the categories (for better organization) and the weights of the categories here.<br/><br/>Categories can be class units (e.g. Unit 2), or different types of assignments (e.g. Summative) depending on how your teacher inputs formats it. Your category names can be found in PowerSchool as well as your syllabus, which will have more information.",
         attachTo: {
           element: "#cattable",
           on: "right",
         },
         classes: "tw-w-96 tw-ml-2",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-69",
@@ -259,8 +271,11 @@
           on: "top-start",
         },
         classes: "tw-w-96 tw-mt-2",
-        highlightClass: "current-step",
         buttons: [
+          {
+            text: "Back",
+            action: tour.back,
+          },
           {
             text: "Next",
             action: () => {
@@ -277,10 +292,6 @@
             },
           },
           {
-            text: "Back",
-            action: tour.back,
-          },
-          {
             text: "Cancel",
             action: tour.complete,
           },
@@ -294,8 +305,11 @@
           on: "right",
         },
         classes: "tw-ml-2 tw-w-96",
-        highlightClass: "current-step",
         buttons: [
+          {
+            text: "Back",
+            action: tour.back,
+          },
           {
             text: "Next",
             action: () => {
@@ -309,10 +323,6 @@
             },
           },
           {
-            text: "Back",
-            action: tour.back,
-          },
-          {
             text: "Cancel",
             action: tour.complete,
           },
@@ -320,27 +330,12 @@
       },
       {
         id: "tour-4",
-        text: "Click this to delete the category in the row. This will only work if there is more than one category.",
+        text: "You can click this to delete the category in the row. This will only work if there is more than one category.",
         attachTo: {
           element: ".firstCatDel",
           on: "right",
         },
         classes: "tw-ml-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-5",
@@ -350,117 +345,33 @@
           on: "bottom",
         },
         classes: "tw-mt-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-6",
-        text: "Click this to add a new category. This will also automatically add a new assignment to the new category.",
+        text: "You can click this to add a new category. This will also automatically add a new assignment to the new category.",
         attachTo: {
           element: "#addCat",
           on: "bottom",
         },
         classes: "tw-mt-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-7",
-        text: "Use this dropdown menu to choose which category's assignments you want to edit. The table below will show all the assignments in that category.",
+        text: "Use this dropdown menu to choose which category's assignments you want to edit. The table below will show all the assignments in that category. The row of the category you selected in the category table will be highlighted yellow.",
         attachTo: {
           element: "#chooseCat",
           on: "top-start",
         },
-        classes: "tw-mb-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
+        classes: "tw-mt-2 tw-w-96",
       },
       {
         id: "tour-8",
-        text: "Assignment weights are relative to each other, and they are not percentages. If two assignments have the same weight number, they will be weighted equally. If one assignment has a weight of 10 and another has a weight of 20, the second assignment will be weighted twice as much as the first assignment. This is to prevent decimals. However, if you enter weights as adding up to 100, they would still work. <br/>It is not recommended to change the weights of existing assignments as the assignment weights are automatically gotten from PowerSchool, so even if the teacher inputted them wrong, they are the same weights used by PowerSchool to calculate your official final percent/grade. ",
+        text: "<b>Assignment weights are relative to each other, and they are not percentages.</b> If two assignments have the same weight number, they will be weighted equally.<br/><br/>If one assignment has a weight of 10 and another has a weight of 20, the second assignment will be weighted twice as much as the first assignment. This is to prevent decimals. However, if you enter weights as adding up to 100, they would still work. <br/><br/>It is not recommended to change the weights of existing assignments as the assignment weights are automatically gotten from PowerSchool, so even if the teacher inputted them wrong, they are the same weights used by PowerSchool to calculate your official final percent/grade. ",
         attachTo: {
           element: ".firstAss",
           on: "right",
         },
         classes: "tw-ml-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
-      },
-      {
-        id: "tour-9",
-        text: "This lets you see the sum of all the assignment weights within the category of the row. Unless you are a power user, <b>don't worry about this</b>. It can be used to see at a glance whether your assignment weights are correct.",
-        attachTo: {
-          element: ".firstCatSum",
-          on: "right",
-        },
-        classes: "tw-ml-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-10",
@@ -470,45 +381,15 @@
           on: "right",
         },
         classes: "tw-ml-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-11",
-        text: "Click this button to add a new assignment in the currently selected category.",
+        text: "You can click this button to add a new assignment in the currently selected category.",
         attachTo: {
           element: "#addAss",
           on: "right",
         },
         classes: "tw-ml-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-12",
@@ -518,21 +399,6 @@
           on: "bottom-start",
         },
         classes: "tw-mt-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-13",
@@ -542,8 +408,11 @@
           on: "right",
         },
         classes: "tw-ml-2 tw-w-96",
-        highlightClass: "current-step",
         buttons: [
+          {
+            text: "Back",
+            action: tour.back,
+          },
           {
             text: "Next",
             action: () => {
@@ -555,10 +424,6 @@
                 );
               }
             },
-          },
-          {
-            text: "Back",
-            action: tour.back,
           },
           {
             text: "Cancel",
@@ -575,21 +440,6 @@
           on: "top-start",
         },
         classes: "tw-mb-2 tw-w-96",
-        highlightClass: "current-step",
-        buttons: [
-          {
-            text: "Next",
-            action: tour.next,
-          },
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
       },
       {
         id: "tour-end",
@@ -640,7 +490,7 @@
       <thead>
         <tr>
           <th>Category</th>
-          <th>Sum of Inner Weights</th>
+          {#if showSumOfInnerWeights}<th>Sum of Inner Weights</th>{/if}
           <th>Weight</th>
           <th></th>
         </tr>
@@ -658,13 +508,16 @@
                 bind:value={gradeManager.categories[i].name}
               /></td
             >
-            <td
-              class="tw-align-middle"
-              class:!tw-bg-inherit={category == curCategory}
-              class:firstCatSum={i == 0}
-            >
-              {Number(gradeManager.sumOfWeightsInCategory(category).toFixed(2))}
-            </td>
+            {#if showSumOfInnerWeights}
+              <td
+                class="tw-align-middle"
+                class:!tw-bg-inherit={category == curCategory}
+              >
+                {Number(
+                  gradeManager.sumOfWeightsInCategory(category).toFixed(2),
+                )}
+              </td>
+            {/if}
             <td class:!tw-bg-inherit={category == curCategory}>
               <div class="tw-inline-flex tw-flex-row" class:firstCat={i == 0}>
                 <input
@@ -685,7 +538,6 @@
             <td
               class="tw-text-center tw-align-middle"
               class:!tw-bg-inherit={category == curCategory}
-              class:firstCatDel={i == 0}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -693,6 +545,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
+                class:firstCatDel={i == 0}
                 class={`tw-w-6 tw-h-6 tw-align-middle tw-border tw-p-0.5 tw-border-solid tw-rounded-full ${
                   gradeManager.categories.length == 1
                     ? "tw-border-slate-400 hover:tw-cursor-not-allowed tw-text-slate-400"
@@ -718,11 +571,13 @@
         {/each}
       </tbody>
     </table>
-    <button on:click={addNewCategory} id="addCat">Add new category</button>
-    <button on:click={saveCategoryWeights} id="saveWeights"
-      >Save category weights</button
-    >
-    <div id="totweight">
+    <div class="tw-mb-2">
+      <button on:click={addNewCategory} id="addCat">Add new category</button>
+      <button on:click={saveCategoryWeights} id="saveWeights"
+        >Save category weights</button
+      >
+    </div>
+    <div id="totweight" class="tw-mb-4">
       <p class="tw-text-md !tw-mb-2">
         Total weight (what the category weights should add up to, if year is
         incomplete)
@@ -880,7 +735,8 @@
       on:click={() => {
         addNewAssignment();
       }}
-      id="addAss">Add new assignment</button
+      id="addAss"
+      class="tw-mb-4">Add new assignment</button
     >
 
     {#if seeAssignment}
@@ -934,7 +790,7 @@
       <hr />
     {/if}
 
-    <div class="tw-mb-2" id="finalGrade">
+    <div class="tw-mb-2 tw-text-lg" id="finalGrade">
       {#if gradeManager.totalWeight <= 0 || gradeManager.totalWeight > 100}
         <span class="tw-text-red-500">
           The total weight must be between 1% and 100% inclusive.
@@ -948,9 +804,9 @@
           )}% sum).
         </span>
       {:else}
-        Your grade is {convertPercentCutoffToGrade(
-          newFinalPercent,
-        )}{newFinalPercent !== SpecialGrade.INC
+        Your grade is {useAorAn(convertPercentCutoffToGrade(newFinalPercent))}
+        {convertPercentCutoffToGrade(newFinalPercent)}{newFinalPercent !==
+        SpecialGrade.INC
           ? ` with a percentage of ${newFinalPercent.toFixed(2)}%`
           : ""}{seeAssignment
           ? " without the 'See all possibilities' assignment"

@@ -4,8 +4,6 @@
 
   export let classManager: ClassManager;
 
-  console.log("RERENDERING");
-
   $: sem1GPA = classManager.calculateGPA(1);
   $: sem2GPA = classManager.calculateGPA(2);
 
@@ -19,6 +17,7 @@
 </label>
 
 {#if !hideGPA}
+  <p class="tw-font-bold">Do not rely on any data from SAS PES!!</p>
   {#if sem1GPA && sem1GPA !== -1}
     <p>First Semester GPA: {classManager.calculateGPA(1).toFixed(2)}</p>
   {:else}

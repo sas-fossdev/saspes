@@ -30,4 +30,8 @@
   </h1>
   <!-- svelte-ignore missing-declaration -->
   <p>v{SAS_PES_VERSION}</p>
+
+  <p class="tw-mt-2">
+    Copyright &copy; 2024 Anvay Mathur and the SAS PES Authors
+  </p>
 </div>

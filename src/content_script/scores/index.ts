@@ -25,6 +25,7 @@
 import { Assignment, Category, GradeManager, listOfGrades, type Grade, gradeToPercent } from "../../models/grades";
 import FinalPercent from "./FinalPercent.svelte";
 import ScoreTools from "./ScoreTools.svelte";
+import { getFinalPercent } from "./scoresUtilities";
 
 export enum Tools {
   CATEGORY_WEIGHTING = "CATEGORY_WEIGHTING",
@@ -51,31 +52,6 @@ function waitForElm(selector: string): Promise<Element | null> {
   });
 }
 
-async function getFinalPercent(): Promise<number | null> {
-  let finalGrade: number | null = null;
-  const url = new URL(window.location.href);
-  let text: string | null = null;
-  try {
-    text = await fetch(
-      `https://powerschool.sas.edu.sg/guardian/scores_ms_guardian.html?frn=${url.searchParams.get(
-        "frn",
-      )}&fg=${url.searchParams.get("fg")}`,
-    ).then((res) => res.text());
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-  console.log("Done fetching");
-
-  if (text) {
-    let match = text.match(/\[decode;[^;]*;[^;]*;([^;]*);/);
-    if (match?.[1] && !isNaN(parseFloat(match[1]))) {
-      finalGrade = parseFloat(match[1]);
-      return finalGrade;
-    }
-  }
-  return null;
-}
 
 let gradeManagerO = new GradeManager([], [], 100);
 
@@ -160,7 +136,14 @@ document
   .querySelector(".box-round")!
   .insertBefore(target, document.querySelector(".box-round > p"));
 
-let finalPercent = getFinalPercent();
+const url = new URL(window.location.href);
+
+let finalPercent = getFinalPercent(
+  url.searchParams.get(
+    "frn",
+  )!,
+  url.searchParams.get("fg")!
+);
 
 new FinalPercent({
   target: target as Element,

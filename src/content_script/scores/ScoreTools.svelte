@@ -16,7 +16,10 @@
     >
       <div>
         <h1 class="tw-pb-2 tw-text-2xl">Tools</h1>
-        <select bind:value={curTool}>
+        <select
+          bind:value={curTool}
+          class="tw-rounded-md tw-border-[#CCCCCC] tw-border-solid tw-border tw-p-1"
+        >
           <option value={Tools.CATEGORY_WEIGHTING}
             >Category Weighting and Advanced See All Possibilities</option
           >
@@ -27,6 +30,11 @@
       {#if curTool == Tools.CATEGORY_WEIGHTING}
         <SingleAssignment {finalPercent} {gradeManager} />
       {/if}
+      <p>
+        <span class="tw-font-bold">Do not rely on any data from SAS PES!!</span>
+        Teachers can override your final grade, and calculations are not entirely
+        accurate.
+      </p>
     </div>
   {/if}
 {/await}

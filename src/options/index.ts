@@ -22,15 +22,15 @@
  *
  */
 
-import Home from "./Home.svelte";
+import "../app.css";
+import Options from "./Options.svelte";
 
+const target = document.getElementById("app");
 
+async function render() {
+  const { count } = await chrome.storage.sync.get({ count: 0 });
 
+  new Options({ target: target as Element });
+}
 
-console.log("rendering");
-const target = document.createElement("div");
-document
-  .querySelector("#container")
-  ?.insertBefore(target, document.querySelector("#footer"));
-
-new Home({ target: target as Element });
+document.addEventListener("DOMContentLoaded", render);

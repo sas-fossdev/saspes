@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    *
-   * @copyright Copyright (c) 2023 Anvay Mathur <contact@anvaymathur.com>
+   * @copyright Copyright (c) 2023-2024 Anvay Mathur <contact@anvaymathur.com>
    *
    * @author Anvay Mathur <contact@anvaymathur.com>
    *
@@ -55,6 +55,23 @@
   </h1>
   <!-- svelte-ignore missing-declaration -->
   <p class="tw-font-medium tw-text-lg">v{SAS_PES_VERSION}</p>
+  <p>
+    <a href="https://github.com/sas-fossdev/saspes">Website/Source Code</a> |
+    <a href="https://github.com/sas-fossdev/saspes/issues">Issue Tracker</a>
+    | <a href="https://forms.gle/aDtP57UyEBQU9gQx6">Feedback/Bug Report Form</a>
+    |
+    <!-- svelte-ignore missing-declaration -->
+    <a
+      href="#"
+      on:click={() => {
+        if (chrome.runtime.openOptionsPage) {
+          chrome.runtime.openOptionsPage();
+        } else {
+          window.open(chrome.runtime.getURL("src/options/index.html"));
+        }
+      }}>Options</a
+    >
+  </p>
   <p><strong>Do not rely</strong> on the data provided by SAS PES.</p>
   {#if board}
     <!-- this is for a message board type of thing, where messages can be displayed without updating the extension everytime. This does NOT load javascript. -->
@@ -63,6 +80,9 @@
     </h3>
     <p class="tw-text-sm">{@html board.split("æ")[1]}</p>
   {/if}
+  <p class="tw-mt-2">
+    Copyright &copy; 2024 Anvay Mathur and the SAS PES Authors
+  </p>
 </div>
 
 <style>

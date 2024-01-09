@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    *
-   * @copyright Copyright (c) 2023 Anvay Mathur <contact@anvaymathur.com>
+   * @copyright Copyright (c) 2023-2024 Anvay Mathur <contact@anvaymathur.com>
    *
    * @author Anvay Mathur <contact@anvaymathur.com>
    *
@@ -30,4 +30,8 @@
   </h1>
   <!-- svelte-ignore missing-declaration -->
   <p>v{SAS_PES_VERSION}</p>
+
+  <p class="tw-mt-2">
+    Copyright &copy; 2024 Anvay Mathur and the SAS PES Authors
+  </p>
 </div>

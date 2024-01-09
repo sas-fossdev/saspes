@@ -17,3 +17,6 @@
   padding: 0;
   margin: 0;
 }
+.current-step {
+  @apply tw-outline tw-outline-offset-2 tw-outline-yellow-500;
+}

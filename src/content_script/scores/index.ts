@@ -1,6 +1,6 @@
 /**
  *
- * @copyright Copyright (c) 2023 Anvay Mathur <contact@anvaymathur.com>
+ * @copyright Copyright (c) 2023-2024 Anvay Mathur <contact@anvaymathur.com>
  *
  * @author Anvay Mathur <contact@anvaymathur.com>
  *
@@ -25,40 +25,38 @@
 import { Assignment, Category, GradeManager, listOfGrades, type Grade, gradeToPercent } from "../../models/grades";
 import FinalPercent from "./FinalPercent.svelte";
 import ScoreTools from "./ScoreTools.svelte";
+import { getFinalPercent } from "./scoresUtilities";
 
 export enum Tools {
   CATEGORY_WEIGHTING = "CATEGORY_WEIGHTING",
+  NONE = "NONE"
 }
 
-async function getFinalPercent(): Promise<number | null> {
-  let finalGrade: number | null = null;
-  const url = new URL(window.location.href);
-  let text: string | null = null;
-  try {
-    text = await fetch(
-      `https://powerschool.sas.edu.sg/guardian/scores_ms_guardian.html?frn=${url.searchParams.get(
-        "frn",
-      )}&fg=${url.searchParams.get("fg")}`,
-    ).then((res) => res.text());
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-  console.log("Done fetching");
-
-  if (text) {
-    let match = text.match(/\[decode;[^;]*;[^;]*;([^;]*);/);
-    if (match?.[1] && !isNaN(parseFloat(match[1]))) {
-      finalGrade = parseFloat(match[1]);
-      return finalGrade;
+function waitForElm(selector: string): Promise<Element | null> {
+  return new Promise(resolve => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
     }
-  }
-  return null;
+
+    const observer = new MutationObserver(mutations => {
+      if (document.querySelector(selector)) {
+        observer.disconnect();
+        resolve(document.querySelector(selector));
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
 }
+
 
 let gradeManagerO = new GradeManager([], [], 100);
 
-setTimeout(async () => {
+const doScoreTools = async () => {
+  await waitForElm("#scoreTable");
   const gradeManager = new GradeManager([], [], 100);
   const rowEles = document.querySelectorAll("tr.ng-scope");
 
@@ -100,14 +98,6 @@ setTimeout(async () => {
     }
   }
 
-  // for (let category of gradeManager.categories) {
-  //   let assignments = gradeManager.getAssignmentsByCategory(category);
-
-  //   const sumOfWeights = assignments.reduce((total, assignment) => total + assignment.weight, 0);
-  //   for (let i = 0; i < assignments.length; i++) {
-  //     assignments[i].weight = (assignments[i].weight / sumOfWeights) * 100;
-  //   }
-  // }
   const key = "" + new URL(location.href).searchParams.get(
     "frn",
   ) + new URL(location.href).searchParams.get(
@@ -136,16 +126,24 @@ setTimeout(async () => {
     target: target as Element,
     props: { finalPercent, gradeManager: gradeManagerO }
   })
-}, 750);
+}
+
+doScoreTools();
 
 
-console.log("rendering");
 let target = document.createElement("div");
 document
   .querySelector(".box-round")!
   .insertBefore(target, document.querySelector(".box-round > p"));
 
-let finalPercent = getFinalPercent();
+const url = new URL(window.location.href);
+
+let finalPercent = getFinalPercent(
+  url.searchParams.get(
+    "frn",
+  )!,
+  url.searchParams.get("fg")!
+);
 
 new FinalPercent({
   target: target as Element,

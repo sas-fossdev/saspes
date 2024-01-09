@@ -639,9 +639,10 @@
                 bind:value={gradeManager.assignments[i].name}
               />
             </td>
-            <td class="tw-text-center tw-align-middle" class:firstAss={i == 0}>
+            <td class="tw-text-center tw-align-middle">
               <div class="tw-inline-flex tw-flex-row">
                 <input
+                  class:firstAss={i == 0}
                   type="number"
                   class="tw-rounded-md tw-border-[#CCCCCC] tw-border-solid tw-border tw-p-1 tw-w-24"
                   max={100}
@@ -652,7 +653,6 @@
             </td>
 
             <td class="tw-text-center tw-align-middle">
-              <!-- {#if !assignment.see} -->
               <select
                 class="tw-rounded-md tw-h-full tw-border-[#CCCCCC] tw-border-solid tw-border tw-p-1"
                 class:firstGradeAss={i == 0}
@@ -678,26 +678,6 @@
                   >See All Possibilities</option
                 >
               </select>
-              <!-- {:else}
-                <select
-                  class="tw-rounded-md tw-h-full tw-border-[#CCCCCC] tw-border-solid tw-border tw-p-1"
-                  class:firstGradeAss={i == 0}
-                  on:change={(e) => {
-                    onGradeChange(e, i);
-                  }}
-                >
-                  {#each listOfGrades as grade}
-                    <option value={gradeToPercent[grade]}
-                      >{grade}
-                      {grade !== "INC"
-                        ? `(${gradeToPercent[grade]}%)`
-                        : ""}</option
-                    >
-                  {/each}
-
-                  <option value="see" selected>See All Possibilities</option>
-                </select>
-              {/if} -->
             </td>
             <td class="tw-text-center tw-align-middle">
               <svg

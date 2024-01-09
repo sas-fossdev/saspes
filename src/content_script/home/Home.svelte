@@ -68,7 +68,10 @@
       }}>Options</a
     >
   </p>
-  <p><strong>Do not rely</strong> on the data provided by SAS PES.</p>
+  <p>
+    <strong>Do not rely</strong> on the data provided by SAS PES. Use at your own
+    risk.
+  </p>
   {#if board}
     <!-- this is for a message board type of thing, where messages can be displayed without updating the extension everytime. This does NOT load javascript. -->
     <h3 class="tw-font-medium tw-text-lg">

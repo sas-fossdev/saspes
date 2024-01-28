@@ -17,6 +17,12 @@ export async function getFinalPercent(frn: string, fg: string): Promise<number |
     if (match?.[1] && !isNaN(parseFloat(match[1]))) {
       finalGrade = parseFloat(match[1]);
       return finalGrade;
+    } else {
+      match = text.match(/\[decode;[^;]*;[^;]*;[^;]*;([^\]]*)/);
+      if (match?.[1] && !isNaN(parseFloat(match[1]))) {
+        finalGrade = parseFloat(match[1]);
+        return finalGrade;
+      }
     }
   }
   return null;

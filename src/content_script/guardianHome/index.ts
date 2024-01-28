@@ -36,7 +36,7 @@ console.log("Found rows", rows);
 for (const row of rows) {
   const nameEle = row.querySelector("td:nth-child(2)");
   const s1GradeEle = row.querySelector("td:nth-child(3) > a") as HTMLAnchorElement;
-  const s2GradeEle = row.querySelector("td:nth-child(4) > a");
+  const s2GradeEle = row.querySelector("td:nth-child(4) > a") as HTMLAnchorElement;
 
   console.log("cur", row, nameEle, s1GradeEle, s2GradeEle);
 
@@ -65,6 +65,7 @@ for (const row of rows) {
   };
 
   if (s1Grade !== null && s1Grade !== "INC" && s1GradeEle.href !== null) {
+
     const url = new URL(s1GradeEle.href);
     let finalPercent = getFinalPercent(
       url.searchParams.get(
@@ -79,7 +80,26 @@ for (const row of rows) {
         s1GradeEle.innerHTML += ` (${f.toFixed(2)})`;
     })
   } else {
-    console.log("Not finding final percent for ", nameEle, row);
+    console.log("Not finding S1 final percent for ", nameEle, row);
+  }
+
+  if (s2Grade !== null && s2Grade !== "INC" && s2GradeEle.href !== null) {
+    console.log("trying ", row, s2GradeEle.href);
+    const url = new URL(s2GradeEle.href);
+    let finalPercent = getFinalPercent(
+      url.searchParams.get(
+        "frn",
+      )!,
+      url.searchParams.get("fg")!
+    );
+
+    finalPercent.then((f) => {
+      console.log(f, "S2");
+      if (f !== null)
+        s2GradeEle.innerHTML += ` (${f.toFixed(2)})`;
+    })
+  } else {
+    console.log("Not finding S2 final percent for ", nameEle, row);
   }
 
   classManager.addClass(new Class(name, { s1: s1Grade as Grade | null, s2: s2Grade as Grade | null }))

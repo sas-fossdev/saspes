@@ -77,7 +77,7 @@
     <h3 class="tw-font-medium tw-text-lg">
       Message Board ({board.split("æ")[0]}):
     </h3>
-    <p class="tw-text-sm">{@html board.split("æ")[1]}</p>
+    <p class="tw-text-sm">{board.split("æ")[1]}</p>
   {/if}
   <p class="tw-mt-2">
     Copyright &copy; 2024 Anvay Mathur and the SAS PES Authors

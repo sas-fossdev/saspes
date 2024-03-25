@@ -24,8 +24,9 @@
 
 import { Class, ClassManager } from "../../models/classes";
 import GPA from "./GPA.svelte";
-import { listOfGrades, type Grade } from "../../models/grades";
+import { listOfGrades, type Grade, convertPercentCutoffToGrade } from "../../models/grades";
 import { getFinalPercent } from "../scores/scoresUtilities";
+import Ty from "./TY.svelte";
 
 const classManager = new ClassManager([]);
 
@@ -95,8 +96,12 @@ for (const row of rows) {
 
     finalPercent.then((f) => {
       console.log(f, "S2");
-      if (f !== null)
+      if (f !== null) {
         s2GradeEle.innerHTML += ` (${f.toFixed(2)})`;
+        if (convertPercentCutoffToGrade(f) !== s2Grade) {
+          new Ty({ target: s2GradeEle })
+        }
+      }
     })
   } else {
     console.log("Not finding S2 final percent for ", nameEle, row);

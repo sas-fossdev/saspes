@@ -80,6 +80,11 @@ export const listOfPercentCutoffs = [
   -2
 ] as const;
 
+/**
+ * Returns the letter grade of a final grade percentage
+ * @param percent final grade percentage
+ * @returns letter grade of final grade percentage
+ */
 export const convertPercentCutoffToGrade = (percent: number): typeof listOfGrades[number] => {
   for (let obj in gradeToPercentCutoff) {
     if (percent >= gradeToPercentCutoff[obj as keyof typeof gradeToPercentCutoff]) {

@@ -9,6 +9,8 @@
 
   let editGrades = false;
   let hideGPA = true;
+
+  import Ty from "./TY.svelte";
 </script>
 
 <label class="tw-flex tw-items-center tw-gap-2 tw-mb-2">

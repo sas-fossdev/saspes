@@ -27,6 +27,9 @@
   import { browserAction } from "webextension-polyfill";
   import browser from "webextension-polyfill";
 
+  import sanitizeHtml from "sanitize-html";
+  import { marked } from "marked";
+
   let board: string | null = null;
 
   onMount(() => {
@@ -40,6 +43,15 @@
       board = "Error while fetching board.";
     }
   });
+
+  let htmlT = "";
+
+  $: if (board) {
+    htmlT = sanitizeHtml(marked.parse(board.split("æ")[1]) as string, {
+      allowedTags: ["b", "p", "i", "em", "strong"],
+      allowedAttributes: {},
+    });
+  }
 </script>
 
 <div class="tw-px-8 tw-py-8 tw-mt-6" id="pes-box">
@@ -77,7 +89,7 @@
     <h3 class="tw-font-medium tw-text-lg">
       Message Board ({board.split("æ")[0]}):
     </h3>
-    <p class="tw-text-sm">{board.split("æ")[1]}</p>
+    <p class="tw-text-sm" id="boardText">{@html htmlT}</p>
   {/if}
   <p class="tw-mt-2">
     Copyright &copy; 2024 Anvay Mathur and the SAS PES Authors
@@ -91,5 +103,9 @@
     -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     position: relative;
+  }
+
+  :global(#boardText p) {
+    margin-left: 0;
   }
 </style>

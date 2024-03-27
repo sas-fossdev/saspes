@@ -51,7 +51,7 @@ export default defineManifest(async (env) => ({
       "resources": ["public/icon.png"]
     }
   ],
-  "background": {
-    "service_worker": "src/background.ts",
-  }
+  "background": process.env.npm_config_firefox
+    ? { "scripts": ["src/background.ts"] }
+    : { "service_worker": "src/background.ts" },
 }))

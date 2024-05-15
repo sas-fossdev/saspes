@@ -15,6 +15,6 @@
     "isolatedModules": true,
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "src/types/global.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

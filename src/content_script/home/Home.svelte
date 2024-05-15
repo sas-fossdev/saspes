@@ -24,7 +24,6 @@
    */
 
   import { onMount } from "svelte";
-  import { browserAction } from "webextension-polyfill";
   import browser from "webextension-polyfill";
 
   import sanitizeHtml from "sanitize-html";
@@ -34,7 +33,7 @@
 
   onMount(() => {
     document.getElementById("container")!.style.paddingBottom = "20px";
-    document.getElementById("branding-district")!.remove();
+    document.getElementById("branding-district")?.remove();
     try {
       fetch("https://anvaymathur.com/saspes/board.txt", { mode: "cors" })
         .then((e) => e.text())
@@ -76,7 +75,7 @@
     <a
       href="#"
       on:click={() => {
-        chrome.runtime.sendMessage({ action: "openOptionsPage" });
+        browser.runtime.sendMessage({ action: "openOptionsPage" });
       }}>Options</a
     >
   </p>

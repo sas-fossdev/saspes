@@ -28,6 +28,12 @@ import { listOfGrades, type Grade, convertPercentCutoffToGrade } from "../../mod
 import { getFinalPercent } from "../scores/scoresUtilities";
 import Ty from "./TY.svelte";
 
+
+if (document.getElementById("pes-gpa")) {
+  document.getElementById("pes-gpa")?.remove();
+}
+
+
 const classManager = new ClassManager([]);
 
 const rows = document.querySelectorAll(".linkDescList.grid > tbody > tr.center:not(.th2)");
@@ -54,9 +60,13 @@ for (const row of rows) {
 
   let s1Grade: string | null = s1GradeEle?.textContent?.trim()!;
 
+  if (s1Grade?.endsWith(")")) continue;
+
   if (!listOfGrades.includes(s1Grade as Grade)) s1Grade = null;
 
   let s2Grade: string | null = s2GradeEle?.textContent?.trim()!;
+
+  if (s2Grade?.endsWith(")")) continue;
 
   if (!listOfGrades.includes(s2Grade as Grade)) s2Grade = null;
 

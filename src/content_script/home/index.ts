@@ -26,7 +26,11 @@ import Home from "./Home.svelte";
 
 
 
+if (document.getElementById("pes-box")) {
+  document.getElementById("pes-box")?.remove();
 
+
+}
 console.log("rendering");
 const target = document.createElement("div");
 document
@@ -34,3 +38,4 @@ document
   ?.insertBefore(target, document.querySelector("#footer"));
 
 new Home({ target: target as Element });
+

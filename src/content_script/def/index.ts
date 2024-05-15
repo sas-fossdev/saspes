@@ -24,3 +24,4 @@
 
 // Put stuff here that should apply to every page
 import "../../app.css";
+

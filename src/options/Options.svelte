@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import browser from "webextension-polyfill";
 
   /**
    *
@@ -29,19 +30,19 @@
 
   onMount(async () => {
     showSumOfInnerWeights =
-      (await chrome.storage.local.get("showSumOfInnerWeights"))
+      (await browser.storage.local.get("showSumOfInnerWeights"))
         ?.showSumOfInnerWeights ?? false;
   });
 
   async function saveChanges() {
-    await chrome.storage.local.set({
+    await browser.storage.local.set({
       showSumOfInnerWeights,
     });
     alert("Saved.");
   }
 </script>
 
-<div class="tw-px-8 tw-py-4">
+<div class="tw-px-8 tw-py-4" id="root">
   <h1 class="tw-font-bold tw-text-2xl !tw-mt-0 !tw-mb-2">SAS PES Options</h1>
   <p>Reload PowerSchool after saving to see the changes.</p>
 
@@ -84,5 +85,15 @@
     outline-color: #11aaeb;
     outline-width: 1px;
     outline-style: solid;
+  }
+
+  #root {
+    font-family: system-ui, sans-serif;
+  }
+
+  @supports (-moz-appearance: none) {
+    #root {
+      font-size: 75%;
+    }
   }
 </style>

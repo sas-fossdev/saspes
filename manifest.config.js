@@ -15,7 +15,19 @@ export default defineManifest(async (env) => ({
   "name": "SAS Powerschool Enhancement Suite",
   "description": "Provides various enhancements for SAS Powerschool",
   "action": {
-    "default_popup": "src/popup/index.html"
+    "default_popup": "src/popup/index.html",
+    "default_icon": "public/icon.png",
+    "default_title": "SAS Powerschool Enhancement Suite"
+  },
+  "browser_action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": "public/icon.png",
+    "default_title": "SAS Powerschool Enhancement Suite"
+  },
+  "browser_specific_settings" : {
+    "gecko": {
+      "id": "sas-powerschool-enhancement-suite@anvaymathur.com"
+    }
   },
   "content_scripts": [
     {
@@ -53,5 +65,6 @@ export default defineManifest(async (env) => ({
   ],
   "background": {
     "service_worker": "src/background.ts",
+    "scripts": ["src/background.ts"]
   }
 }))

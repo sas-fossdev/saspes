@@ -26,6 +26,7 @@ import { Assignment, Category, GradeManager, listOfGrades, type Grade, gradeToPe
 import FinalPercent from "./FinalPercent.svelte";
 import ScoreTools from "./ScoreTools.svelte";
 import { getFinalPercent } from "./scoresUtilities";
+import browser from "webextension-polyfill";
 
 export enum Tools {
   CATEGORY_WEIGHTING = "CATEGORY_WEIGHTING",
@@ -52,7 +53,12 @@ function waitForElm(selector: string): Promise<Element | null> {
   });
 }
 
-
+console.log(document.getElementById("pes-fp"));
+if (document.getElementById("pes-fp") || document.getElementById("pes-st")) {
+  document.getElementById("pes-fp")?.remove();
+  document.getElementById("pes-st")?.remove();
+}
+console.log(document.getElementById("pes-fp"));
 let gradeManagerO = new GradeManager([], [], 100);
 
 const doScoreTools = async () => {
@@ -104,7 +110,7 @@ const doScoreTools = async () => {
     "fg",
   );
 
-  const saved = await chrome.storage.local.get("weights" + key);
+  const saved = await browser.storage.local.get("weights" + key);
 
   saved.weights = saved["weights" + key] || {};
 
@@ -114,7 +120,7 @@ const doScoreTools = async () => {
     }
   }
 
-  let totalWeight = await chrome.storage.local.get("totalWeight" + key);
+  let totalWeight = await browser.storage.local.get("totalWeight" + key);
   totalWeight = totalWeight["totalWeight" + key] || 0;
   if (Number(totalWeight) > 0) {
     gradeManager.totalWeight = Number(totalWeight);

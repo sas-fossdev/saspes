@@ -24,7 +24,7 @@
    */
 </script>
 
-<div class="tw-px-8 tw-py-4 tw-w-96">
+<div class="tw-px-8 tw-py-4 tw-w-96" id="root">
   <h1 class="tw-font-bold tw-text-2xl tw-pb-2">
     SAS PowerSchool Enhancement Suite
   </h1>
@@ -35,3 +35,15 @@
     Copyright &copy; 2024 Anvay Mathur and the SAS PES Authors
   </p>
 </div>
+
+<style>
+  #root {
+    font-family: system-ui, sans-serif;
+  }
+
+  @supports (-moz-appearance: none) {
+    #root {
+      font-size: 75%;
+    }
+  }
+</style>

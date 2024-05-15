@@ -12,6 +12,7 @@
     type Grade,
   } from "../../../models/grades";
 
+  import browser from "webextension-polyfill";
   import Shepherd from "shepherd.js";
 
   export let finalPercent: number;
@@ -165,8 +166,8 @@
       "" +
       new URL(location.href).searchParams.get("frn") +
       new URL(location.href).searchParams.get("fg");
-    chrome.storage.local.set({ ["weights" + key]: weights });
-    chrome.storage.local.set({
+    browser.storage.local.set({ ["weights" + key]: weights });
+    browser.storage.local.set({
       ["totalWeight" + key]: gradeManager.totalWeight,
     });
     alert("Saved weights.");
@@ -194,7 +195,7 @@
 
   onMount(async () => {
     showSumOfInnerWeights =
-      (await chrome.storage.local.get("showSumOfInnerWeights"))
+      (await browser.storage.local.get("showSumOfInnerWeights"))
         ?.showSumOfInnerWeights ?? false;
 
     const tour = new Shepherd.Tour({
@@ -464,11 +465,11 @@
     });
 
     let doneTour = (
-      (await chrome.storage.local.get("doneTour")) as { doneTour: boolean }
+      (await browser.storage.local.get("doneTour")) as { doneTour: boolean }
     ).doneTour;
 
     tour.on("complete", () => {
-      chrome.storage.local.set({ doneTour: true });
+      browser.storage.local.set({ doneTour: true });
     });
 
     if (!doneTour) {

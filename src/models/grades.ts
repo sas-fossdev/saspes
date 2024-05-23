@@ -11,8 +11,9 @@ export const gradeToPercentCutoff = {
   C: 35,
   "D+": 25,
   D: 15,
-  F: 0,
-  INC: -2
+  F: 0.00000000000000001,
+  INC_NO_CREDIT: 0,
+  INC_NO_CLASS_CREDIT: -2,
 } as const;
 
 export const gradeToPercentUpperCutoff = {
@@ -25,7 +26,8 @@ export const gradeToPercentUpperCutoff = {
   "D+": 35,
   D: 25,
   F: 15,
-  INC: -2
+  INC_NO_CREDIT: 0,
+  INC_NO_CLASS_CREDIT: -2
 } as const;
 
 export const gradeToPercent = {
@@ -38,7 +40,8 @@ export const gradeToPercent = {
   "D+": 30,
   D: 20,
   F: 10,
-  INC: -2
+  INC_NO_CREDIT: 0,
+  INC_NO_CLASS_CREDIT: -2
 } as const;
 
 
@@ -52,7 +55,8 @@ export const listOfGrades = [
   "D+",
   "D",
   "F",
-  "INC"
+  "INC_NO_CREDIT",
+  "INC_NO_CLASS_CREDIT"
 ] as const;
 
 export const listOfPercents = [
@@ -65,6 +69,7 @@ export const listOfPercents = [
   30,
   20,
   10,
+  0,
   -2
 ] as const;
 export const listOfPercentCutoffs = [
@@ -77,8 +82,14 @@ export const listOfPercentCutoffs = [
   25,
   15,
   0,
+  -3,
   -2
 ] as const;
+
+export const formattedGrade = (grade: Grade) => {
+  if (grade == "INC_NO_CLASS_CREDIT" || grade == "INC_NO_CREDIT") return "INC";
+  return grade;
+}
 
 /**
  * Returns the letter grade of a final grade percentage
@@ -211,7 +222,8 @@ export class GradeManager {
       let categorySumOfWeights = this.sumOfWeightsInCategory(category);
       for (let assignment of categoryAssignments) {
         if (assignment.see) continue;
-        if (assignment.grade == "INC") return SpecialGrade.INC;
+        if (assignment.grade == "INC_NO_CREDIT") continue;
+        if (assignment.grade == "INC_NO_CLASS_CREDIT") return SpecialGrade.INC;
         categoryGrade += gradeToPercent[assignment.grade] * (assignment.weight);
       }
       if (categoryGrade != 0 && this.calcedTotalWeight != 0) {
@@ -235,7 +247,8 @@ export class GradeManager {
     let categorySumOfWeights = this.sumOfWeightsInCategory(category);
     for (let assignment of categoryAssignments) {
       if (assignment.see) continue;
-      if (assignment.grade == "INC") return SpecialGrade.INC;
+      if (assignment.grade == "INC_NO_CREDIT") continue;
+      if (assignment.grade == "INC_NO_CLASS_CREDIT") return SpecialGrade.INC;
       categoryGrade += gradeToPercent[assignment.grade] * assignment.weight;
     }
     if (categorySumOfWeights != 0) return categoryGrade / categorySumOfWeights;

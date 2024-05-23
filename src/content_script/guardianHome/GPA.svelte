@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { gradeToPercent, listOfGrades } from "../..//models/grades";
+  import {
+    formattedGrade,
+    gradeToPercent,
+    listOfGrades,
+  } from "../..//models/grades";
   import type { ClassManager } from "../../models/classes";
 
   export let classManager: ClassManager;
@@ -9,8 +13,6 @@
 
   let editGrades = false;
   let hideGPA = true;
-
-  import Ty from "./TY.svelte";
 </script>
 
 <div id="pes-gpa">
@@ -60,11 +62,16 @@
                   bind:value={classManager.classes[i].grade.s1}
                 >
                   {#each listOfGrades as grade}
-                    <option value={grade}
-                      >{grade}
-                      {grade !== "INC" ? `(${gradeToPercent[grade]}%)` : ""}
-                    </option>
+                    {#if grade !== "INC_NO_CREDIT"}
+                      <option value={grade}
+                        >{formattedGrade(grade)}
+                        {grade !== "INC_NO_CLASS_CREDIT"
+                          ? `(${gradeToPercent[grade]}%)`
+                          : ""}
+                      </option>
+                    {/if}
                   {/each}
+                  <option value={null}>No grade</option>
                 </select>
               </td>
               <td>
@@ -73,10 +80,14 @@
                   bind:value={classManager.classes[i].grade.s2}
                 >
                   {#each listOfGrades as grade}
-                    <option value={grade}
-                      >{grade}
-                      {grade !== "INC" ? `(${gradeToPercent[grade]}%)` : ""}
-                    </option>
+                    {#if grade !== "INC_NO_CREDIT"}
+                      <option value={grade}
+                        >{formattedGrade(grade)}
+                        {grade !== "INC_NO_CLASS_CREDIT"
+                          ? `(${gradeToPercent[grade]}%)`
+                          : ""}
+                      </option>
+                    {/if}
                   {/each}
                   <option value={null}>No grade</option>
                 </select>

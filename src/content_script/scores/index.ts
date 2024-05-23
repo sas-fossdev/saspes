@@ -33,6 +33,22 @@ export enum Tools {
   NONE = "NONE"
 }
 
+const url = new URL(window.location.href);
+
+let finalPercent = getFinalPercent(
+  url.searchParams.get(
+    "frn",
+  )!,
+  url.searchParams.get("fg")!
+);
+
+async function getFinalGrade(): Promise<string> {
+  await waitForElm("div.box-round > table > tbody > tr > td:nth-child(4)");
+  return document.querySelector("div.box-round > table > tbody > tr > td:nth-child(4)")?.textContent?.trim()!;
+}
+
+let finalGrade = getFinalGrade();
+
 function waitForElm(selector: string): Promise<Element | null> {
   return new Promise(resolve => {
     if (document.querySelector(selector)) {
@@ -84,6 +100,11 @@ const doScoreTools = async () => {
           validGrade = true;
           grade = listOfGrades[i];
         }
+        if (gradeEle.textContent.trim() == "INC" && await finalGrade == "INC") {
+          grade = "INC_NO_CLASS_CREDIT";
+        } else if (gradeEle.textContent.trim() == "INC") {
+          grade = "INC_NO_CREDIT";
+        }
       }
       if (!validGrade) {
         console.log(rowEle); continue;
@@ -94,9 +115,12 @@ const doScoreTools = async () => {
         gradeManager.addCategory(category);
       }
 
-      let weighting = 100;
+      let weighting = 9;
       if (scoreEle.classList.contains("hasWeight") && scoreEle.title) {
-        weighting = Number(scoreEle.title.match(/x ([^ ]*)\. /)![1]) * 100;
+
+        weighting = Number(scoreEle.textContent?.trim().match(/\([^\/]+\/([^\)]+)\)/)![1]);
+      } else if (scoreEle.textContent) {
+        weighting = Number(scoreEle.textContent?.trim().split("/")[1]);
       }
 
       let assignment = new Assignment(assignmentEle.textContent.trim(), grade, category, weighting);
@@ -142,14 +166,7 @@ document
   .querySelector(".box-round")!
   .insertBefore(target, document.querySelector(".box-round > p"));
 
-const url = new URL(window.location.href);
 
-let finalPercent = getFinalPercent(
-  url.searchParams.get(
-    "frn",
-  )!,
-  url.searchParams.get("fg")!
-);
 
 new FinalPercent({
   target: target as Element,

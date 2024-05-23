@@ -10,6 +10,7 @@
     SpecialGrade,
     Category,
     type Grade,
+    formattedGrade,
   } from "../../../models/grades";
 
   import browser from "webextension-polyfill";
@@ -67,7 +68,10 @@
 
   function useAorAn(grade: Grade | SpecialGrade): string {
     if (typeof grade !== "string") return "a";
-    return (grade as string).startsWith("A") || grade == "INC" || grade == "F"
+    return (grade as string).startsWith("A") ||
+      grade == "INC_NO_CLASS_CREDIT" ||
+      grade == "INC_NO_CREDIT" ||
+      grade == "F"
       ? "an"
       : "a";
   }
@@ -130,6 +134,12 @@
       g: convertPercentCutoffToGrade(grade),
       p: grade,
     };
+  }
+
+  function getDisplayGradePercent(grade: Grade) {
+    if (!grade.startsWith("INC")) return `(${gradeToPercent[grade]}%)`;
+    if (grade == "INC_NO_CLASS_CREDIT") return `(No Class Credit)`;
+    return `(0%)`;
   }
 
   function onGradeChange(e: Event, i: number) {
@@ -477,6 +487,15 @@
       tour.start();
     }
   });
+
+  function typeOverridedFormattedGrade(
+    grade: NonNullable<(typeof curTableGrades)[number]>["g"] | undefined,
+  ) {
+    if (grade == undefined) return "INC";
+    if (grade == SpecialGrade.INVALID) return "INVALID";
+    if (grade == SpecialGrade.INC) return "INC";
+    return formattedGrade(grade as Grade);
+  }
 </script>
 
 <div>
@@ -665,10 +684,8 @@
                   <option
                     value={gradeToPercent[grade]}
                     selected={grade == assignment.grade}
-                    >{grade}
-                    {grade !== "INC"
-                      ? `(${gradeToPercent[grade]}%)`
-                      : ""}</option
+                    >{formattedGrade(grade)}
+                    {getDisplayGradePercent(grade)}</option
                   >
                 {/each}
 
@@ -752,11 +769,15 @@
             </thead>
             <tbody>
               {#each listOfGrades as grade, i}
-                {#if grade !== "INC" && curTableGrades[i] !== null}
+                {#if grade !== "INC_NO_CLASS_CREDIT" && curTableGrades[i] !== null}
                   <tr>
-                    <td>{grade}</td>
+                    <td
+                      >{formattedGrade(grade)}{grade == "INC_NO_CREDIT"
+                        ? " (0%)"
+                        : ""}</td
+                    >
                     <td>
-                      {curTableGrades[i]?.g}
+                      {typeOverridedFormattedGrade(curTableGrades[i]?.g)}
                     </td>
                     <td>
                       {curTableGrades[i]?.p.toFixed(2)}%
@@ -786,8 +807,9 @@
         </span>
       {:else}
         Your grade is {useAorAn(convertPercentCutoffToGrade(newFinalPercent))}
-        {convertPercentCutoffToGrade(newFinalPercent)}{newFinalPercent !==
-        SpecialGrade.INC
+        {formattedGrade(
+          convertPercentCutoffToGrade(newFinalPercent),
+        )}{newFinalPercent !== SpecialGrade.INC
           ? ` with a percentage of ${newFinalPercent.toFixed(2)}%`
           : ""}{seeAssignment
           ? " without the 'See all possibilities' assignment"

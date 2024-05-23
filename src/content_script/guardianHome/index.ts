@@ -62,12 +62,14 @@ for (const row of rows) {
 
   if (s1Grade?.endsWith(")")) continue;
 
+  if (s1Grade == "INC") s1Grade = "INC_NO_CLASS_CREDIT";
   if (!listOfGrades.includes(s1Grade as Grade)) s1Grade = null;
 
   let s2Grade: string | null = s2GradeEle?.textContent?.trim()!;
 
   if (s2Grade?.endsWith(")")) continue;
 
+  if (s2Grade == "INC") s2Grade = "INC_NO_CLASS_CREDIT";
   if (!listOfGrades.includes(s2Grade as Grade)) s2Grade = null;
 
   if (!s1Grade && !s2Grade) {
@@ -87,8 +89,12 @@ for (const row of rows) {
 
     finalPercent.then((f) => {
       console.log(f, "F");
-      if (f !== null)
+      if (f !== null) {
         s1GradeEle.innerHTML += ` (${f.toFixed(2)})`;
+        if (convertPercentCutoffToGrade(f) !== s1Grade) {
+          new Ty({ target: s1GradeEle })
+        }
+      }
     })
   } else {
     console.log("Not finding S1 final percent for ", nameEle, row);

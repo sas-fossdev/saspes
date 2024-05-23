@@ -34,7 +34,8 @@ export const gradeToGPA = {
   "D+": 1.5,
   D: 1,
   F: 0,
-  INC: 0,
+  INC_NO_CLASS_CREDIT: 0,
+  INC_NO_CREDIT: 0,
 } as const;
 
 export class ClassManager {
@@ -46,7 +47,7 @@ export class ClassManager {
 
   public getTotalCredits(semester: 1 | 2): number {
     return this.classes.reduce((acc, cur) => {
-      if (cur.grade[`s${semester}`] !== null && cur.grade[`s${semester}`] !== "INC") return acc + cur.credits;
+      if (cur.grade[`s${semester}`] !== null && cur.grade[`s${semester}`] !== "INC_NO_CLASS_CREDIT") return acc + cur.credits;
       return acc;
     }, 0);
   }
@@ -56,7 +57,7 @@ export class ClassManager {
     let totalCredits = this.getTotalCredits(semester);
     if (totalCredits === 0) return -1;
     for (const c of this.classes) {
-      if (c.grade[`s${semester}`] === "INC") {
+      if (c.grade[`s${semester}`] === "INC_NO_CLASS_CREDIT") {
         continue;
       }
       if (c.grade[`s${semester}`] !== null) gpa += (gradeToGPA[c.grade[`s${semester}`]!] + (c.isBoosted ? 0.5 : 0)) * c.credits;

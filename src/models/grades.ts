@@ -1,3 +1,4 @@
+
 export type Grade = typeof listOfGrades[number];
 export type GradePercentage = typeof listOfPercents[number];
 export type GradePercentageCutoff = typeof listOfPercentCutoffs[number];
@@ -133,12 +134,10 @@ export enum SpecialGrade {
 export class GradeManager {
   public categories: Category[];
   public assignments: Assignment[];
-  public totalWeight: number;
 
-  public constructor(categories: Category[], assignments: Assignment[], totalWeight: number) {
+  public constructor(categories: Category[], assignments: Assignment[]) {
     this.categories = categories;
     this.assignments = assignments;
-    this.totalWeight = totalWeight;
   }
 
   public getAssignmentsByCategory(category: Category): Assignment[] {
@@ -185,16 +184,19 @@ export class GradeManager {
     return null;
   }
 
-  public validWeights(): boolean {
-    if (this.totalWeight <= 0) return false;
-    if (this.totalWeight > 100) return false;
-
+  public validWeights(useCalced: boolean = false): boolean {
     let curTotalWeight = 0;
+
+    let seeAssignment = this.getSeeAssignment();
     for (let category of this.categories) {
+      if (useCalced && category.id == seeAssignment?.category.id && this.getAssignmentsByCategory(seeAssignment.category).length == 1) continue;
       curTotalWeight += category.weight;
+      if (category.weight < 0 || category.weight > 100) {
+        return false;
+      }
     }
 
-    if (curTotalWeight !== this.totalWeight) {
+    if (curTotalWeight <= 0 || curTotalWeight > 100) {
       return false;
     }
 
@@ -215,6 +217,8 @@ export class GradeManager {
     if (!this.validWeights()) return SpecialGrade.INVALID;
     let totalGrade = 0;
 
+    let calcedTotalWeight = this.getCalcedTotalWeight();
+
     for (let category of this.categories) {
       let categoryAssignments = this.getAssignmentsByCategory(category);
       if (this.getSeeAssignment()?.category.id == category.id && categoryAssignments.length == 1) continue;
@@ -226,17 +230,27 @@ export class GradeManager {
         if (assignment.grade == "INC_NO_CLASS_CREDIT") return SpecialGrade.INC;
         categoryGrade += gradeToPercent[assignment.grade] * (assignment.weight);
       }
-      if (categoryGrade != 0 && this.calcedTotalWeight != 0) {
-        totalGrade += (categoryGrade / categorySumOfWeights) * (category.weight / this.calcedTotalWeight)
+      if (categoryGrade != 0 && calcedTotalWeight != 0) {
+        totalGrade += (categoryGrade / categorySumOfWeights) * (category.weight / calcedTotalWeight)
       };
     }
     return totalGrade;
   }
 
-  get calcedTotalWeight(): number {
+  public getCalcedTotalWeight(): number {
+    let totalWeight = this.getTotalWeight();
+
     let seeAssignment = this.getSeeAssignment();
-    if (seeAssignment && this.getAssignmentsByCategory(seeAssignment.category).length <= 1) return this.totalWeight - seeAssignment.category.weight;
-    return this.totalWeight;
+    if (seeAssignment && this.getAssignmentsByCategory(seeAssignment.category).length <= 1) return totalWeight - seeAssignment.category.weight;
+    return totalWeight;
+  }
+
+  public getTotalWeight() {
+    let totalWeight = 0;
+    for (let category of this.categories) {
+      totalWeight += category.weight;
+    }
+    return totalWeight;
   }
 
   public calculateCategoryGradePercentage(categoryId: number): number | SpecialGrade.INC | SpecialGrade.INVALID {

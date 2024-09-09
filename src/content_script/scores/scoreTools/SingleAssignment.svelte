@@ -1,20 +1,20 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import {
-    listOfGrades,
-    gradeToPercent,
-    convertPercentCutoffToGrade,
-    type GradePercentage,
-    GradeManager,
     Assignment,
-    SpecialGrade,
     Category,
-    type Grade,
+    convertPercentCutoffToGrade,
     formattedGrade,
+    GradeManager,
+    gradeToPercent,
+    listOfGrades,
+    SpecialGrade,
+    type Grade,
+    type GradePercentage,
   } from "../../../models/grades";
 
-  import browser from "webextension-polyfill";
   import Shepherd from "shepherd.js";
+  import browser from "webextension-polyfill";
 
   export let finalPercent: number;
   export let gradeManager: GradeManager;
@@ -25,7 +25,7 @@
 
   function addNewAssignment(category: Category = curCategory) {
     gradeManager.addAssignment(
-      new Assignment("New Assignment", "A+", category, 100),
+      new Assignment("New Assignment", "A+", category, 9),
     );
 
     gradeManager = gradeManager;
@@ -123,11 +123,13 @@
     if (otherWeightSum != 0) otherGrade /= otherWeightSum;
     curCategoryGrade *= curCategoryWeightSum;
 
+    let totalWeight = gradeManager.getTotalWeight();
+
     grade =
-      otherGrade * (otherWeightSum / gradeManager.totalWeight) +
+      otherGrade * (otherWeightSum / totalWeight) +
       ((curCategoryGrade + hGrade * hWeight) /
         (hWeight + curCategoryWeightSum)) *
-        (curCategory.weight / gradeManager.totalWeight);
+        (curCategory.weight / totalWeight);
 
     grade = Number(grade.toFixed(3));
     return {
@@ -177,15 +179,12 @@
       new URL(location.href).searchParams.get("frn") +
       new URL(location.href).searchParams.get("fg");
     browser.storage.local.set({ ["weights" + key]: weights });
-    browser.storage.local.set({
-      ["totalWeight" + key]: gradeManager.totalWeight,
-    });
     alert("Saved weights.");
   }
 
   $: newFinalPercent = gradeManager.calculateGradePercentage();
 
-  $: isCatWeightsValid = gradeManager.validWeights();
+  $: isCatWeightsValid = gradeManager.validWeights(true);
 
   $: curCategory = gradeManager.getCategoryById(curCategoryId)!;
   $: curAssignments = gradeManager.getAssignmentsByCategoryEntries(curCategory);
@@ -248,7 +247,7 @@
     tour.addSteps([
       {
         id: "tour-1",
-        text: "Welcome to the category weighting tool! This tool automatically adds all your assignments and their categories to the table below. Then, you can add your category weightings to calculate your exact final percent. However, it is more useful for its ability to add new categories and assignments, as well as the ability to change grades and the see all possiblities feature, which will be shown later. <br/>This tour will help you get acquainted with the tool. It is <b>highly recommended</b> for new users.",
+        text: "Welcome to the category weighting tool! <b>This tool has changed in recent versions. It is recommended to go through this tour again.</b> This tool automatically adds all your assignments and their categories to the table below. Then, you add your category weightings to calculate your exact final percent. However, it is more useful for its ability to add new categories and assignments, as well as the ability to change grades and the see all possiblities feature, which will be shown later. <br/>This tour will help you get acquainted with the tool. It is <b>highly recommended</b> for new users.",
         attachTo: {
           element: "#catw",
           on: "top-start",
@@ -267,7 +266,7 @@
       },
       {
         id: "tour-2",
-        text: "This is the category weighting table. You can change the names of the categories (for better organization) and the weights of the categories here.<br/><br/>Categories can be class units (e.g. Unit 2), or different types of assignments (e.g. Summative) depending on how your teacher inputs formats it. Your category names can be found in PowerSchool as well as your syllabus, which will have more information.",
+        text: "This is the category weighting table. You can change the names of the categories (for better organization) and the weights of the categories here.<br/><br/>Categories can be class units (e.g. Unit 2), or different types of assignments (e.g. Summative) depending on how your teacher uses categories. Your category names can be found in PowerSchool as well as your syllabus, which will have more information.",
         attachTo: {
           element: "#cattable",
           on: "right",
@@ -275,42 +274,8 @@
         classes: "tw-w-96 tw-ml-2",
       },
       {
-        id: "tour-69",
-        text: "This is the number that the all the category weights must add up to. This exists because in the middle of the term, most of your grades will not be in PowerSchool yet, so some of the categories (e.g. future units) will not appear. So, you take the sum of the weights of the existing categories and put it here. This exists to help you make sure that your weights have been inputted correctly. It must be between 1 and 100% inclusive. <br/><br/>Enter in your total weight before continuing. Consult your syllabus in schoology to do this.",
-        attachTo: {
-          element: "#totweight",
-          on: "top-start",
-        },
-        classes: "tw-w-96 tw-mt-2",
-        buttons: [
-          {
-            text: "Back",
-            action: tour.back,
-          },
-          {
-            text: "Next",
-            action: () => {
-              if (
-                gradeManager.totalWeight > 0 &&
-                gradeManager.totalWeight <= 100
-              ) {
-                tour.next();
-              } else {
-                alert(
-                  "Please enter a total weight between 1 and 100% inclusive.",
-                );
-              }
-            },
-          },
-          {
-            text: "Cancel",
-            action: tour.complete,
-          },
-        ],
-      },
-      {
         id: "tour-3",
-        text: "You usually find your category weights from your class syllabus, which can be found in schoology.<br/><br/>Enter in all your category weights before continuing.",
+        text: "You find your category weights from your class syllabus, which can be found in Schoology.<br/><br/>Enter in all your category weights before continuing.",
         attachTo: {
           element: ".firstCat",
           on: "right",
@@ -350,7 +315,7 @@
       },
       {
         id: "tour-5",
-        text: "Click this to save your category weights and your total weight. When you reload, the weights you inputted before clicking the save button will reappear, so you don't have to type them in again.",
+        text: "Click this to save your category weights. When you reload, the weights you inputted before clicking the save button will reappear, so you don't have to type them in again.",
         attachTo: {
           element: "#saveWeights",
           on: "bottom",
@@ -377,7 +342,7 @@
       },
       {
         id: "tour-8",
-        text: "<b>Assignment weights are relative to each other, and they are not percentages.</b> If two assignments have the same weight number, they will be weighted equally.<br/><br/>If one assignment has a weight of 10 and another has a weight of 20, the second assignment will be weighted twice as much as the first assignment. This is to prevent decimals. However, if you enter weights as adding up to 100, they would still work. <br/><br/>It is not recommended to change the weights of existing assignments as the assignment weights are automatically gotten from PowerSchool, so even if the teacher inputted them wrong, they are the same weights used by PowerSchool to calculate your official final percent/grade. ",
+        text: '<b>Assignment weights are relative to each other, and they are not percentages.</b> If two assignments have the same weight number, they will be weighed equally.<br/><br/>If one assignment has a weight of 9 and another has a weight of 18, the second assignment will be weighted twice as much as the first assignment. <br/><br/>Within the PowerSchool system, the denominator in the "Score" cells is always the assignment weight. So, if you have an assignment out of 9 and another out of 10, the one out of 10 will be weighed more. It is a common misconception between teachers and students that they would be weighed equally, so be careful about this.<br/><br/>It is not recommended to change the weights of existing assignments as the assignment weights are automatically filled from PowerSchool, so even if the teacher inputted them wrong, they are the same weights used by PowerSchool to calculate your official final percent/grade. ',
         attachTo: {
           element: ".firstAss",
           on: "right",
@@ -454,7 +419,7 @@
       },
       {
         id: "tour-end",
-        text: "Congrats, you made it to the end of the tour! You can always restart the tour by clicking the 'Help' button at the top of the page.",
+        text: "Congrats, you made it to the end of the tour! You can always restart the tour by clicking the 'Tutorial' button at the top of the page.",
         classes: "tw-w-96",
         buttons: [
           {
@@ -501,10 +466,14 @@
 <div>
   {#if gradeManager.categories.length > 0}
     <!-- CATEGORY WEIGHTING -->
-    <button id="helpBtn" class="">Help</button>
-    <h2 class="!tw-mb-2" id="catw">Category Weighting</h2>
+    <button id="helpBtn" class="!tw-ml-0"
+      >Tutorial (click to start guided tour and interactive explanation) <b
+        >[HIGHLY RECOMMENDED]</b
+      ></button
+    >
+    <h2 class="!tw-mb-2 !tw-mt-3" id="catw">Category Weighting</h2>
     <table
-      class="zebra grid !tw-w-auto tw-min-w-[18rem] !tw-mb-2"
+      class="zebra grid !tw-w-auto tw-min-w-[18rem] !tw-mb-2 !tw-ml-0"
       id="cattable"
     >
       <thead>
@@ -592,34 +561,17 @@
       </tbody>
     </table>
     <div class="tw-mb-2">
-      <button on:click={addNewCategory} id="addCat">Add new category</button>
+      <button on:click={addNewCategory} id="addCat" class="!tw-ml-0"
+        >Add new category</button
+      >
       <button on:click={saveCategoryWeights} id="saveWeights"
         >Save category weights</button
       >
     </div>
-    <div id="totweight" class="tw-mb-4">
-      <p class="tw-text-md !tw-mb-2">
-        Total weight (what the category weights should add up to, if year is
-        incomplete)
-      </p>
-      <div class="tw-flex">
-        <input
-          type="number"
-          class="tw-rounded-l-md tw-border-[#CCCCCC] tw-border-solid tw-border tw-p-1 tw-w-12"
-          max={100}
-          min={0}
-          bind:value={gradeManager.totalWeight}
-        />
-        <div
-          class="tw-flex tw-justify-center tw-items-center tw-rounded-r-md tw-border-[#CCCCCC] tw-border-solid tw-border-r tw-border-y tw-border-l-0 tw-p-1"
-        >
-          <div>%</div>
-        </div>
-      </div>
-    </div>
+
     <!-- ASSIGNMENT WEIGHTING WITHIN CATEGORY -->
 
-    <h2 class="!tw-my-2">Assignment Weighting within Category</h2>
+    <h2 class="!tw-mb-1 !tw-mt-3">Assignment Weighting within Category</h2>
     <p class="!tw-mb-2 tw-text-lg" id="chooseCat">
       Choose category:{" "}
       <select
@@ -640,7 +592,7 @@
       possible final grades you would recieve if you got each possible grade on
       that assignment.
     </p>
-    <table class="!tw-w-auto zebra grid">
+    <table class="!tw-w-auto zebra grid !tw-ml-0">
       <thead>
         <tr class="">
           <th class="!tw-text-center">Name</th>
@@ -655,7 +607,7 @@
             <td class="tw-align-middle">
               <input
                 type="text"
-                class="tw-rounded-md tw-h-full tw-border-[#CCCCCC] tw-border-solid tw-border tw-p-1"
+                class="tw-rounded-md tw-h-full tw-border-[#CCCCCC] tw-border-solid tw-border tw-p-1 tw-w-96"
                 bind:value={gradeManager.assignments[i].name}
               />
             </td>
@@ -734,13 +686,13 @@
         addNewAssignment();
       }}
       id="addAss"
-      class="tw-mb-4">Add new assignment</button
+      class="tw-mb-4 !tw-ml-0">Add new assignment</button
     >
 
     {#if seeAssignment}
       <h2 class="!tw-mt-2">See All Possibilities</h2>
       <div id="seeAssignment" class="tw-inline-block">
-        {#if gradeManager.categories.reduce((prev, cur) => (prev += cur.weight), 0) <= 0 || gradeManager.totalWeight <= 0}
+        {#if gradeManager.categories.reduce((prev, cur) => (prev += cur.weight), 0) <= 0}
           <div>
             <span class="tw-text-red-500">
               The sum of the category weights must be greater than 0%.
@@ -793,17 +745,21 @@
     {/if}
 
     <div class="tw-mb-2 tw-text-lg" id="finalGrade">
-      {#if gradeManager.totalWeight <= 0 || gradeManager.totalWeight > 100}
-        <span class="tw-text-red-500">
-          The total weight must be between 1% and 100% inclusive.
-        </span>
+      {#if gradeManager.getCalcedTotalWeight() <= 0 || gradeManager.getCalcedTotalWeight() > 100}
+        {#if !seeAssignment}
+          <span class="tw-text-red-500">
+            Your category weights are invalid. Please make sure that the total
+            sum is greater than 0% and less than or equal to 100%.
+          </span>
+        {:else}
+          <span>
+            Your final percent without the "See all possibilities" assignment
+            cannot be calculated as you have no other assignments.
+          </span>
+        {/if}
       {:else if !isCatWeightsValid}
         <span class="tw-text-red-500">
-          The sum of the category weights is not {gradeManager.totalWeight}%
-          (check total weight input above, currently at {gradeManager.categories.reduce(
-            (sum, val) => sum + val.weight,
-            0,
-          )}% sum).
+          Please make sure each of your category weights are within 0% and 100%.
         </span>
       {:else}
         Your grade is {useAorAn(convertPercentCutoffToGrade(newFinalPercent))}

@@ -4,7 +4,7 @@
     gradeToPercent,
     listOfGrades,
   } from "../..//models/grades";
-  import type { ClassManager } from "../../models/classes";
+  import { gradeToGPA, type ClassManager } from "../../models/classes";
 
   export let classManager: ClassManager;
 
@@ -66,7 +66,7 @@
                       <option value={grade}
                         >{formattedGrade(grade)}
                         {grade !== "INC_NO_CLASS_CREDIT"
-                          ? `(${gradeToPercent[grade]}%)`
+                          ? `(${gradeToGPA[grade]})`
                           : ""}
                       </option>
                     {/if}
@@ -84,7 +84,7 @@
                       <option value={grade}
                         >{formattedGrade(grade)}
                         {grade !== "INC_NO_CLASS_CREDIT"
-                          ? `(${gradeToPercent[grade]}%)`
+                          ? `(${gradeToGPA[grade]})`
                           : ""}
                       </option>
                     {/if}

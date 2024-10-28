@@ -22,12 +22,13 @@
  *
  */
 import { crx } from "@crxjs/vite-plugin";
-import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import 'dotenv/config';
+import { defineConfig } from "vite";
 import manifest, { realVersion } from "./manifest.config.js";
 import pkg from "./package.json";
-import 'dotenv/config'
 
+// import vitePluginRunCommandOnDemand from "./helpers/viterunplugin.js";
 
 
 export default defineConfig({
@@ -36,6 +37,7 @@ export default defineConfig({
     crx({
       manifest: manifest()
     }),
+
   ],
   define: {
     SAS_PES_VERSION: `"${process.argv[4] === "production" ? pkg.version : `${pkg.version} Development Build ${realVersion}`}"`,
